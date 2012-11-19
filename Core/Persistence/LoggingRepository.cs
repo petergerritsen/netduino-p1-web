@@ -31,8 +31,7 @@ namespace Core.Persistence {
             PopulateUsage(monthlyUsage, entry);                        
 
             // Delete old logentries
-            context.Database.ExecuteSqlCommand("DELETE FROM LogEntries WHERE TimeStamp < @DateOffset", new System.Data.SqlClient.SqlParameter("DateOffset", entry.Timestamp.AddDays(-2)));
-            
+            context.Database.ExecuteSqlCommand("DELETE FROM LogEntries WHERE TimeStamp < @DateOffset", new System.Data.SqlClient.SqlParameter("DateOffset", entry.Timestamp.AddDays(-1)));            
 
             context.SaveChanges();
 

@@ -11,7 +11,26 @@ namespace Core.Model {
         public DateTime Timestamp { get; set; }
 
         public decimal E1Start { get; set; }
-        public decimal E1Current { get; set; }
+        public decimal E1Current { get; set; }        
+
+        public decimal E2Start { get; set; }
+        public decimal E2Current { get; set; }        
+
+        public decimal E1RetourStart { get; set; }
+        public decimal E1RetourCurrent { get; set; }        
+
+        public decimal E2RetourStart { get; set; }
+        public decimal E2RetourCurrent { get; set; }        
+
+        public decimal GasStart { get; set; }
+        public decimal GasCurrent { get; set; }
+        
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }             
+
+        #region Extra Properties
+
         [NotMapped]
         public decimal E1Usage {
             get {
@@ -19,8 +38,6 @@ namespace Core.Model {
             }
         }
 
-        public decimal E2Start { get; set; }
-        public decimal E2Current { get; set; }
         [NotMapped]
         public decimal E2Usage {
             get {
@@ -28,26 +45,34 @@ namespace Core.Model {
             }
         }
 
-        public decimal E1RetourStart { get; set; }
-        public decimal E1RetourCurrent { get; set; }
         [NotMapped]
-        public decimal E1RetourUsage {
+        public decimal EUsageTotal {
+            get {
+                return E1Usage + E2Usage;
+            }
+        }
+
+        [NotMapped]
+        public decimal E1Retour {
             get {
                 return E1RetourCurrent - E1RetourStart;
             }
         }
 
-        public decimal E2RetourStart { get; set; }
-        public decimal E2RetourCurrent { get; set; }
         [NotMapped]
-        public decimal E2RetourUsage {
+        public decimal E2Retour {
             get {
                 return E2RetourCurrent - E2RetourStart;
             }
         }
 
-        public decimal GasStart { get; set; }
-        public decimal GasCurrent { get; set; }
+        [NotMapped]
+        public decimal ERetourTotal {
+            get {
+                return E1Retour + E2Retour;
+            }
+        }
+
         [NotMapped]
         public decimal GasUsage {
             get {
@@ -55,14 +80,12 @@ namespace Core.Model {
             }
         }
 
-        public int UserId { get; set; }
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; }
-
         [NotMapped]
         public bool IsNew {
             get { return UsageId == 0; }
         }
+
+        #endregion
     }
 
     public enum UsageType {

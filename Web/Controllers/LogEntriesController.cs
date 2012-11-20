@@ -7,6 +7,7 @@ using System.Web.Http;
 using Core.Model;
 using Core.Persistence;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace Web.Controllers
 {
@@ -33,6 +34,9 @@ namespace Web.Controllers
                 if (user == null)
                     throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound) { Content = new StringContent(string.Format("Invalid API Key: {0}", value.ApiKey)) });
 
+                DateTime gasMeasurementMoment = value.Timestamp;
+                DateTime.TryParseExact("20" + value.GasMeasurementMoment, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out gasMeasurementMoment);
+
                 var logEntry = new LogEntry() {
                     Timestamp = value.Timestamp,
                     E1 = value.E1,
@@ -42,7 +46,7 @@ namespace Web.Controllers
                     CurrentTariff = value.CurrentTariff,
                     CurrentUsage = value.CurrentUsage,
                     CurrentRetour = value.CurrentRetour,
-                    GasMeasurementMoment = value.GasMeasurementMoment,
+                    GasMeasurementMoment = gasMeasurementMoment,
                     GasMeasurementValue = value.GasMeasurementValue,
                     User = user
                 };
@@ -65,7 +69,7 @@ namespace Web.Controllers
         public int CurrentTariff { get; set; }
         public decimal CurrentUsage { get; set; }
         public decimal CurrentRetour { get; set; }
-        public DateTime GasMeasurementMoment { get; set; }
+        public string GasMeasurementMoment { get; set; }
         public decimal GasMeasurementValue { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using Core.Model;
 using Core.Persistence;
 using System.Diagnostics;
 using System.Globalization;
+using System.Web.Management;
 
 namespace Web.Controllers
 {
@@ -18,7 +19,13 @@ namespace Web.Controllers
         // GET api/logentries
         public IEnumerable<LogEntry> GetAll()
         {
-            return repo.GetEntries();
+            try {
+                return repo.GetEntries();
+            } catch (Exception ex) {
+                new LogEvent(ex.Message).Raise();
+
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
         }
 
         // GET api/logentries/5
@@ -56,7 +63,13 @@ namespace Web.Controllers
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent("Invalid data") });
             }
         }        
-    }   
+    }
+
+    public class LogEvent : WebRequestErrorEvent {
+        public LogEvent(string message)
+            : base(null, null, 100001, new Exception(message)) {
+        }
+    }
 
     public class PostEntry
     {

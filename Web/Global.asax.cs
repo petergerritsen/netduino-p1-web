@@ -30,6 +30,7 @@ namespace Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            // Run migrations
             var configuration = new Configuration();
             var migrator = new DbMigrator(configuration);
             migrator.Update();

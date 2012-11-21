@@ -19,9 +19,9 @@ namespace Web
     {
         protected void Application_Start()
         {
-            var webconfiguration = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-            var connectionString = webconfiguration.ConnectionStrings.ConnectionStrings["NetduinoP1Logging"].ConnectionString;
-            throw new ArgumentException("Connstring: " + connectionString);
+            //var webconfiguration = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+            //var connectionString = webconfiguration.ConnectionStrings.ConnectionStrings["NetduinoP1Logging"].ConnectionString;
+            //throw new ArgumentException("Connstring: " + connectionString);
             
             AreaRegistration.RegisterAllAreas();
 

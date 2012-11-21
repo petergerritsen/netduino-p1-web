@@ -20,6 +20,8 @@ namespace Core.Persistence
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<Context, Configuration>());
+
             modelBuilder.Entity<LogEntry>().Property(x => x.CurrentRetour).HasPrecision(10, 2);
             modelBuilder.Entity<LogEntry>().Property(x => x.CurrentUsage).HasPrecision(10, 2);
             modelBuilder.Entity<LogEntry>().Property(x => x.E1).HasPrecision(10, 3);
@@ -39,7 +41,6 @@ namespace Core.Persistence
             modelBuilder.Entity<Usage>().Property(x => x.GasStart).HasPrecision(10, 3);
             modelBuilder.Entity<Usage>().Property(x => x.GasCurrent).HasPrecision(10, 3);
 
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<Context, Configuration>());
         }
 
 

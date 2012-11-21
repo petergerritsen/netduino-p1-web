@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201211172033120_AddUsageColums.Designer.cs">
       <DependentUpon>201211172033120_AddUsageColums.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201211211853413_UsertableFieldLength.cs" />
+    <Compile Include="Migrations\201211211853413_UsertableFieldLength.Designer.cs">
+      <DependentUpon>201211211853413_UsertableFieldLength.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\LogEntry.cs" />
     <Compile Include="Model\Usage.cs" />
@@ -77,6 +81,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201211172033120_AddUsageColums.resx">
       <DependentUpon>201211172033120_AddUsageColums.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201211211853413_UsertableFieldLength.resx">
+      <DependentUpon>201211211853413_UsertableFieldLength.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

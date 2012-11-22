@@ -35,7 +35,7 @@ namespace Web.Controllers
         }
 
         //// POST api/logentries
-        public LogEntry Post([FromBody]PostEntry value) {
+        public void Post([FromBody]PostEntry value) {
             if (ModelState.IsValid) {
                 var user = repo.GetUserByApiKey(value.ApiKey);
                 if (user == null)
@@ -58,7 +58,9 @@ namespace Web.Controllers
                     User = user
                 };
 
-                return repo.AddEntry(logEntry);
+                repo.AddEntry(logEntry);
+
+                return;
             } else {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent("Invalid data") });
             }

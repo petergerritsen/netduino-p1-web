@@ -10,15 +10,16 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Web.Management;
 
-namespace Web.Controllers
-{
-    public class LogEntriesController : ApiController
-    {
-        ILoggingRepository repo = Core.Factory.GetILoggingRepository();
+namespace Web.Controllers {
+    public class LogEntriesController : ApiController {
+        ILoggingRepository repo;
+        
+        public LogEntriesController() {
+            repo = Core.Factory.GetILoggingRepository();
+        }
 
         // GET api/logentries
-        public IEnumerable<LogEntry> GetAll()
-        {
+        public IEnumerable<LogEntry> GetAll() {
             try {
                 return repo.GetEntries();
             } catch (Exception ex) {
@@ -29,8 +30,7 @@ namespace Web.Controllers
         }
 
         // GET api/logentries/5
-        public LogEntry Get(int id)
-        {
+        public LogEntry Get(int id) {
             return repo.GetEntry(id);
         }
 
@@ -64,7 +64,7 @@ namespace Web.Controllers
             } else {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent("Invalid data") });
             }
-        }        
+        }
     }
 
     public class LogEvent : WebRequestErrorEvent {
@@ -73,8 +73,7 @@ namespace Web.Controllers
         }
     }
 
-    public class PostEntry
-    {
+    public class PostEntry {
         public string ApiKey { get; set; }
         public DateTime Timestamp { get; set; }
         public decimal E1 { get; set; }

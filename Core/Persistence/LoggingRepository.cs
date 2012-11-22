@@ -70,7 +70,7 @@ namespace Core.Persistence {
         public Model.Usage GetUsage(Core.Model.UsageType type, LogEntry logEntry) {
             var baseTimestamp = GetUsageTimestamp(type, logEntry.Timestamp);
 
-            var usage = context.Usages.FirstOrDefault(x => x.UsageType == (int)type && x.Timestamp == baseTimestamp);
+            var usage = context.Usages.FirstOrDefault(x => x.UserId == logEntry.UserId && x.UsageType == (int)type && x.Timestamp == baseTimestamp);
 
             if (usage == null) {
                 usage = new Model.Usage() { UsageType = (int)type, Timestamp = baseTimestamp, UserId = logEntry.UserId };
@@ -99,10 +99,10 @@ namespace Core.Persistence {
         private Model.Usage GetGasUsage(Core.Model.UsageType type, LogEntry logEntry) {
             var baseTimestamp = GetUsageTimestamp(type, logEntry.GasMeasurementMoment);
 
-            var usage = context.Usages.FirstOrDefault(x => x.UsageType == (int)type && x.Timestamp == baseTimestamp);
+            var usage = context.Usages.FirstOrDefault(x => x.UserId == logEntry.UserId && x.UsageType == (int)type && x.Timestamp == baseTimestamp);
 
             if (usage != null && usage.GasStart == 0) {
-                var prevUsage = context.Usages.Where(x => x.UsageType == (int)type && x.UsageId < usage.UsageId).OrderByDescending(x => x.UsageId).FirstOrDefault();
+                var prevUsage = context.Usages.Where(x => x.UserId == logEntry.UserId && x.UsageType == (int)type && x.UsageId < usage.UsageId).OrderByDescending(x => x.UsageId).FirstOrDefault();
                 if (prevUsage != null)
                     usage.GasStart = prevUsage.GasCurrent;
                 else

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<CloudApplication xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Deployable="true" Memory="128" InstanceCount="1" Name="Web" Framework="dotNet" Runtime="iis" xmlns="http://tempuri.org/PackageSchema.xsd">
+  <PackageFile>C:\Users\Peter\Documents\GitHub\petergerritsen\netduino-p1-web\Web\uhurucloud.uhcf</PackageFile>
+  <Urls>netduinop1logging.uhurucloud.com</Urls>
+  <DeploymentPath>C:\Users\Peter\Documents\GitHub\petergerritsen\netduino-p1-web\Web</DeploymentPath>
+</CloudApplication>

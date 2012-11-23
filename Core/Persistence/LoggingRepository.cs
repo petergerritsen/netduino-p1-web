@@ -9,6 +9,8 @@ namespace Core.Persistence {
     public class LoggingRepository : ILoggingRepository {
         Context context = new Context();
 
+        List<User> users;
+
         public IEnumerable<Model.LogEntry> GetEntries() {
             return context.LogEntries.OrderByDescending(x => x.LogEntryId).Take(10).ToList();
         }
@@ -60,11 +62,17 @@ namespace Core.Persistence {
         }
 
         public Model.User GetUserById(int id) {
-            return context.Users.Find(id);
+            if (users == null)
+                users = context.Users.ToList();
+
+            return users.FirstOrDefault(x=> x.UserId == id);
         }
 
         public Model.User GetUserByApiKey(string apiKey) {
-            return context.Users.FirstOrDefault(x => x.ApiKey == apiKey);
+            if (users == null)
+                users = context.Users.ToList();
+
+            return users.FirstOrDefault(x => x.ApiKey == apiKey);
         }
 
         public Model.Usage GetUsage(Core.Model.UsageType type, LogEntry logEntry) {
@@ -75,19 +83,17 @@ namespace Core.Persistence {
             if (usage == null) {
                 usage = new Model.Usage() { UsageType = (int)type, Timestamp = baseTimestamp, UserId = logEntry.UserId };
 
-                var prevUsage = context.Usages.Where(x => x.UsageType == (int)type && x.Timestamp < baseTimestamp).OrderByDescending(x => x.Timestamp).FirstOrDefault();
+                var prevUsage = context.Usages.Where(x => x.UserId == logEntry.UserId && x.UsageType == (int)type && x.Timestamp < baseTimestamp).OrderByDescending(x => x.Timestamp).FirstOrDefault();
                 if (prevUsage != null) {
                     usage.E1Start = prevUsage.E1Current;
                     usage.E2Start = prevUsage.E2Current;
                     usage.E1RetourStart = prevUsage.E1RetourCurrent;
                     usage.E2RetourStart = prevUsage.E2RetourCurrent;
-  
                 } else {
                     usage.E1Start = logEntry.E1;
                     usage.E2Start = logEntry.E2;
                     usage.E1RetourStart = logEntry.E1Retour;
                     usage.E2RetourStart = logEntry.E2Retour;
-
                 }
 
                 context.Usages.Add(usage);

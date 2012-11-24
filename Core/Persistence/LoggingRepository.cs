@@ -10,6 +10,7 @@ namespace Core.Persistence {
         Context context = new Context();
 
         List<User> users;
+        DateTime lastCleanupRun = DateTime.MinValue;
 
         public IEnumerable<Model.LogEntry> GetEntries() {
             return context.LogEntries.OrderByDescending(x => x.LogEntryId).Take(10).ToList();
@@ -22,6 +23,22 @@ namespace Core.Persistence {
         public Model.LogEntry AddEntry(Model.LogEntry entry) {
             context.LogEntries.Add(entry);
 
+            if (lastCleanupRun.AddHours(3) < System.DateTime.Now) {
+                // Delete old logentries
+                context.Database.ExecuteSqlCommand("DELETE FROM LogEntries WHERE TimeStamp < @DateOffset", new System.Data.SqlClient.SqlParameter("DateOffset", entry.Timestamp.AddDays(-1)));
+
+                lastCleanupRun = System.DateTime.Now;
+            }
+
+            context.SaveChanges();
+
+            ProcessUsages(entry);
+
+            return entry;
+        }
+
+        private void ProcessUsages(Model.LogEntry entry) {
+
             // Process Usage values
             var hourlyUsage = GetUsage(Model.UsageType.Hourly, entry);
             PopulateUsage(hourlyUsage, entry);
@@ -31,9 +48,6 @@ namespace Core.Persistence {
             PopulateUsage(weeklyUsage, entry);
             var monthlyUsage = GetUsage(Model.UsageType.Monthly, entry);
             PopulateUsage(monthlyUsage, entry);
-
-            // Delete old logentries
-            context.Database.ExecuteSqlCommand("DELETE FROM LogEntries WHERE TimeStamp < @DateOffset", new System.Data.SqlClient.SqlParameter("DateOffset", entry.Timestamp.AddDays(-1)));
 
             context.SaveChanges();
 
@@ -57,15 +71,13 @@ namespace Core.Persistence {
             }
 
             context.SaveChanges();
-
-            return entry;
         }
 
         public Model.User GetUserById(int id) {
             if (users == null)
                 users = context.Users.ToList();
 
-            return users.FirstOrDefault(x=> x.UserId == id);
+            return users.FirstOrDefault(x => x.UserId == id);
         }
 
         public Model.User GetUserByApiKey(string apiKey) {
@@ -75,10 +87,45 @@ namespace Core.Persistence {
             return users.FirstOrDefault(x => x.ApiKey == apiKey);
         }
 
+        Dictionary<int, Usage> lastHourlyUsage = new Dictionary<int,Usage>();
+        Dictionary<int, Usage> lastDailyUsage = new Dictionary<int, Usage>();
+        Dictionary<int, Usage> lastWeeklyUsage = new Dictionary<int, Usage>();
+        Dictionary<int, Usage> lastMonthlyUsage = new Dictionary<int, Usage>();
+
         public Model.Usage GetUsage(Core.Model.UsageType type, LogEntry logEntry) {
             var baseTimestamp = GetUsageTimestamp(type, logEntry.Timestamp);
 
-            var usage = context.Usages.FirstOrDefault(x => x.UserId == logEntry.UserId && x.UsageType == (int)type && x.Timestamp == baseTimestamp);
+            Usage usage = null;
+            bool updateUsage = false;
+
+            switch (type) {
+                case UsageType.Hourly:
+                    if (lastHourlyUsage.ContainsKey(logEntry.UserId) && lastHourlyUsage[logEntry.UserId].Timestamp == baseTimestamp) {
+                        usage = lastHourlyUsage[logEntry.UserId];
+                    }
+                    break;
+                case UsageType.Daily:
+                    if (lastDailyUsage.ContainsKey(logEntry.UserId) && lastDailyUsage[logEntry.UserId].Timestamp == baseTimestamp) {
+                        usage = lastDailyUsage[logEntry.UserId];
+                    }
+
+                    break;
+                case UsageType.Weekly:
+                    if (lastWeeklyUsage.ContainsKey(logEntry.UserId) && lastWeeklyUsage[logEntry.UserId].Timestamp == baseTimestamp) {
+                        usage = lastWeeklyUsage[logEntry.UserId];
+                    }
+                    break;
+                case UsageType.Monthly:
+                    if (lastMonthlyUsage.ContainsKey(logEntry.UserId) && lastMonthlyUsage[logEntry.UserId].Timestamp == baseTimestamp) {
+                        usage = lastMonthlyUsage[logEntry.UserId];
+                    }
+                    break;
+            }
+
+            if (usage == null) {
+                updateUsage = true;
+                usage = context.Usages.FirstOrDefault(x => x.UserId == logEntry.UserId && x.UsageType == (int)type && x.Timestamp == baseTimestamp);
+            }
 
             if (usage == null) {
                 usage = new Model.Usage() { UsageType = (int)type, Timestamp = baseTimestamp, UserId = logEntry.UserId };
@@ -99,13 +146,57 @@ namespace Core.Persistence {
                 context.Usages.Add(usage);
             }
 
+            if (updateUsage) {
+                switch (type) {
+                    case UsageType.Hourly:
+                        lastHourlyUsage[logEntry.UserId] = usage;
+                        break;
+                    case UsageType.Daily:
+                        lastDailyUsage[logEntry.UserId] = usage;
+                        break;
+                    case UsageType.Weekly:
+                        lastWeeklyUsage[logEntry.UserId] = usage;
+                        break;
+                    case UsageType.Monthly:
+                        lastMonthlyUsage[logEntry.UserId] = usage;
+                        break;
+                }
+            }
+
             return usage;
         }
 
         private Model.Usage GetGasUsage(Core.Model.UsageType type, LogEntry logEntry) {
             var baseTimestamp = GetUsageTimestamp(type, logEntry.GasMeasurementMoment);
 
-            var usage = context.Usages.FirstOrDefault(x => x.UserId == logEntry.UserId && x.UsageType == (int)type && x.Timestamp == baseTimestamp);
+            Usage usage = null;
+
+            switch (type) {
+                case UsageType.Hourly:
+                    if (lastHourlyUsage.ContainsKey(logEntry.UserId) && lastHourlyUsage[logEntry.UserId].Timestamp == baseTimestamp) {
+                        usage = lastHourlyUsage[logEntry.UserId];
+                    }
+                    break;
+                case UsageType.Daily:
+                    if (lastDailyUsage.ContainsKey(logEntry.UserId) && lastDailyUsage[logEntry.UserId].Timestamp == baseTimestamp) {
+                        usage = lastDailyUsage[logEntry.UserId];
+                    }
+
+                    break;
+                case UsageType.Weekly:
+                    if (lastWeeklyUsage.ContainsKey(logEntry.UserId) && lastWeeklyUsage[logEntry.UserId].Timestamp == baseTimestamp) {
+                        usage = lastWeeklyUsage[logEntry.UserId];
+                    }
+                    break;
+                case UsageType.Monthly:
+                    if (lastMonthlyUsage.ContainsKey(logEntry.UserId) && lastMonthlyUsage[logEntry.UserId].Timestamp == baseTimestamp) {
+                        usage = lastMonthlyUsage[logEntry.UserId];
+                    }
+                    break;
+            }
+
+            if (usage == null)
+                usage = context.Usages.FirstOrDefault(x => x.UserId == logEntry.UserId && x.UsageType == (int)type && x.Timestamp == baseTimestamp);
 
             if (usage != null && usage.GasStart == 0) {
                 var prevUsage = context.Usages.Where(x => x.UserId == logEntry.UserId && x.UsageType == (int)type && x.UsageId < usage.UsageId).OrderByDescending(x => x.UsageId).FirstOrDefault();

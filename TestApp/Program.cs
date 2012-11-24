@@ -12,9 +12,9 @@ using System.IO;
 namespace TestApp {
     class Program {
         static void Main(string[] args) {
-            //TestRepository(); 
+            TestRepository(); 
 
-            TestAppHarbor();
+            //TestAppHarbor();
         }
 
         private static void TestAppHarbor() {

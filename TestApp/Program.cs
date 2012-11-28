@@ -8,10 +8,13 @@ using System.Diagnostics;
 using System.Threading;
 using System.Net;
 using System.IO;
+using Core.Migrations;
+
 
 namespace TestApp {
     class Program {
-        static void Main(string[] args) {
+        static void Main(string[] args) {           
+
             TestRepository(); 
 
             //TestAppHarbor();
@@ -61,6 +64,8 @@ namespace TestApp {
         }
 
         private static void TestRepository() {
+
+
             ILoggingRepository repo = Core.Factory.GetILoggingRepository();
 
             var dateTimeStart = new DateTime(2011, 10, 4, 0, 3, 12);
@@ -78,7 +83,7 @@ namespace TestApp {
                 logEntry.UserId = user.UserId;
                 logEntry.E1 = Convert.ToDecimal(e1Offset);
                 logEntry.E2 = Convert.ToDecimal(e2Offset);
-                logEntry.GasMeasurementMoment = dateTimeStart;
+                logEntry.GasMeasurementMoment = logEntry.Timestamp;
                 logEntry.GasMeasurementValue = Convert.ToDecimal(gasOffset);
 
                 repo.AddEntry(logEntry);

@@ -36,31 +36,38 @@ namespace Web.Controllers {
 
         //// POST api/logentries
         public void Post([FromBody]PostEntry value) {
+            
             if (ModelState.IsValid) {
-                var user = repo.GetUserByApiKey(value.ApiKey);
-                if (user == null)
-                    throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound) { Content = new StringContent(string.Format("Invalid API Key: {0}", value.ApiKey)) });
+                try {
+                    var user = repo.GetUserByApiKey(value.ApiKey);
+                    if (user == null)
+                        throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound) { Content = new StringContent(string.Format("Invalid API Key: {0}", value.ApiKey)) });
 
-                DateTime gasMeasurementMoment = value.Timestamp;
-                DateTime.TryParseExact("20" + value.GasMeasurementMoment, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out gasMeasurementMoment);
+                    DateTime gasMeasurementMoment = value.Timestamp;
+                    DateTime.TryParseExact("20" + value.GasMeasurementMoment, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out gasMeasurementMoment);
 
-                var logEntry = new LogEntry() {
-                    Timestamp = value.Timestamp,
-                    E1 = value.E1,
-                    E2 = value.E2,
-                    E1Retour = value.E1Retour,
-                    E2Retour = value.E2Retour,
-                    CurrentTariff = value.CurrentTariff,
-                    CurrentUsage = value.CurrentUsage,
-                    CurrentRetour = value.CurrentRetour,
-                    GasMeasurementMoment = gasMeasurementMoment,
-                    GasMeasurementValue = value.GasMeasurementValue,
-                    User = user
-                };
+                    var logEntry = new LogEntry() {
+                        Timestamp = value.Timestamp,
+                        E1 = value.E1,
+                        E2 = value.E2,
+                        E1Retour = value.E1Retour,
+                        E2Retour = value.E2Retour,
+                        CurrentTariff = value.CurrentTariff,
+                        CurrentUsage = value.CurrentUsage,
+                        CurrentRetour = value.CurrentRetour,
+                        GasMeasurementMoment = gasMeasurementMoment,
+                        GasMeasurementValue = value.GasMeasurementValue,
+                        User = user
+                    };
 
-                repo.AddEntry(logEntry);
+                    repo.AddEntry(logEntry);
 
-                return;
+                    return;
+                } catch (Exception ex) {
+                    new LogEvent(ex.Message).Raise();
+
+                    throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                }
             } else {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent("Invalid data") });
             }

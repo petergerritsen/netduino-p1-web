@@ -6,8 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Model {
     public class Usage {
-        public int UsageId { get; set; }
-        public int UsageType { get; set; }
+        public int UsageId { get; set; }        
         public DateTime Timestamp { get; set; }
 
         public decimal E1Start { get; set; }
@@ -86,12 +85,5 @@ namespace Core.Model {
         }
 
         #endregion
-    }
-
-    public enum UsageType {
-        Hourly = 1,
-        Daily = 2,
-        Weekly = 3,
-        Monthly = 4
-    }
+    }    
 }

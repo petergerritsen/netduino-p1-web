@@ -30,10 +30,26 @@ namespace Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            // WebApi Configuration to hook up formatters and message handlers
+            RegisterApis(GlobalConfiguration.Configuration);
+
             // Run migrations
             var configuration = new Configuration();
             var migrator = new DbMigrator(configuration);
             migrator.Update();
+            
+        }
+
+        public static void RegisterApis(HttpConfiguration config) {
+            // remove default Xml handler
+            var matches = config.Formatters
+                                .Where(f => f.SupportedMediaTypes
+                                             .Where(m => m.MediaType.ToString() == "application/xml" ||
+                                                         m.MediaType.ToString() == "text/xml")
+                                             .Count() > 0)
+                                .ToList();
+            foreach (var match in matches)
+                config.Formatters.Remove(match);
         }
     }
 }

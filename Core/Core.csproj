@@ -81,6 +81,14 @@
     <Compile Include="Migrations\201211281810532_AddLogentryIndexes.Designer.cs">
       <DependentUpon>201211281810532_AddLogentryIndexes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201211281845238_RemoveUsageTypeColumn.cs" />
+    <Compile Include="Migrations\201211281845238_RemoveUsageTypeColumn.Designer.cs">
+      <DependentUpon>201211281845238_RemoveUsageTypeColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201211281851006_AddUsageSps.cs" />
+    <Compile Include="Migrations\201211281851006_AddUsageSps.Designer.cs">
+      <DependentUpon>201211281851006_AddUsageSps.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\LogEntry.cs" />
     <Compile Include="Model\Usage.cs" />
@@ -101,6 +109,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201211281810532_AddLogentryIndexes.resx">
       <DependentUpon>201211281810532_AddLogentryIndexes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201211281845238_RemoveUsageTypeColumn.resx">
+      <DependentUpon>201211281845238_RemoveUsageTypeColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201211281851006_AddUsageSps.resx">
+      <DependentUpon>201211281851006_AddUsageSps.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

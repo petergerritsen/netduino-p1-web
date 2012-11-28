@@ -82,13 +82,13 @@ namespace Core.Persistence {
 
             if (usage == null) {
                 updateUsage = true;
-                usage = context.Usages.FirstOrDefault(x => x.UserId == logEntry.UserId && x.UsageType == (int)UsageType.Hourly && x.Timestamp == baseTimestamp);
+                usage = context.Usages.FirstOrDefault(x => x.UserId == logEntry.UserId  && x.Timestamp == baseTimestamp);
             }
 
             if (usage == null) {
-                usage = new Model.Usage() { UsageType = (int)UsageType.Hourly, Timestamp = baseTimestamp, UserId = logEntry.UserId };
+                usage = new Model.Usage() { Timestamp = baseTimestamp, UserId = logEntry.UserId };
 
-                var prevUsage = context.Usages.Where(x => x.UserId == logEntry.UserId && x.UsageType == (int)UsageType.Hourly && x.Timestamp < baseTimestamp).OrderByDescending(x => x.Timestamp).FirstOrDefault();
+                var prevUsage = context.Usages.Where(x => x.UserId == logEntry.UserId && x.Timestamp < baseTimestamp).OrderByDescending(x => x.Timestamp).FirstOrDefault();
                 if (prevUsage != null) {
                     usage.E1Start = prevUsage.E1Current;
                     usage.E2Start = prevUsage.E2Current;
@@ -121,10 +121,10 @@ namespace Core.Persistence {
             }
 
             if (usage == null)
-                usage = context.Usages.FirstOrDefault(x => x.UserId == logEntry.UserId && x.UsageType == (int)UsageType.Hourly && x.Timestamp == baseTimestamp);
+                usage = context.Usages.FirstOrDefault(x => x.UserId == logEntry.UserId && x.Timestamp == baseTimestamp);
 
             if (usage != null && usage.GasStart == 0) {
-                var prevUsage = context.Usages.Where(x => x.UserId == logEntry.UserId && x.UsageType == (int)UsageType.Hourly && x.UsageId < usage.UsageId).OrderByDescending(x => x.UsageId).FirstOrDefault();
+                var prevUsage = context.Usages.Where(x => x.UserId == logEntry.UserId && x.UsageId < usage.UsageId).OrderByDescending(x => x.UsageId).FirstOrDefault();
                 if (prevUsage != null)
                     usage.GasStart = prevUsage.GasCurrent;
                 else

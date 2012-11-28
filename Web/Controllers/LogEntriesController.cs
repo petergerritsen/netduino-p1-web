@@ -19,7 +19,7 @@ namespace Web.Controllers {
         }
 
         // GET api/logentries
-        public IEnumerable<LogEntry> GetAll() {
+        public IEnumerable<LogEntry> Get() {
             try {
                 return repo.GetEntries();
             } catch (Exception ex) {

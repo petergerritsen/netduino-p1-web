@@ -10,10 +10,18 @@ namespace Web
         public static void Register(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
+               name: "UsageApi",
+               routeTemplate: "api/usages/{action}/{offset}/{count}",
+               defaults: new { controller = "Usages", action = "Hourly", offset = 0, count = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+           
         }
     }
 }

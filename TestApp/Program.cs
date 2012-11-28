@@ -77,9 +77,9 @@ namespace TestApp {
             var e2Offset = rand.NextDouble();
             var gasOffset = rand.NextDouble();
 
-            for (int i = 0; i < 60000; i++) {
+            for (int i = 0; i < 100; i++) {
                 var logEntry = new LogEntry();
-                logEntry.Timestamp = dateTimeStart.AddMinutes(10 * i);
+                logEntry.Timestamp = dateTimeStart.AddMinutes(90 * i);
                 logEntry.UserId = user.UserId;
                 logEntry.E1 = Convert.ToDecimal(e1Offset);
                 logEntry.E2 = Convert.ToDecimal(e2Offset);

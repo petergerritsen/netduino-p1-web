@@ -11,8 +11,8 @@ namespace Web
         {
             config.Routes.MapHttpRoute(
                name: "UsageApi",
-               routeTemplate: "api/usages/{action}/{offset}/{count}",
-               defaults: new { controller = "Usages", action = "Hourly", offset = 0, count = RouteParameter.Optional }
+               routeTemplate: "api/usages/{key}/{action}/{offset}/{count}",
+               defaults: new { controller = "Usages", key = "", action = "Hourly", offset = 0, count = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(

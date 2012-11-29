@@ -112,7 +112,7 @@ namespace Core.Persistence {
         }
 
         private Model.Usage GetGasUsage(LogEntry logEntry) {
-            var baseTimestamp = GetUsageTimestamp(logEntry.GasMeasurementMoment);
+            var baseTimestamp = GetUsageTimestamp(logEntry.GasMeasurementMoment).AddHours(-1);
 
             Usage usage = null;
 

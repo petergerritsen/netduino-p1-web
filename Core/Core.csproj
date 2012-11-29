@@ -89,6 +89,10 @@
     <Compile Include="Migrations\201211281851006_AddUsageSps.Designer.cs">
       <DependentUpon>201211281851006_AddUsageSps.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201211291623399_UpdateUsageSps.cs" />
+    <Compile Include="Migrations\201211291623399_UpdateUsageSps.Designer.cs">
+      <DependentUpon>201211291623399_UpdateUsageSps.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\LogEntry.cs" />
     <Compile Include="Model\Usage.cs" />
@@ -115,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201211281851006_AddUsageSps.resx">
       <DependentUpon>201211281851006_AddUsageSps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201211291623399_UpdateUsageSps.resx">
+      <DependentUpon>201211291623399_UpdateUsageSps.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

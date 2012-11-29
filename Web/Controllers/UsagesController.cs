@@ -19,27 +19,27 @@ namespace Web.Controllers {
         }
 
         [HttpGet]
-        public IEnumerable<HourlyUsage> Hourly(int offset) {
+        public IEnumerable<HourlyUsage> Hourly(string key, int offset) {
             var date = DateTime.Today.AddDays(-1 * offset);
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                IEnumerable<HourlyUsage> results = conn.Query<HourlyUsage>("GetHourlyUsage", new { Date = date }, commandType: CommandType.StoredProcedure);
+                IEnumerable<HourlyUsage> results = conn.Query<HourlyUsage>("GetHourlyUsage", new { Key = key, Date = date }, commandType: CommandType.StoredProcedure);
 
                 return results;
             }
         }
 
         [HttpGet]
-        public IEnumerable<DailyUsage> Daily(int offset) {
+        public IEnumerable<DailyUsage> Daily(string key, int offset) {
             var date = DateTime.Today.AddDays(DayOfWeek.Monday - DateTime.Today.DayOfWeek).AddDays(-7 * offset);
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                return conn.Query<DailyUsage>("GetDailyUsage", new { StartDate = date, EndDate = date.AddDays(7) }, commandType: CommandType.StoredProcedure);
+                return conn.Query<DailyUsage>("GetDailyUsage", new { Key = key, StartDate = date, EndDate = date.AddDays(7) }, commandType: CommandType.StoredProcedure);
             }
         }
 
         [HttpGet]
-        public IEnumerable<WeeklyUsage> Weekly(int offset, int count) {
+        public IEnumerable<WeeklyUsage> Weekly(string key, int offset, int count) {
             // first day of current week
             var date = DateTime.Today.AddDays(DayOfWeek.Monday - DateTime.Today.DayOfWeek);
             DateTimeFormatInfo dfi = new CultureInfo("nl-NL").DateTimeFormat;
@@ -47,15 +47,15 @@ namespace Web.Controllers {
             
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                return conn.Query<WeeklyUsage>("GetWeeklyUsage", new { StartWeek = week - offset, EndWeek = week - offset + count, Year = date.AddDays(-1 * offset).Year }, commandType: CommandType.StoredProcedure);
+                return conn.Query<WeeklyUsage>("GetWeeklyUsage", new { Key = key, StartWeek = week - offset, EndWeek = week - offset + count, Year = date.AddDays(-1 * offset).Year }, commandType: CommandType.StoredProcedure);
             }
         }
 
         [HttpGet]
-        public IEnumerable<MonthlyUsage> Monthly(int offset) {
+        public IEnumerable<MonthlyUsage> Monthly(string key, int offset) {
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                return conn.Query<MonthlyUsage>("GetMonthlyUsage", new { Year = DateTime.Today.Year - offset }, commandType: CommandType.StoredProcedure);
+                return conn.Query<MonthlyUsage>("GetMonthlyUsage", new { Key = key, Year = DateTime.Today.Year - offset }, commandType: CommandType.StoredProcedure);
             }
         }
     }

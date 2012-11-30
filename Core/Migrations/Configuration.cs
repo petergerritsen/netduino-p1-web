@@ -10,8 +10,8 @@ namespace Core.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
-            AutomaticMigrationDataLossAllowed = false;
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(Core.Persistence.Context context)

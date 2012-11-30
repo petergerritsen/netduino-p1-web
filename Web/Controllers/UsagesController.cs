@@ -63,7 +63,7 @@ namespace Web.Controllers {
         public IEnumerable<RecentData> Recent(string key) {
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                return conn.Query<RecentData>("SELECT TOP 100 [Timestamp], CurrentUsage As Usage, CurrentRetour As Retour FROM LogEntries WHERE Key = @Key ORDER BY [Timestamp] DESC", new { Key = key }, commandType: CommandType.Text);
+                return conn.Query<RecentData>("SELECT TOP 100 [Timestamp], CurrentUsage As Usage, CurrentRetour As Retour FROM LogEntries INNER JOIN Users ON Users.UserId = LogEntries.UserId WHERE ApiKey = @Key ORDER BY [Timestamp] DESC", new { Key = key }, commandType: CommandType.Text);
             }
         }
     }

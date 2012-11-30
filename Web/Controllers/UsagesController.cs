@@ -34,7 +34,7 @@ namespace Web.Controllers {
             var date = DateTime.Today.AddDays(DayOfWeek.Monday - DateTime.Today.DayOfWeek).AddDays(-7 * offset);
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                return conn.Query<DailyUsage>("GetDailyUsage", new { Key = key, StartDate = date, EndDate = date.AddDays(7) }, commandType: CommandType.StoredProcedure);
+                return conn.Query<DailyUsage>("GetDailyUsage", new { Key = key, StartDate = date, EndDate = date.AddDays(6) }, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -89,6 +89,8 @@ namespace Web.Controllers {
         public decimal E2Retour { get; set; }
         public decimal ERetourTotal { get; set; }
         public decimal Gas { get; set; }
+        public decimal EleRef { get; set; }
+        public decimal GasRef { get; set; }
     }
 
     public class WeeklyUsage {
@@ -100,6 +102,8 @@ namespace Web.Controllers {
         public decimal E2Retour { get; set; }
         public decimal ERetourTotal { get; set; }
         public decimal Gas { get; set; }
+        public decimal EleRef { get; set; }
+        public decimal GasRef { get; set; }
     }
 
     public class MonthlyUsage {
@@ -111,6 +115,8 @@ namespace Web.Controllers {
         public decimal E2Retour { get; set; }
         public decimal ERetourTotal { get; set; }
         public decimal Gas { get; set; }
+        public decimal EleRef { get; set; }
+        public decimal GasRef { get; set; }
     }
 
     public class RecentData {

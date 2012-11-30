@@ -13,6 +13,7 @@ namespace Core.Persistence
         public DbSet<LogEntry> LogEntries { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Usage> Usages { get; set; }
+        public DbSet<Reference> References { get; set; }
 
         //public Context()
         //    : base("NetduinoP1Logging")

@@ -97,8 +97,21 @@
     <Compile Include="Migrations\201211301553592_UpdateUsageSpsAddRetour.Designer.cs">
       <DependentUpon>201211301553592_UpdateUsageSpsAddRetour.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201211301653366_AddReferenceData.cs" />
+    <Compile Include="Migrations\201211301653366_AddReferenceData.Designer.cs">
+      <DependentUpon>201211301653366_AddReferenceData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201211301750540_FixMigration.cs" />
+    <Compile Include="Migrations\201211301750540_FixMigration.Designer.cs">
+      <DependentUpon>201211301750540_FixMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201211301842328_AddReferenceToQueries.cs" />
+    <Compile Include="Migrations\201211301842328_AddReferenceToQueries.Designer.cs">
+      <DependentUpon>201211301842328_AddReferenceToQueries.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\LogEntry.cs" />
+    <Compile Include="Model\Reference.cs" />
     <Compile Include="Model\Usage.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Persistence\Context.cs" />
@@ -129,6 +142,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201211301553592_UpdateUsageSpsAddRetour.resx">
       <DependentUpon>201211301553592_UpdateUsageSpsAddRetour.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201211301653366_AddReferenceData.resx">
+      <DependentUpon>201211301653366_AddReferenceData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201211301750540_FixMigration.resx">
+      <DependentUpon>201211301750540_FixMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201211301842328_AddReferenceToQueries.resx">
+      <DependentUpon>201211301842328_AddReferenceToQueries.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

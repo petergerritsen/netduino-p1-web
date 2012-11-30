@@ -58,6 +58,14 @@ namespace Web.Controllers {
                 return conn.Query<MonthlyUsage>("GetMonthlyUsage", new { Key = key, Year = DateTime.Today.Year - offset }, commandType: CommandType.StoredProcedure);
             }
         }
+
+        [HttpGet]
+        public IEnumerable<RecentData> Recent(string key) {
+            using (var conn = new SqlConnection(connectionString)) {
+                conn.Open();
+                return conn.Query<RecentData>("SELECT TOP 100 [Timestamp], CurrentUsage As Usage, CurrentRetour As Retour FROM LogEntries WHERE Key = @Key ORDER BY [Timestamp] DESC", new { Key = key }, commandType: CommandType.Text);
+            }
+        }
     }
 
    
@@ -70,7 +78,7 @@ namespace Web.Controllers {
     }
 
     public class DailyUsage {
-        public DateTime Date { get; set; }
+        public DateTime Day { get; set; }
         public decimal E1 { get; set; }
         public decimal E2 { get; set; }
         public decimal ETotal { get; set; }
@@ -91,5 +99,11 @@ namespace Web.Controllers {
         public decimal E2 { get; set; }
         public decimal ETotal { get; set; }
         public decimal Gas { get; set; }
+    }
+
+    public class RecentData {
+        public DateTime Timestamp { get; set; }
+        public decimal Usage { get; set; }
+        public decimal Retour { get; set; }
     }
 }

@@ -12,5 +12,12 @@ namespace Web.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Dashboard(string key) {
+            ViewData.Add("ApiKey", key);
+
+            return View();
+        }
     }
 }

@@ -16,23 +16,7 @@ namespace Web.Controllers {
         
         public LogEntriesController() {
             repo = Core.Factory.GetILoggingRepository();
-        }
-
-        // GET api/logentries
-        public IEnumerable<LogEntry> Get() {
-            try {
-                return repo.GetEntries();
-            } catch (Exception ex) {
-                new LogEvent(ex.Message).Raise();
-
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
-        }
-
-        // GET api/logentries/5
-        public LogEntry Get(int id) {
-            return repo.GetEntry(id);
-        }
+        }        
 
         //// POST api/logentries
         public void Post([FromBody]PostEntry value) {

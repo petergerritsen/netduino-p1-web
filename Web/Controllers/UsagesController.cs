@@ -14,8 +14,8 @@ namespace Web.Controllers {
     public class UsagesController : ApiController {
         private string connectionString = "";
 
-        public UsagesController() { 
-            connectionString = ConfigurationManager.ConnectionStrings["context"].ConnectionString;  
+        public UsagesController() {
+            connectionString = ConfigurationManager.ConnectionStrings["context"].ConnectionString;
         }
 
         [HttpGet]
@@ -44,7 +44,7 @@ namespace Web.Controllers {
             var date = DateTime.Today.AddDays(DayOfWeek.Monday - DateTime.Today.DayOfWeek);
             DateTimeFormatInfo dfi = new CultureInfo("nl-NL").DateTimeFormat;
             var week = dfi.Calendar.GetWeekOfYear(date, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
-            
+
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
                 return conn.Query<WeeklyUsage>("GetWeeklyUsage", new { Key = key, StartWeek = week - offset, EndWeek = week - offset + count, Year = date.AddDays(-1 * offset).Year }, commandType: CommandType.StoredProcedure);
@@ -68,7 +68,7 @@ namespace Web.Controllers {
         }
     }
 
-   
+
     public class HourlyUsage {
         public int Hour { get; set; }
         public decimal E1 { get; set; }
@@ -91,6 +91,32 @@ namespace Web.Controllers {
         public decimal Gas { get; set; }
         public decimal EleRef { get; set; }
         public decimal GasRef { get; set; }
+        public decimal EleRefDiff {
+            get {
+                return ETotal - EleRef;
+            }
+        }
+        public decimal GasRefDiff {
+            get {
+                return Gas - GasRef;
+            }
+        }
+        public int EleRefPerc {
+            get {
+                if (EleRef == 0)
+                    return 100;
+
+                return Convert.ToInt32((ETotal / EleRef) * 100);
+            }
+        }
+        public int GasRefPerc {
+            get {
+                if (GasRef == 0)
+                    return 100;
+
+                return Convert.ToInt32((Gas / GasRef) * 100);
+            }
+        }
     }
 
     public class WeeklyUsage {
@@ -104,6 +130,32 @@ namespace Web.Controllers {
         public decimal Gas { get; set; }
         public decimal EleRef { get; set; }
         public decimal GasRef { get; set; }
+        public decimal EleRefDiff {
+            get {
+                return ETotal - EleRef;
+            }
+        }
+        public decimal GasRefDiff {
+            get {
+                return Gas - GasRef;
+            }
+        }
+        public int EleRefPerc {
+            get {
+                if (EleRef == 0)
+                    return 100;
+
+                return Convert.ToInt32((ETotal / EleRef) * 100);
+            }
+        }
+        public int GasRefPerc {
+            get {
+                if (GasRef == 0)
+                    return 100;
+
+                return Convert.ToInt32((Gas / GasRef) * 100);
+            }
+        }
     }
 
     public class MonthlyUsage {
@@ -117,6 +169,32 @@ namespace Web.Controllers {
         public decimal Gas { get; set; }
         public decimal EleRef { get; set; }
         public decimal GasRef { get; set; }
+        public decimal EleRefDiff {
+            get {
+                return ETotal - EleRef;
+            }
+        }
+        public decimal GasRefDiff {
+            get {
+                return Gas - GasRef;
+            }
+        }
+        public int EleRefPerc {
+            get {
+                if (EleRef == 0)
+                    return 100;
+
+                return Convert.ToInt32((ETotal / EleRef) * 100);
+            }
+        }
+        public int GasRefPerc {
+            get {
+                if (GasRef == 0)
+                    return 100;
+
+                return Convert.ToInt32((ETotal / GasRef) * 100);
+            }
+        }
     }
 
     public class RecentData {

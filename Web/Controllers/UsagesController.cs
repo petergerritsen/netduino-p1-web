@@ -49,9 +49,16 @@ namespace Web.Controllers {
             DateTimeFormatInfo dfi = new CultureInfo("nl-NL").DateTimeFormat;
             var week = dfi.Calendar.GetWeekOfYear(date, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
 
+            var startWeek = week - offset - count + 1;
+            if (startWeek < 1)
+                startWeek = 1;
+            var endWeek = week - offset;
+            if (endWeek > 53)
+                endWeek = 53;
+
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                return conn.Query<WeeklyUsage>("GetWeeklyUsage", new { Key = key, StartWeek = week - offset, EndWeek = week - offset + count, Year = date.AddDays(-1 * offset).Year }, commandType: CommandType.StoredProcedure);
+                return conn.Query<WeeklyUsage>("GetWeeklyUsage", new { Key = key, StartWeek = startWeek , EndWeek = endWeek, Year = date.AddDays(-7 * offset).Year }, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -197,7 +204,7 @@ namespace Web.Controllers {
                 if (GasRef == 0)
                     return 100;
 
-                return Convert.ToInt32((ETotal / GasRef) * 100);
+                return Convert.ToInt32((Gas / GasRef) * 100);
             }
         }
     }

@@ -31,7 +31,9 @@ namespace Web.Controllers {
 
         [HttpGet]
         public IEnumerable<DailyUsage> Daily(string key, int offset) {
-            var date = DateTime.Today.AddDays(DayOfWeek.Monday - DateTime.Today.DayOfWeek).AddDays(-7 * offset);
+            var diff = DateTime.Today.DayOfWeek - DayOfWeek.Monday;
+            diff = (7 + diff) % 7;
+            var date = DateTime.Today.AddDays(-1 * diff).AddDays(-7 * offset);
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
                 return conn.Query<DailyUsage>("GetDailyUsage", new { Key = key, StartDate = date, EndDate = date.AddDays(6) }, commandType: CommandType.StoredProcedure);
@@ -41,7 +43,9 @@ namespace Web.Controllers {
         [HttpGet]
         public IEnumerable<WeeklyUsage> Weekly(string key, int offset, int count) {
             // first day of current week
-            var date = DateTime.Today.AddDays(DayOfWeek.Monday - DateTime.Today.DayOfWeek);
+            var diff = DateTime.Today.DayOfWeek - DayOfWeek.Monday;
+            diff = (7 + diff) % 7;
+            var date = DateTime.Today.AddDays(-1 * diff);
             DateTimeFormatInfo dfi = new CultureInfo("nl-NL").DateTimeFormat;
             var week = dfi.Calendar.GetWeekOfYear(date, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
 
@@ -82,6 +86,7 @@ namespace Web.Controllers {
 
     public class DailyUsage {
         public DateTime Day { get; set; }
+        public string DayString { get { return Day.ToString("dd MMM"); } }
         public decimal E1 { get; set; }
         public decimal E2 { get; set; }
         public decimal ETotal { get; set; }

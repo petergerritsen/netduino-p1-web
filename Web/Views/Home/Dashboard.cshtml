@@ -24,7 +24,7 @@
                     <tr>
                         <td>Hour</td>
                         <td>Electricity</td>
-                        <td>Gas</td>                        
+                        <td>Gas</td>
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: hourlyUsages">
@@ -36,12 +36,43 @@
                 </tbody>
             </table>
         </div>
-        <input type="button" onclick="dashboardViewModel.hourlyPrevious();" value="Previous" />
-        <input type="button" onclick="dashboardViewModel.hourlyNext();" value="Next" />
+        <input type="button" onclick="dashboardViewModel.hourlyPrevious();" value="Previous day" />
+        <input type="button" onclick="dashboardViewModel.hourlyNext();" value="Next day" />
     </div>
     <div id="daily">
         <div id="dailychart"></div>
-        <div id="dailytable"></div>
+        <div id="dailytable">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Date</td>
+                        <td>E</td>
+                        <td>E-reference</td>
+                        <td>E-difference</td>
+                        <td></td>
+                        <td>Gas</td>
+                        <td>Gas-reference</td>
+                        <td>Gas-difference</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: dailyUsages">
+                    <tr>
+                        <td><span data-bind="text: date"></span></td>
+                        <td><span data-bind="text: eTotal"></span></td>
+                        <td><span data-bind="text: eReference"></span></td>
+                        <td data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: eDifference"></span></td>
+                        <td data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: ePercentage"></span>%)</td>
+                        <td><span data-bind="text: gas"></span></td>
+                        <td><span data-bind="text: gasReference"></span></td>
+                        <td data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: gasDifference"></span></td>
+                        <td data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: gasPercentage"></span>%)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <input type="button" onclick="dashboardViewModel.dailyPrevious();" value="Previous week" />
+        <input type="button" onclick="dashboardViewModel.dailyNext();" value="Next week" />
     </div>
     <div id="weeky">
         <div id="weeklychart"></div>
@@ -61,6 +92,20 @@
             self.gas = ko.observable(gas);
         }
 
+        function DailyUsage(date, eTotal, eReference, eDifference, ePercentage, gas, gasReference, gasDifference, gasPercentage) {
+            var self = this;
+
+            self.date = ko.observable(date);
+            self.eTotal = ko.observable(eTotal);
+            self.eReference = ko.observable(eReference);
+            self.eDifference = ko.observable(eDifference);
+            self.ePercentage = ko.observable(ePercentage);
+            self.gas = ko.observable(gas);
+            self.gasReference = ko.observable(gasReference);
+            self.gasDifference = ko.observable(gasDifference);
+            self.gasPercentage = ko.observable(gasPercentage);
+        }
+
         function DashboardViewModel(apiKey) {
             var self = this;
             self.apiKey = ko.observable(apiKey);
@@ -77,6 +122,7 @@
             });
 
             self.hourlyUsages = ko.observableArray([new HourlyUsage(0, 0, 0)]);
+            self.dailyUsages = ko.observableArray([new DailyUsage('', 0, 0, 0, 0, 0, 0, 0, 0)]);
 
             self.hourlyUrl = ko.computed(function () {
                 return "/api/usages/" + self.apiKey() + "/hourly/" + self.hourlyOffset();
@@ -142,14 +188,29 @@
             });
         }
 
+        function loadDailyData() {
+            $.getJSON(dashboardViewModel.dailyUrl(), function (data) {
+                var daily = [];
+                $.each(data, function (index, value) {
+                    daily.push(new DailyUsage(value.DayString, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+                });
+
+                dashboardViewModel.dailyUsages(daily);
+            });
+        }
+
         $(document).ready(function () {
             dashboardViewModel = new DashboardViewModel($("input[name='apikey']").val());
 
             dashboardViewModel.hourlyUrl.subscribe(function (newValue) {
                 loadHourlyData();
             });
+            dashboardViewModel.dailyUrl.subscribe(function (newValue) {
+                loadDailyData();
+            });
 
             loadHourlyData();
+            loadDailyData();
 
             ko.applyBindings(dashboardViewModel);
         });

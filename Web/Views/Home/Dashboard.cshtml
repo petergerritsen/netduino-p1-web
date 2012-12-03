@@ -15,9 +15,10 @@
 </head>
 <body>
     @Html.Hidden("apikey", ViewData["ApiKey"])
+    @Html.Hidden("currentWeek", ViewData["CurrentWeek"])
 
     <div id="hourly">
-        <strong>Per hour, <span data-bind="text: hourlyDate"></span></strong>
+        <strong>Per hour (<span data-bind="text: hourlyDate"></span>)</strong>
         <div id="hourlychart"></div>
         <div id="hourlytable">
             <table>
@@ -41,20 +42,24 @@
         <input type="button" onclick="dashboardViewModel.hourlyNext();" value="Next day" />
     </div>
     <div id="daily">
-        <strong>Per day</strong>
+        <strong>Per day (<span data-bind="text: dailyWeek"></span>)</strong>
         <div id="dailychart"></div>
         <div id="dailytable">
             <table>
                 <thead>
                     <tr>
-                        <td>Date</td>
-                        <td>E</td>
-                        <td>E-reference</td>
-                        <td>E-difference</td>
+                        <td rowspan="2">Date</td>
+                        <td colspan="4">Electricity</td>
+                        <td colspan="4">Gas</td>
+                    </tr>
+                    <tr>                        
+                        <td>Usage</td>
+                        <td>Reference</td>
+                        <td>Difference</td>
                         <td></td>
-                        <td>Gas</td>
-                        <td>Gas-reference</td>
-                        <td>Gas-difference</td>
+                        <td>Usage</td>
+                        <td>Reference</td>
+                        <td>Difference</td>
                         <td></td>
                     </tr>
                 </thead>
@@ -77,20 +82,24 @@
         <input type="button" onclick="dashboardViewModel.dailyNext();" value="Next week" />
     </div>
     <div id="weeky">
-        <strong>Per week</strong>
+        <strong>Per week (<span data-bind="text: weeklyRange"></span>)</strong>
         <div id="weeklychart"></div>
         <div id="weeklytable">
             <table>
                 <thead>
                     <tr>
-                        <td>Week</td>
-                        <td>E</td>
-                        <td>E-reference</td>
-                        <td>E-difference</td>
+                        <td rowspan="2">Week</td>
+                        <td colspan="4">Electricity</td>
+                        <td colspan="4">Gas</td>
+                    </tr>
+                    <tr>                        
+                        <td>Usage</td>
+                        <td>Reference</td>
+                        <td>Difference</td>
                         <td></td>
-                        <td>Gas</td>
-                        <td>Gas-reference</td>
-                        <td>Gas-difference</td>
+                        <td>Usage</td>
+                        <td>Reference</td>
+                        <td>Difference</td>
                         <td></td>
                     </tr>
                 </thead>
@@ -113,20 +122,24 @@
         <input type="button" onclick="dashboardViewModel.weeklyNext();" value="Next" />
     </div>
     <div id="monthly">
-        <strong>Per month</strong>
+        <strong>Per month (<span data-bind="text: monthlyYear"></span>)</strong>
         <div id="monthlychart"></div>
         <div id="monthlytable">
             <table>
                 <thead>
                     <tr>
-                        <td>Month</td>
-                        <td>E</td>
-                        <td>E-reference</td>
-                        <td>E-difference</td>
+                        <td rowspan="2">Month</td>
+                        <td colspan="4">Electricity</td>
+                        <td colspan="4">Gas</td>
+                    </tr>
+                    <tr>                        
+                        <td>Usage</td>
+                        <td>Reference</td>
+                        <td>Difference</td>
                         <td></td>
-                        <td>Gas</td>
-                        <td>Gas-reference</td>
-                        <td>Gas-difference</td>
+                        <td>Usage</td>
+                        <td>Reference</td>
+                        <td>Difference</td>
                         <td></td>
                     </tr>
                 </thead>
@@ -200,9 +213,10 @@
             self.gasPercentage = ko.observable(gasPercentage);
         }
 
-        function DashboardViewModel(apiKey) {
+        function DashboardViewModel(apiKey, currentWeek) {
             var self = this;
             self.apiKey = ko.observable(apiKey);
+            self.currentWeek = ko.observable(currentWeek);
             self.hourlyOffset = ko.observable(0);
             self.dailyOffset = ko.observable(0);
             self.weeklyOffset = ko.observable(0);
@@ -213,6 +227,19 @@
                 var date = new Date();
                 date.setDate(date.getDate() - self.hourlyOffset());
                 return date.toDateString();
+            });
+            self.dailyWeek = ko.computed(function () {
+                return self.currentWeek() - self.dailyOffset();
+            });
+            self.weeklyRange = ko.computed(function () {
+                return (self.currentWeek() - self.weeklyOffset() - self.weeklyStep()).toString() + " - " + self.currentWeek() - self.weeklyOffset());
+            });
+            self.weeklyRange = ko.computed(function () {
+                return (self.currentWeek() - self.weeklyOffset() - self.weeklyStep()).toString() + " - " + self.currentWeek() - self.weeklyOffset());
+            });
+            self.monthlyYear = ko.computed(function () {
+                var d = new Date();
+                return d.getFullYear() - self.monthlyOffset();
             });
 
             self.hourlyUsages = ko.observableArray([new HourlyUsage(0, 0, 0)]);
@@ -318,7 +345,7 @@
         }
 
         $(document).ready(function () {
-            dashboardViewModel = new DashboardViewModel($("input[name='apikey']").val());
+            dashboardViewModel = new DashboardViewModel($("input[name='apikey']").val(), $("input[name='currentWeek']").val());
 
             dashboardViewModel.hourlyUrl.subscribe(function (newValue) {
                 loadHourlyData();

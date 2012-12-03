@@ -17,6 +17,11 @@ namespace Web.Controllers
         public ActionResult Dashboard(string key) {
             ViewData.Add("ApiKey", key);
 
+            // Calculate current week            
+            DateTimeFormatInfo dfi = new CultureInfo("nl-NL").DateTimeFormat;
+            var week = dfi.Calendar.GetWeekOfYear(DateTime.Today, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+            ViewData.Add("CurrentWeek", week);
+
             return View();
         }
     }

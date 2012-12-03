@@ -232,11 +232,8 @@
                 return self.currentWeek() - self.dailyOffset();
             });
             self.weeklyRange = ko.computed(function () {
-                return (self.currentWeek() - self.weeklyOffset() - self.weeklyStep()).toString() + " - " + self.currentWeek() - self.weeklyOffset());
-            });
-            self.weeklyRange = ko.computed(function () {
-                return (self.currentWeek() - self.weeklyOffset() - self.weeklyStep()).toString() + " - " + self.currentWeek() - self.weeklyOffset());
-            });
+                return (self.currentWeek() - self.weeklyOffset() - self.weeklyStep()).toString() + " - " + (self.currentWeek() - self.weeklyOffset()).toString();
+            });            
             self.monthlyYear = ko.computed(function () {
                 var d = new Date();
                 return d.getFullYear() - self.monthlyOffset();

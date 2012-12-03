@@ -113,6 +113,10 @@
     <Compile Include="Migrations\201211301945398_FixDailyUsageQuery.Designer.cs">
       <DependentUpon>201211301945398_FixDailyUsageQuery.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201212031955091_ChangeWeeklyUsageSp.cs" />
+    <Compile Include="Migrations\201212031955091_ChangeWeeklyUsageSp.Designer.cs">
+      <DependentUpon>201212031955091_ChangeWeeklyUsageSp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\LogEntry.cs" />
     <Compile Include="Model\Reference.cs" />
@@ -158,6 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201211301945398_FixDailyUsageQuery.resx">
       <DependentUpon>201211301945398_FixDailyUsageQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201212031955091_ChangeWeeklyUsageSp.resx">
+      <DependentUpon>201212031955091_ChangeWeeklyUsageSp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

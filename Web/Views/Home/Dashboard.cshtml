@@ -11,6 +11,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/Scripts/knockout-2.1.0.js")    
     @Scripts.Render("~/Content/highcharts/highcharts.js")
+    @Scripts.Render("~/Scripts/moment-1.7.2.js")
     @Styles.Render("~/Content/css")
 </head>
 <body>
@@ -21,7 +22,7 @@
         <table>
                 <thead>
                     <tr>
-                        <td rowspan="2">Week</td>
+                        <td rowspan="2" data-bind="text: identifierName"></td>
                         <td colspan="4">Electricity</td>
                         <td colspan="4">Gas</td>
                     </tr>
@@ -52,11 +53,11 @@
             </table>
     </script>
     
-    <div id="hourly">
+    <div id="hourly" style="display:block; clear: both;">
         <strong>Per hour (<span data-bind="text: hourlyDate"></span>)</strong>
         <div id="hourlychart"></div>
-        <div id="hourlytable">
-            <table>
+        <div id="hourlytable" data-bind="with: hourlyUsage" style="display:block; width: 100%; clear: both;">
+            <table style="float: left;">
                 <thead>
                     <tr>
                         <td>Hour</td>
@@ -64,7 +65,24 @@
                         <td>Gas</td>
                     </tr>
                 </thead>
-                <tbody data-bind="foreach: hourlyUsages">
+                <tbody data-bind="foreach: firstUsages">
+                    <tr>
+                        <td><span data-bind="text: hour"></span></td>
+                        <td><span data-bind="text: eTotal"></span></td>
+                        <td><span data-bind="text: gas"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table style="float: left;">
+                <thead>
+                    <tr>
+                        <td>Hour</td>
+                        <td>Electricity</td>
+                        <td>Gas</td>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: secondUsages">
                     <tr>
                         <td><span data-bind="text: hour"></span></td>
                         <td><span data-bind="text: eTotal"></span></td>
@@ -73,34 +91,48 @@
                 </tbody>
             </table>
         </div>
-        <input type="button" onclick="dashboardViewModel.hourlyPrevious();" value="Previous day" />
-        <input type="button" onclick="dashboardViewModel.hourlyNext();" value="Next day" />
+        <div  style="display:block; width: 100%; clear: both;">
+            <input type="button" onclick="dashboardViewModel.hourlyPrevious();" value="Previous day" />
+            <input type="button" onclick="dashboardViewModel.hourlyNext();" value="Next day" />
+        </div>
     </div>
-    <div id="daily">
-        <strong>Per day (<span data-bind="text: dailyWeek"></span>)</strong>
+    <div id="daily" style="display:block; clear: both;">
+        <strong>Per day (week <span data-bind="text: dailyWeek"></span>)</strong>
         <div id="dailychart"></div>
-        <div id="dailytable" data-bind="template { name: 'usage-template', dailyUsages }"></div>
+        <div id="dailytable" data-bind="template: { name: 'usage-template', data: dailyUsage }"></div>
         <input type="button" onclick="dashboardViewModel.dailyPrevious();" value="Previous week" />
         <input type="button" onclick="dashboardViewModel.dailyNext();" value="Next week" />
     </div>
-    <div id="weeky">
+    <div id="weeky" style="display:block; clear: both;">
         <strong>Per week (<span data-bind="text: weeklyRange"></span>)</strong>
         <div id="weeklychart"></div>
-        <div id="weeklytable" data-bind="template { name: 'usage-template', weeklyUsages }"></div>
+        <div id="weeklytable" data-bind="template: { name: 'usage-template', data: weeklyUsage }"></div>
         <input type="button" onclick="dashboardViewModel.weeklyPrevious();" value="Previous" />
         <input type="button" onclick="dashboardViewModel.weeklyNext();" value="Next" />
     </div>
-    <div id="monthly">
+    <div id="monthly" style="display:block; clear: both;">
         <strong>Per month (<span data-bind="text: monthlyYear"></span>)</strong>
         <div id="monthlychart"></div>
-        <div id="monthlytable" data-bind="template { name: 'usage-template', monthlyUsages }"></div>
+        <div id="monthlytable" data-bind="template: { name: 'usage-template', data: monthlyUsage }"></div>
         
         <input type="button" onclick="dashboardViewModel.monthlyPrevious();" value="Previous year" />
         <input type="button" onclick="dashboardViewModel.monthlyNext();" value="Next year" />
     </div>
 
     <script type="text/javascript">
-        function HourlyUsage(hour, eTotal, gas) {
+        function HourlyUsage(usages) {
+            var self = this;
+
+            self.firstUsages = ko.observableArray(usages.splice(0, (usages.length / 2) + (usages.length % 2)));
+            self.secondUsages = ko.observableArray(usages);
+
+            self.setUsages = function (usages) {
+                self.firstUsages(usages.splice(0, (usages.length / 2) + (usages.length % 2)));
+                self.secondUsages(usages);
+            };
+        }
+
+        function HourlyUsageLine(hour, eTotal, gas) {
             var self = this;
             
             self.hour = ko.observable(hour);
@@ -108,7 +140,13 @@
             self.gas = ko.observable(gas);
         }
 
-        function CommonUsage(identifier, eTotal, eReference, eDifference, ePercentage, gas, gasReference, gasDifference, gasPercentage) {
+        function Usage(identifierName, usages) {
+            var self = this;
+            self.identifierName = ko.observable(identifierName);
+            self.usages = ko.observableArray(usages);
+        }
+
+        function UsageLine(identifier, eTotal, eReference, eDifference, ePercentage, gas, gasReference, gasDifference, gasPercentage) {
             var self = this;
 
             self.identifier = ko.observable(identifier);
@@ -133,25 +171,25 @@
             self.monthlyOffset = ko.observable(0);
 
             self.hourlyDate = ko.computed(function () {
-                var date = new Date();
-                date.setDate(date.getDate() - self.hourlyOffset());
-                return date.toDateString();
+                return moment().subtract('days', self.hourlyOffset()).format('ddd D MMM YYYY');
             });
             self.dailyWeek = ko.computed(function () {
                 return self.currentWeek() - self.dailyOffset();
             });
             self.weeklyRange = ko.computed(function () {
-                return (self.currentWeek() - self.weeklyOffset() - self.weeklyStep()).toString() + " - " + (self.currentWeek() - self.weeklyOffset()).toString();
+                var endDate = moment().day(7).subtract('days', 7 * self.weeklyOffset());
+                var startDate = moment(endDate).add('days', 1).subtract('days', 7 * self.weeklyStep());
+                return startDate.format('ddd D MMM YYYY') + " - " + endDate.format('ddd D MMM YYYY');
             });            
             self.monthlyYear = ko.computed(function () {
                 var d = new Date();
                 return d.getFullYear() - self.monthlyOffset();
             });
 
-            self.hourlyUsages = ko.observableArray([new HourlyUsage(0, 0, 0)]);
-            self.dailyUsages = ko.observableArray([new CommonUsage('', 0, 0, 0, 0, 0, 0, 0, 0)]);
-            self.weeklyUsages = ko.observableArray([new CommonUsage('', 0, 0, 0, 0, 0, 0, 0, 0)]);
-            self.monthlyUsages = ko.observableArray([new CommonUsage('', 0, 0, 0, 0, 0, 0, 0, 0)]);
+            self.hourlyUsage = ko.observable(new HourlyUsage([new HourlyUsageLine(0, 0, 0), new HourlyUsageLine(0, 0, 0)]));
+            self.dailyUsage = ko.observable(new Usage('Day', [new UsageLine('', 0, 0, 0, 0, 0, 0, 0, 0)]));
+            self.weeklyUsage = ko.observable(new Usage('Week', [new UsageLine('', 0, 0, 0, 0, 0, 0, 0, 0)]));
+            self.monthlyUsage = ko.observable(new Usage('Month', [new UsageLine('', 0, 0, 0, 0, 0, 0, 0, 0)]));
 
             self.hourlyUrl = ko.computed(function () {
                 return "/api/usages/" + self.apiKey() + "/hourly/" + self.hourlyOffset();
@@ -210,10 +248,10 @@
             $.getJSON(dashboardViewModel.hourlyUrl(), function (data) {
                 var hourly = [];
                 $.each(data, function (index, value) {
-                    hourly.push(new HourlyUsage(value.Hour, value.ETotal, value.Gas));
+                    hourly.push(new HourlyUsageLine(value.Hour, value.ETotal, value.Gas));
                 });
 
-                dashboardViewModel.hourlyUsages(hourly);
+                dashboardViewModel.hourlyUsage().setUsages(hourly);
             });
         }
 
@@ -221,10 +259,10 @@
             $.getJSON(dashboardViewModel.dailyUrl(), function (data) {
                 var daily = [];
                 $.each(data, function (index, value) {
-                    daily.push(new CommonUsage(value.DayString, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+                    daily.push(new UsageLine(value.DayString, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
                 });
 
-                dashboardViewModel.dailyUsages(daily);
+                dashboardViewModel.dailyUsage().usages(daily);
             });
         }
         
@@ -232,10 +270,10 @@
             $.getJSON(dashboardViewModel.weeklyUrl(), function (data) {
                 var weekly = [];
                 $.each(data, function (index, value) {
-                    weekly.push(new CommonUsage(value.Week, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+                    weekly.push(new UsageLine(value.Week, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
                 });
 
-                dashboardViewModel.weeklyUsages(weekly);
+                dashboardViewModel.weeklyUsage().usages(weekly);
             });
         }
 
@@ -243,10 +281,10 @@
             $.getJSON(dashboardViewModel.monthlyUrl(), function (data) {
                 var monthly = [];
                 $.each(data, function (index, value) {
-                    monthly.push(new CommonUsage(value.Month, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+                    monthly.push(new UsageLine(value.Month, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
                 });
 
-                dashboardViewModel.monthlyUsages(monthly);
+                dashboardViewModel.monthlyUsage().usages(monthly);
             });
         }
 

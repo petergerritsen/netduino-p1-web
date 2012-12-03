@@ -42,23 +42,15 @@ namespace Web.Controllers {
 
         [HttpGet]
         public IEnumerable<WeeklyUsage> Weekly(string key, int offset, int count) {
-            // first day of current week
+            // last day of current week
             var diff = DateTime.Today.DayOfWeek - DayOfWeek.Monday;
             diff = (7 + diff) % 7;
-            var date = DateTime.Today.AddDays(-1 * diff);
-            DateTimeFormatInfo dfi = new CultureInfo("nl-NL").DateTimeFormat;
-            var week = dfi.Calendar.GetWeekOfYear(date, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
-
-            var startWeek = week - offset - count + 1;
-            if (startWeek < 1)
-                startWeek = 1;
-            var endWeek = week - offset;
-            if (endWeek > 53)
-                endWeek = 53;
-
+            var endDate = DateTime.Today.AddDays(-1 * diff).AddDays(6 + (-7 * offset));
+            var startDate = endDate.AddDays(-7 * count);
+           
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                return conn.Query<WeeklyUsage>("GetWeeklyUsage", new { Key = key, StartWeek = startWeek , EndWeek = endWeek, Year = date.AddDays(-7 * offset).Year }, commandType: CommandType.StoredProcedure);
+                return conn.Query<WeeklyUsage>("GetWeeklyUsage", new { Key = key, StartDate = startDate , EndDate = endDate }, commandType: CommandType.StoredProcedure);
             }
         }
 

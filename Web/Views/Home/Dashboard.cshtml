@@ -16,7 +16,42 @@
 <body>
     @Html.Hidden("apikey", ViewData["ApiKey"])
     @Html.Hidden("currentWeek", ViewData["CurrentWeek"])
-
+    
+    <script type="text/html" id="usage-template">
+        <table>
+                <thead>
+                    <tr>
+                        <td rowspan="2">Week</td>
+                        <td colspan="4">Electricity</td>
+                        <td colspan="4">Gas</td>
+                    </tr>
+                    <tr>                        
+                        <td>Usage</td>
+                        <td>Reference</td>
+                        <td>Difference</td>
+                        <td></td>
+                        <td>Usage</td>
+                        <td>Reference</td>
+                        <td>Difference</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: usages">
+                    <tr>
+                        <td><span data-bind="text: identifier"></span></td>
+                        <td><span data-bind="text: eTotal"></span></td>
+                        <td><span data-bind="text: eReference"></span></td>
+                        <td data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: eDifference"></span></td>
+                        <td data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: ePercentage"></span>%)</td>
+                        <td><span data-bind="text: gas"></span></td>
+                        <td><span data-bind="text: gasReference"></span></td>
+                        <td data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: gasDifference"></span></td>
+                        <td data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: gasPercentage"></span>%)</td>
+                    </tr>
+                </tbody>
+            </table>
+    </script>
+    
     <div id="hourly">
         <strong>Per hour (<span data-bind="text: hourlyDate"></span>)</strong>
         <div id="hourlychart"></div>
@@ -44,120 +79,22 @@
     <div id="daily">
         <strong>Per day (<span data-bind="text: dailyWeek"></span>)</strong>
         <div id="dailychart"></div>
-        <div id="dailytable">
-            <table>
-                <thead>
-                    <tr>
-                        <td rowspan="2">Date</td>
-                        <td colspan="4">Electricity</td>
-                        <td colspan="4">Gas</td>
-                    </tr>
-                    <tr>                        
-                        <td>Usage</td>
-                        <td>Reference</td>
-                        <td>Difference</td>
-                        <td></td>
-                        <td>Usage</td>
-                        <td>Reference</td>
-                        <td>Difference</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: dailyUsages">
-                    <tr>
-                        <td><span data-bind="text: date"></span></td>
-                        <td><span data-bind="text: eTotal"></span></td>
-                        <td><span data-bind="text: eReference"></span></td>
-                        <td data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: eDifference"></span></td>
-                        <td data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: ePercentage"></span>%)</td>
-                        <td><span data-bind="text: gas"></span></td>
-                        <td><span data-bind="text: gasReference"></span></td>
-                        <td data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: gasDifference"></span></td>
-                        <td data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: gasPercentage"></span>%)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div id="dailytable" data-bind="template { name: 'usage-template', dailyUsages }"></div>
         <input type="button" onclick="dashboardViewModel.dailyPrevious();" value="Previous week" />
         <input type="button" onclick="dashboardViewModel.dailyNext();" value="Next week" />
     </div>
     <div id="weeky">
         <strong>Per week (<span data-bind="text: weeklyRange"></span>)</strong>
         <div id="weeklychart"></div>
-        <div id="weeklytable">
-            <table>
-                <thead>
-                    <tr>
-                        <td rowspan="2">Week</td>
-                        <td colspan="4">Electricity</td>
-                        <td colspan="4">Gas</td>
-                    </tr>
-                    <tr>                        
-                        <td>Usage</td>
-                        <td>Reference</td>
-                        <td>Difference</td>
-                        <td></td>
-                        <td>Usage</td>
-                        <td>Reference</td>
-                        <td>Difference</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: weeklyUsages">
-                    <tr>
-                        <td><span data-bind="text: week"></span></td>
-                        <td><span data-bind="text: eTotal"></span></td>
-                        <td><span data-bind="text: eReference"></span></td>
-                        <td data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: eDifference"></span></td>
-                        <td data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: ePercentage"></span>%)</td>
-                        <td><span data-bind="text: gas"></span></td>
-                        <td><span data-bind="text: gasReference"></span></td>
-                        <td data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: gasDifference"></span></td>
-                        <td data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: gasPercentage"></span>%)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div id="weeklytable" data-bind="template { name: 'usage-template', weeklyUsages }"></div>
         <input type="button" onclick="dashboardViewModel.weeklyPrevious();" value="Previous" />
         <input type="button" onclick="dashboardViewModel.weeklyNext();" value="Next" />
     </div>
     <div id="monthly">
         <strong>Per month (<span data-bind="text: monthlyYear"></span>)</strong>
         <div id="monthlychart"></div>
-        <div id="monthlytable">
-            <table>
-                <thead>
-                    <tr>
-                        <td rowspan="2">Month</td>
-                        <td colspan="4">Electricity</td>
-                        <td colspan="4">Gas</td>
-                    </tr>
-                    <tr>                        
-                        <td>Usage</td>
-                        <td>Reference</td>
-                        <td>Difference</td>
-                        <td></td>
-                        <td>Usage</td>
-                        <td>Reference</td>
-                        <td>Difference</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: monthlyUsages">
-                    <tr>
-                        <td><span data-bind="text: month"></span></td>
-                        <td><span data-bind="text: eTotal"></span></td>
-                        <td><span data-bind="text: eReference"></span></td>
-                        <td data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: eDifference"></span></td>
-                        <td data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: ePercentage"></span>%)</td>
-                        <td><span data-bind="text: gas"></span></td>
-                        <td><span data-bind="text: gasReference"></span></td>
-                        <td data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: gasDifference"></span></td>
-                        <td data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: gasPercentage"></span>%)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div id="monthlytable" data-bind="template { name: 'usage-template', monthlyUsages }"></div>
+        
         <input type="button" onclick="dashboardViewModel.monthlyPrevious();" value="Previous year" />
         <input type="button" onclick="dashboardViewModel.monthlyNext();" value="Next year" />
     </div>
@@ -171,38 +108,10 @@
             self.gas = ko.observable(gas);
         }
 
-        function DailyUsage(date, eTotal, eReference, eDifference, ePercentage, gas, gasReference, gasDifference, gasPercentage) {
+        function CommonUsage(identifier, eTotal, eReference, eDifference, ePercentage, gas, gasReference, gasDifference, gasPercentage) {
             var self = this;
 
-            self.date = ko.observable(date);
-            self.eTotal = ko.observable(eTotal);
-            self.eReference = ko.observable(eReference);
-            self.eDifference = ko.observable(eDifference);
-            self.ePercentage = ko.observable(ePercentage);
-            self.gas = ko.observable(gas);
-            self.gasReference = ko.observable(gasReference);
-            self.gasDifference = ko.observable(gasDifference);
-            self.gasPercentage = ko.observable(gasPercentage);
-        }
-
-        function WeeklyUsage(week, eTotal, eReference, eDifference, ePercentage, gas, gasReference, gasDifference, gasPercentage) {
-            var self = this;
-
-            self.week = ko.observable(week);
-            self.eTotal = ko.observable(eTotal);
-            self.eReference = ko.observable(eReference);
-            self.eDifference = ko.observable(eDifference);
-            self.ePercentage = ko.observable(ePercentage);
-            self.gas = ko.observable(gas);
-            self.gasReference = ko.observable(gasReference);
-            self.gasDifference = ko.observable(gasDifference);
-            self.gasPercentage = ko.observable(gasPercentage);
-        }
-
-        function MonthlyUsage(month, eTotal, eReference, eDifference, ePercentage, gas, gasReference, gasDifference, gasPercentage) {
-            var self = this;
-
-            self.month = ko.observable(month);
+            self.identifier = ko.observable(identifier);
             self.eTotal = ko.observable(eTotal);
             self.eReference = ko.observable(eReference);
             self.eDifference = ko.observable(eDifference);
@@ -240,9 +149,9 @@
             });
 
             self.hourlyUsages = ko.observableArray([new HourlyUsage(0, 0, 0)]);
-            self.dailyUsages = ko.observableArray([new DailyUsage('', 0, 0, 0, 0, 0, 0, 0, 0)]);
-            self.weeklyUsages = ko.observableArray([new WeeklyUsage('', 0, 0, 0, 0, 0, 0, 0, 0)]);
-            self.monthlyUsages = ko.observableArray([new MonthlyUsage('', 0, 0, 0, 0, 0, 0, 0, 0)]);
+            self.dailyUsages = ko.observableArray([new CommonUsage('', 0, 0, 0, 0, 0, 0, 0, 0)]);
+            self.weeklyUsages = ko.observableArray([new CommonUsage('', 0, 0, 0, 0, 0, 0, 0, 0)]);
+            self.monthlyUsages = ko.observableArray([new CommonUsage('', 0, 0, 0, 0, 0, 0, 0, 0)]);
 
             self.hourlyUrl = ko.computed(function () {
                 return "/api/usages/" + self.apiKey() + "/hourly/" + self.hourlyOffset();
@@ -312,7 +221,7 @@
             $.getJSON(dashboardViewModel.dailyUrl(), function (data) {
                 var daily = [];
                 $.each(data, function (index, value) {
-                    daily.push(new DailyUsage(value.DayString, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+                    daily.push(new CommonUsage(value.DayString, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
                 });
 
                 dashboardViewModel.dailyUsages(daily);
@@ -323,7 +232,7 @@
             $.getJSON(dashboardViewModel.weeklyUrl(), function (data) {
                 var weekly = [];
                 $.each(data, function (index, value) {
-                    weekly.push(new WeeklyUsage(value.Week, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+                    weekly.push(new CommonUsage(value.Week, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
                 });
 
                 dashboardViewModel.weeklyUsages(weekly);
@@ -334,7 +243,7 @@
             $.getJSON(dashboardViewModel.monthlyUrl(), function (data) {
                 var monthly = [];
                 $.each(data, function (index, value) {
-                    monthly.push(new MonthlyUsage(value.Month, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+                    monthly.push(new CommonUsage(value.Month, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
                 });
 
                 dashboardViewModel.monthlyUsages(monthly);

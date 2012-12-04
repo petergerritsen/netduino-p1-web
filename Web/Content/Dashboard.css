@@ -1,0 +1,33 @@
+﻿thead tr th {
+    vertical-align: bottom;
+    padding: 5px 5px 5px 0;
+    font-size: 13px;    
+}
+thead tr th.first {    
+    padding: 5px 5px 5px 5px;
+}
+
+thead tr.bottom {
+    border-bottom: 1px solid #aaa;
+}
+
+thead tr.top th {
+    text-align: center;
+}
+
+tbody td {
+    font-size: 13px;
+}
+
+tbody td.number {
+    text-align: right;
+}
+
+tbody td.first {
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+tbody {
+    border-bottom: 1px solid #aaa;
+}

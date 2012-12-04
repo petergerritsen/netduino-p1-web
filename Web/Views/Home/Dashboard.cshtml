@@ -12,7 +12,8 @@
     @Scripts.Render("~/Scripts/knockout-2.1.0.js")    
     @Scripts.Render("~/scripts/highcharts/highcharts.js")
     @Scripts.Render("~/Scripts/moment-1.7.2.js")
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Site.css")
+    @Styles.Render("~/Content/Dashboard.css")
 </head>
 <body>
     @Html.Hidden("apikey", ViewData["ApiKey"])
@@ -20,37 +21,36 @@
     
     <script type="text/html" id="usage-template">
         <table>
-                <thead>
-                    <tr>
-                        <td rowspan="2" data-bind="text: identifierName"></td>
-                        <td colspan="4">Electricity</td>
-                        <td colspan="4">Gas</td>
-                    </tr>
-                    <tr>                        
-                        <td>Usage</td>
-                        <td>Reference</td>
-                        <td>Difference</td>
-                        <td></td>
-                        <td>Usage</td>
-                        <td>Reference</td>
-                        <td>Difference</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: usages">
-                    <tr>
-                        <td><span data-bind="text: identifier"></span></td>
-                        <td><span data-bind="text: eTotal"></span></td>
-                        <td><span data-bind="text: eReference"></span></td>
-                        <td data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: eDifference"></span></td>
-                        <td data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: ePercentage"></span>%)</td>
-                        <td><span data-bind="text: gas"></span></td>
-                        <td><span data-bind="text: gasReference"></span></td>
-                        <td data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: gasDifference"></span></td>
-                        <td data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: gasPercentage"></span>%)</td>
-                    </tr>
-                </tbody>
-            </table>
+            <thead>
+                <tr class="top">
+                    <th class="first"></th>
+                    <th colspan="4">Electricity (kWh)</th>
+                    <th colspan="4">Gas (m<sup>3</sup>)</th>
+                </tr>
+                <tr class="bottom">                        
+                    <th class="first" data-bind="text: identifierName"></th>
+                    <th>Usage</th>
+                    <th>Reference</th>
+                    <th colspan="2">Difference</th>                    
+                    <th>Usage</th>
+                    <th>Reference</th>
+                    <th colspan="2">Difference</th>                    
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: usages">
+                <tr data-bind="style: { backgroundColor: $index() % 2 === 0 ? '#fff' : '#e9e9e9' }">
+                    <td class="first" width="50px"><span data-bind="text: identifier"></span></td>
+                    <td class="number" width="50px"><span data-bind="text: eTotal().toFixed(3)"></span></td>
+                    <td class="number" width="50px"><span data-bind="text: eReference().toFixed(3)"></span></td>
+                    <td class="number" width="50px" data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: eDifference().toFixed(3)"></span></td>
+                    <td class="number" width="40px" data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: ePercentage"></span>%)</td>
+                    <td class="number" width="50px"><span data-bind="text: gas().toFixed(3)"></span></td>
+                    <td class="number" width="50px"><span data-bind="text: gasReference().toFixed(3)"></span></td>
+                    <td class="number" width="50px" data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: gasDifference().toFixed(3)"></span></td>
+                    <td class="number" width="40px" data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: gasPercentage"></span>%)</td>
+                </tr>
+            </tbody>
+        </table>
     </script>
     
     <div id="hourly" style="display:block; clear: both;">
@@ -59,34 +59,34 @@
         <div id="hourlytable" data-bind="with: hourlyUsage" style="display:block; width: 100%; clear: both;">
             <table style="float: left;">
                 <thead>
-                    <tr>
-                        <td>Hour</td>
-                        <td>Electricity</td>
-                        <td>Gas</td>
+                    <tr class="bottom"> 
+                        <th class="first">Hour</th>
+                        <th>Electricity (kWh)</th>
+                        <th>Gas (m<sup>3</sup>)</th>
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: firstUsages">
-                    <tr>
-                        <td><span data-bind="text: hour"></span></td>
-                        <td><span data-bind="text: eTotal"></span></td>
-                        <td><span data-bind="text: gas"></span></td>
+                    <tr data-bind="style: { backgroundColor: $index() % 2 === 0 ? '#fff' : '#e9e9e9' }">
+                        <td class="first"><span data-bind="text: hour"></span></td>
+                        <td class="number"><span data-bind="text: eTotal().toFixed(3)"></span></td>
+                        <td class="number"><span data-bind="text: gas().toFixed(3)"></span></td>
                     </tr>
                 </tbody>
             </table>
 
             <table style="float: left;">
                 <thead>
-                    <tr>
-                        <td>Hour</td>
-                        <td>Electricity</td>
-                        <td>Gas</td>
+                    <tr class="bottom"> 
+                        <th class="first">Hour</th>
+                        <th>Electricity (kWh)</th>
+                        <th>Gas (m<sup>3</sup>)</th>
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: secondUsages">
-                    <tr>
-                        <td><span data-bind="text: hour"></span></td>
-                        <td><span data-bind="text: eTotal"></span></td>
-                        <td><span data-bind="text: gas"></span></td>
+                    <tr data-bind="style: { backgroundColor: $index() % 2 === 0 ? '#fff' : '#e9e9e9' }">
+                        <td class="first"><span data-bind="text: hour"></span></td>
+                        <td class="number"><span data-bind="text: eTotal().toFixed(3)"></span></td>
+                        <td class="number"><span data-bind="text: gas().toFixed(3)"></span></td>
                     </tr>
                 </tbody>
             </table>

@@ -12,7 +12,11 @@ thead tr.bottom {
 }
 
 thead tr.top th {
-    text-align: center;
+    text-align: center;    
+}
+
+thead tr.top th.border {
+    border-bottom: 1px solid #aaa;
 }
 
 tbody td {

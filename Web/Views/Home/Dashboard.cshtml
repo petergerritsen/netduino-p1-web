@@ -24,14 +24,16 @@
             <thead>
                 <tr class="top">
                     <th class="first"></th>
-                    <th colspan="4">Electricity (kWh)</th>
-                    <th colspan="4">Gas (m<sup>3</sup>)</th>
+                    <th colspan="4" class="border">Electricity (kWh)</th>
+                    <th></th>
+                    <th colspan="4" class="border">Gas (m<sup>3</sup>)</th>
                 </tr>
                 <tr class="bottom">                        
                     <th class="first" data-bind="text: identifierName"></th>
                     <th>Usage</th>
                     <th>Reference</th>
                     <th colspan="2">Difference</th>                    
+                    <th></th>
                     <th>Usage</th>
                     <th>Reference</th>
                     <th colspan="2">Difference</th>                    
@@ -44,6 +46,7 @@
                     <td class="number" width="50px"><span data-bind="text: eReference().toFixed(3)"></span></td>
                     <td class="number" width="50px" data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: eDifference().toFixed(3)"></span></td>
                     <td class="number" width="40px" data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }">(<span data-bind="text: ePercentage"></span>%)</td>
+                    <td></td>
                     <td class="number" width="50px"><span data-bind="text: gas().toFixed(3)"></span></td>
                     <td class="number" width="50px"><span data-bind="text: gasReference().toFixed(3)"></span></td>
                     <td class="number" width="50px" data-bind="style: { color: gasDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: gasDifference().toFixed(3)"></span></td>

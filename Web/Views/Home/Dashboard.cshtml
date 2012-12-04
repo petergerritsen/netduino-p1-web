@@ -64,8 +64,8 @@
             <a href="#" data-icon="arrow-r" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.hourlyNext();" data-bind="visible: hourlyOffset() > 0">Next day</a>
         </div>
         <div data-role="content">
-            <div id="hourlychart"></div>
-            <div id="hourlytable" data-bind="with: hourlyUsage">
+            <div id="hourlychart" style="width: 50%; float: left"></div>
+            <div id="hourlytable" style="width: 50%; float: left" data-bind="with: hourlyUsage">
                 <table style="float: left;">
                     <thead>
                         <tr class="bottom"> 
@@ -119,8 +119,8 @@
             <a href="#" data-icon="arrow-r" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.dailyNext();" data-bind="visible: dailyOffset() > 0">Next week</a>
         </div>
         <div data-role="content">
-            <div id="dailychart"></div>
-            <div id="dailytable" data-bind="template: { name: 'usage-template', data: dailyUsage }"></div>
+            <div id="dailychart" style="width: 50%; float: left"></div>
+            <div id="dailytable" style="width: 50%; float: left" data-bind="template: { name: 'usage-template', data: dailyUsage }"></div>
         </div>
         <div data-role="footer" data-id="foo1" data-position="fixed">
             <div data-role="navbar">
@@ -140,8 +140,8 @@
             <a href="#" data-icon="arrow-r" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.weeklyNext();" data-bind="visible: weeklyOffset() > 0">Next period</a>
         </div>
         <div data-role="content">
-            <div id="weeklychart"></div>
-            <div id="weeklytable" data-bind="template: { name: 'usage-template', data: weeklyUsage }"></div>
+            <div id="weeklychart" style="width: 50%; float: left"></div>
+            <div id="weeklytable" style="width: 50%; float: left" data-bind="template: { name: 'usage-template', data: weeklyUsage }"></div>
         </div>
         <div data-role="footer" data-id="foo1" data-position="fixed">
             <div data-role="navbar">
@@ -161,8 +161,8 @@
             <a href="#" data-icon="arrow-r" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.monthlyNext();" data-bind="visible: monthlyOffset() > 0">Next year</a>
         </div>
         <div data-role="content">
-            <div id="monthlychart"></div>
-            <div id="monthlytable" data-bind="template: { name: 'usage-template', data: monthlyUsage }"></div>
+            <div id="monthlychart" style="width: 50%; float: left"></div>
+            <div id="monthlytable" style="width: 50%; float: left" data-bind="template: { name: 'usage-template', data: monthlyUsage }"></div>
         </div>
         <div data-role="footer" data-id="foo1" data-position="fixed">
             <div data-role="navbar">
@@ -299,53 +299,199 @@
             };
         }
 
-        var dashboardViewModel = {};
-
         function loadHourlyData() {
             $.getJSON(dashboardViewModel.hourlyUrl(), function (data) {
                 var hourly = [];
+                var hourlyEle = [];
+                var hourlyGas = [];
                 $.each(data, function (index, value) {
                     hourly.push(new HourlyUsageLine(value.Hour, value.ETotal, value.Gas));
+                    hourlyEle.push(value.ETotal);
+                    hourlyGas.push(value.Gas);
                 });
 
                 dashboardViewModel.hourlyUsage().setUsages(hourly);
+                hourlyChart.series[0].setData(hourlyEle);
+                hourlyChart.series[1].setData(hourlyGas);
             });
         }
 
         function loadDailyData() {
             $.getJSON(dashboardViewModel.dailyUrl(), function (data) {
                 var daily = [];
+                var dailyEle = [];
+                var dailyGas = [];
                 $.each(data, function (index, value) {
                     daily.push(new UsageLine(value.DayString, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+                    dailyEle.push(value.ETotal);
+                    dailyGas.push(value.Gas);
                 });
 
                 dashboardViewModel.dailyUsage().usages(daily);
+                dailyChart.series[0].setData(dailyEle);
+                dailyChart.series[1].setData(dailyGas);
             });
         }
         
         function loadWeeklyData() {
             $.getJSON(dashboardViewModel.weeklyUrl(), function (data) {
                 var weekly = [];
+                var weeklyEle = [];
+                var weeklyGas = [];
                 $.each(data, function (index, value) {
                     weekly.push(new UsageLine(value.Week, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+                    weeklyEle.push(value.ETotal);
+                    weeklyGas.push(value.Gas);
                 });
 
                 dashboardViewModel.weeklyUsage().usages(weekly);
+                weeklyChart.series[0].setData(weeklyEle);
+                weeklyChart.series[1].setData(weeklyGas);
             });
         }
 
         function loadMonthlyData() {
             $.getJSON(dashboardViewModel.monthlyUrl(), function (data) {
                 var monthly = [];
+                var monthlyEle = [];
+                var monthlyGas = [];
                 $.each(data, function (index, value) {
                     monthly.push(new UsageLine(value.Month, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+                    monthlyEle.push(value.ETotal);
+                    monthlyGas.push(value.Gas);
                 });
 
                 dashboardViewModel.monthlyUsage().usages(monthly);
+                monthlyChart.series[0].setData(monthlyEle);
+                monthlyChart.series[1].setData(monthlyGas);
             });
         }
 
+        var dashboardViewModel = {};
+
+        var hourlyChart, dailyChart, weeklyChart, monthlyChart;
+
+
         $(document).ready(function () {
+            hourlyChart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'hourlychart',
+                    type: 'column'
+                },
+                title: {
+                    text: 'Hourly usage'
+                },
+                xAxis: {
+                    categories: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+                },
+                yAxis: [{
+                    title: {
+                        text: 'Electricity (kWh)'
+                    }
+                },
+                    {
+                        linkedTo: 0,
+                        opposite: true,
+                        title: {
+                            text: 'Gas (m3)'
+                        }
+                    }],
+                series: [{
+                    name: 'Elektricity',
+                    data: [0]
+                }, {
+                    name: 'Gas',
+                    data: [0]
+                }]
+            });
+
+            dailyChart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'dailychart',
+                    type: 'column'
+                },
+                title: {
+                    text: 'Daily usage'
+                },
+                yAxis: [{
+                    title: {
+                        text: 'Electricity (kWh)'
+                    }
+                },
+                    {
+                        linkedTo: 0,
+                        opposite: true,
+                        title: {
+                            text: 'Gas (m3)'
+                        }
+                    }],
+                series: [{
+                    name: 'Elektricity',
+                    data: [0]
+                }, {
+                    name: 'Gas',
+                    data: [0]
+                }]
+            });
+
+            weeklyChart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'weeklychart',
+                    type: 'column'
+                },
+                title: {
+                    text: 'Weekly usage'
+                },
+                yAxis: [{
+                    title: {
+                        text: 'Electricity (kWh)'
+                    }
+                },
+                    {
+                        linkedTo: 0,
+                        opposite: true,
+                        title: {
+                            text: 'Gas (m3)'
+                        }
+                    }],
+                series: [{
+                    name: 'Elektricity',
+                    data: [0]
+                }, {
+                    name: 'Gas',
+                    data: [0]
+                }]
+            });
+
+            monthlyChart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'monthlychart',
+                    type: 'column'
+                },
+                title: {
+                    text: 'Monthly usage'
+                },
+                yAxis: [{
+                    title: {
+                        text: 'Electricity (kWh)'
+                    }
+                },
+                    {
+                        linkedTo: 0,
+                        opposite: true,
+                        title: {
+                            text: 'Gas (m3)'
+                        }
+                    }],
+                series: [{
+                    name: 'Elektricity',
+                    data: [0]
+                }, {
+                    name: 'Gas',
+                    data: [0]
+                }]
+            });
+
             dashboardViewModel = new DashboardViewModel($("input[name='apikey']").val(), $("input[name='currentWeek']").val());
 
             dashboardViewModel.hourlyUrl.subscribe(function (newValue) {
@@ -367,6 +513,8 @@
             loadMonthlyData();
 
             ko.applyBindings(dashboardViewModel);
+
+            
         });
     </script>
 </body>

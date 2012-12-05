@@ -8,6 +8,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Netduino P1 logging Dashboard</title>
+    <link rel="apple-touch-icon" href="/Images/power_app_icon.png"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/Scripts/knockout-2.1.0.js")    
     @Scripts.Render("~/scripts/highcharts/highcharts.js")
@@ -31,7 +33,7 @@
                     <th colspan="4" class="border">Gas (m<sup>3</sup>)</th>
                 </tr>
                 <tr class="bottom">                        
-                    <th class="first" data-bind="text: identifierName"></th>
+                    <th class="first" data-bind="text: identifierName"></th><img src="../../Images/orderedList6.png" />
                     <th>Usage</th>
                     <th>Reference</th>
                     <th colspan="2">Difference</th>                    
@@ -68,8 +70,8 @@
             </div>
         </div>
         <div data-role="content" data-theme="b">
-            <div id="hourlychart" style="width: 50%; float: left"></div>
-            <div id="hourlytable" style="width: 50%; float: left" data-bind="with: hourlyUsage">
+            <div id="hourlychart"></div>
+            <div id="hourlytable" data-bind="with: hourlyUsage">
                 <table style="float: left;">
                     <thead>
                         <tr class="bottom"> 
@@ -126,8 +128,8 @@
             </div>
         </div>
         <div data-role="content">
-            <div id="dailychart" style="width: 50%; float: left"></div>
-            <div id="dailytable" style="width: 50%; float: left" data-bind="template: { name: 'usage-template', data: dailyUsage }"></div>
+            <div id="dailychart"></div>
+            <div id="dailytable" data-bind="template: { name: 'usage-template', data: dailyUsage }"></div>
         </div>
         <div data-role="footer" data-theme="b" data-id="foo1" data-position="fixed">
             <div data-role="navbar">
@@ -150,8 +152,8 @@
             </div>
         </div>
         <div data-role="content">
-            <div id="weeklychart" style="width: 50%; float: left"></div>
-            <div id="weeklytable" style="width: 50%; float: left" data-bind="template: { name: 'usage-template', data: weeklyUsage }"></div>
+            <div id="weeklychart"></div>
+            <div id="weeklytable" data-bind="template: { name: 'usage-template', data: weeklyUsage }"></div>
         </div>
         <div data-role="footer" data-id="foo1" data-theme="b" data-position="fixed">
             <div data-role="navbar">
@@ -174,8 +176,8 @@
             </div>
         </div>
         <div data-role="content">
-            <div id="monthlychart" style="width: 50%; float: left"></div>
-            <div id="monthlytable" style="width: 50%; float: left" data-bind="template: { name: 'usage-template', data: monthlyUsage }"></div>
+            <div id="monthlychart"s></div>
+            <div id="monthlytable"s data-bind="template: { name: 'usage-template', data: monthlyUsage }"></div>
         </div>
         <div data-role="footer" data-id="foo1" data-theme="b" data-position="fixed">
             <div data-role="navbar">
@@ -414,7 +416,7 @@
                 }],
                 series: [{
                     type: 'column',
-                    name: 'Elektricity',
+                    name: 'Electricity',
                     data: [0]
                 }, {
                     type: 'column',
@@ -422,7 +424,7 @@
                     data: [0]
                 }, {
                     type: 'line',
-                    name: 'Elektricity reference',
+                    name: 'Electricity reference',
                     data: [0]
                 }, {
                     type: 'line',

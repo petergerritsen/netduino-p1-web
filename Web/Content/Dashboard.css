@@ -1,4 +1,9 @@
-﻿thead tr th {
+﻿table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+thead tr th {
     vertical-align: bottom;
     padding: 5px 5px 5px 0;
     font-size: 13px;    
@@ -21,6 +26,7 @@ thead tr.top th.border {
 
 tbody td {
     font-size: 13px;
+    padding: 3px;
 }
 
 tbody td.number {

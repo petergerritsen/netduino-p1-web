@@ -148,6 +148,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Dashboard.css" />
+    <Content Include="Content\themes\netduino\images\ajax-loader.gif" />
+    <Content Include="Content\themes\netduino\images\icons-18-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-18-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-36-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-36-white.png" />
+    <Content Include="Content\themes\netduino\netduino.css" />
+    <Content Include="Content\themes\netduino\netduino.min.css" />
     <Content Include="Scripts\highcharts\adapters\mootools-adapter.js" />
     <Content Include="Scripts\highcharts\adapters\mootools-adapter.src.js" />
     <Content Include="Scripts\highcharts\adapters\prototype-adapter.js" />
@@ -243,6 +250,7 @@
     </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>

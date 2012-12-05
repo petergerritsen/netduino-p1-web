@@ -12,7 +12,8 @@
     @Scripts.Render("~/Scripts/knockout-2.1.0.js")    
     @Scripts.Render("~/scripts/highcharts/highcharts.js")
     @Scripts.Render("~/Scripts/moment-1.7.2.js")
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    @Styles.Render("~/Content/themes/netduino/netduino.min.css")
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile.structure-1.2.0.min.css" />
     @Styles.Render("~/Content/Dashboard.css")
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 </head>
@@ -57,8 +58,8 @@
         </table>
     </script>
     
-    <div data-role="page" id="hourly">
-        <div data-role="header" data-id="hea1" data-position="fixed">
+    <div data-role="page" id="hourly" data-theme="b">
+        <div data-role="header"  data-theme="b" data-id="hea1" data-position="fixed">
             <a href="#" data-icon="arrow-l" data-theme="b" onclick="dashboardViewModel.hourlyPrevious();">Previous day</a>
             <h1>Per hour (<span data-bind="text: hourlyDate"></span>)</h1>
             <div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">  
@@ -66,15 +67,15 @@
                 <a href="#" data-role="button" data-icon="arrow-r" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.hourlyNext();" data-bind="visible: hourlyOffset() > 0">Next day</a>
             </div>
         </div>
-        <div data-role="content">
+        <div data-role="content" data-theme="b">
             <div id="hourlychart" style="width: 50%; float: left"></div>
             <div id="hourlytable" style="width: 50%; float: left" data-bind="with: hourlyUsage">
                 <table style="float: left;">
                     <thead>
                         <tr class="bottom"> 
                             <th class="first">Hour</th>
-                            <th>Electricity (kWh)</th>
-                            <th>Gas (m<sup>3</sup>)</th>
+                            <th>Electricity<br />(kWh)</th>
+                            <th>Gas<br />(m<sup>3</sup>)</th>
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: firstUsages">
@@ -90,8 +91,8 @@
                     <thead>
                         <tr class="bottom"> 
                             <th class="first">Hour</th>
-                            <th>Electricity (kWh)</th>
-                            <th>Gas (m<sup>3</sup>)</th>
+                            <th>Electricity<br />(kWh)</th>
+                            <th>Gas<br />(m<sup>3</sup>)</th>
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: secondUsages">
@@ -104,7 +105,7 @@
                 </table>
             </div>
         </div>
-        <div data-role="footer" data-id="foo1" data-position="fixed">
+        <div data-role="footer" data-id="foo1" data-position="fixed" data-theme="b">
             <div data-role="navbar">
                 <ul>
                     <li><a data-transition="slidedown" href="#hourly" class="ui-btn-active ui-state-persist">Per hour</a></li>
@@ -115,8 +116,8 @@
 	        </div>
         </div>
     </div>
-    <div data-role="page" id="daily">
-        <div data-role="header" data-id="hea1" data-position="fixed">
+    <div data-role="page" id="daily" data-theme="b">
+        <div data-role="header" data-theme="b" data-id="hea1" data-position="fixed">
             <a href="#" data-icon="arrow-l" data-theme="b" onclick="dashboardViewModel.dailyPrevious();">Previous week</a>
             <h1>Per day (week <span data-bind="text: dailyWeek"></span>)</h1>
             <div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
@@ -128,7 +129,7 @@
             <div id="dailychart" style="width: 50%; float: left"></div>
             <div id="dailytable" style="width: 50%; float: left" data-bind="template: { name: 'usage-template', data: dailyUsage }"></div>
         </div>
-        <div data-role="footer" data-id="foo1" data-position="fixed">
+        <div data-role="footer" data-theme="b" data-id="foo1" data-position="fixed">
             <div data-role="navbar">
                 <ul>
                     <li><a data-transition="slidedown" href="#hourly">Per hour</a></li>
@@ -139,8 +140,8 @@
 	        </div>
         </div>
     </div>
-    <div data-role="page" id="weekly">
-        <div data-role="header" data-id="hea1" data-position="fixed">
+    <div data-role="page" id="weekly" data-theme="b">
+        <div data-role="header" data-id="hea1" data-theme="b" data-position="fixed">
             <a href="#" data-icon="arrow-l" data-theme="b" onclick="dashboardViewModel.weeklyPrevious();">Previous period</a>
             <h1>Per week (<span data-bind="text: weeklyRange"></span>)</h1>
             <div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
@@ -152,7 +153,7 @@
             <div id="weeklychart" style="width: 50%; float: left"></div>
             <div id="weeklytable" style="width: 50%; float: left" data-bind="template: { name: 'usage-template', data: weeklyUsage }"></div>
         </div>
-        <div data-role="footer" data-id="foo1" data-position="fixed">
+        <div data-role="footer" data-id="foo1" data-theme="b" data-position="fixed">
             <div data-role="navbar">
                 <ul>
                     <li><a data-transition="slidedown" href="#hourly">Per hour</a></li>
@@ -163,8 +164,8 @@
 	        </div>
         </div>
     </div>
-    <div data-role="page" id="monthly">
-        <div data-role="header" data-id="hea1" data-position="fixed">
+    <div data-role="page" id="monthly" data-theme="b">
+        <div data-role="header" data-id="hea1" data-theme="b" data-position="fixed">
             <a href="#" data-icon="arrow-l" data-theme="b" onclick="dashboardViewModel.monthlyPrevious();">Previous year</a>
             <h1>Per month (<span data-bind="text: monthlyYear"></span>)</h1>
             <div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
@@ -176,7 +177,7 @@
             <div id="monthlychart" style="width: 50%; float: left"></div>
             <div id="monthlytable" style="width: 50%; float: left" data-bind="template: { name: 'usage-template', data: monthlyUsage }"></div>
         </div>
-        <div data-role="footer" data-id="foo1" data-position="fixed">
+        <div data-role="footer" data-id="foo1" data-theme="b" data-position="fixed">
             <div data-role="navbar">
                 <ul>
                     <li><a data-transition="slidedown" href="#hourly">Per hour</a></li>

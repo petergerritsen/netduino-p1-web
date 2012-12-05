@@ -156,6 +156,7 @@
     <Content Include="Content\themes\netduino\netduino.css" />
     <Content Include="Content\themes\netduino\netduino.min.css" />
     <Content Include="Images\power_app_icon.png" />
+    <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\highcharts\adapters\mootools-adapter.js" />
     <Content Include="Scripts\highcharts\adapters\mootools-adapter.src.js" />
     <Content Include="Scripts\highcharts\adapters\prototype-adapter.js" />

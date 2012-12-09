@@ -46,7 +46,7 @@
             </thead>
             <tbody data-bind="foreach: usages">
                 <tr data-bind="style: { backgroundColor: $index() % 2 === 0 ? '#fff' : '#e9e9e9' }">
-                    <td class="first" width="70px"><span data-bind="text: identifier"></span></td>
+                    <td class="first" width="85px"><span data-bind="text: identifier"></span></td>
                     <td class="number" width="50px"><span data-bind="text: eTotal().toFixed(3)"></span></td>
                     <td class="number" width="50px"><span data-bind="text: eReference().toFixed(3)"></span></td>
                     <td class="number" width="50px" data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: eDifference().toFixed(3)"></span></td>

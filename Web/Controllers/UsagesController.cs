@@ -164,6 +164,7 @@ namespace Web.Controllers {
 
     public class MonthlyUsage {
         public int Month { get; set; }
+        public string MonthName { get { return new DateTime(2011, Month, 1).ToString("MMM"); } }
         public decimal E1 { get; set; }
         public decimal E2 { get; set; }
         public decimal ETotal { get; set; }

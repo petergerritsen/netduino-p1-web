@@ -201,7 +201,7 @@ function loadMonthlyData() {
     $.getJSON(dashboardViewModel.monthlyUrl(), function (data) {
         var monthly = [];
         $.each(data, function (index, value) {
-            monthly.push(new UsageLine(value.Month, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+            monthly.push(new UsageLine(value.MonthName, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
         });
 
         dashboardViewModel.monthlyUsage().usages(monthly);

@@ -246,6 +246,15 @@ var dashboardViewModel = {};
 
 var hourlyChart, dailyChart, weeklyChart, monthlyChart;
 
+$(document).bind('pageinit', function () {
+    $("#hourly").swiperight(function () {
+        dashboardViewModel.hourlyNext();
+    });
+    $("#hourly").swipeleft(function () {
+        dashboardViewModel.hourlyPrevious();
+    });
+});
+
 $(document).ready(function () {
     hourlyChart = new Highcharts.Chart({
         chart: {

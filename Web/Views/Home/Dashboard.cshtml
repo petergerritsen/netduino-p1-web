@@ -25,7 +25,7 @@
     @Html.Hidden("currentWeek", ViewData["CurrentWeek"])
     
     <script type="text/html" id="usage-template">
-        <table>
+        <table class="usagetable">
             <thead>
                 <tr class="top">
                     <th class="first"></th>
@@ -46,7 +46,7 @@
             </thead>
             <tbody data-bind="foreach: usages">
                 <tr data-bind="style: { backgroundColor: $index() % 2 === 0 ? '#fff' : '#e9e9e9' }">
-                    <td class="first" width="50px"><span data-bind="text: identifier"></span></td>
+                    <td class="first" width="70px"><span data-bind="text: identifier"></span></td>
                     <td class="number" width="50px"><span data-bind="text: eTotal().toFixed(3)"></span></td>
                     <td class="number" width="50px"><span data-bind="text: eReference().toFixed(3)"></span></td>
                     <td class="number" width="50px" data-bind="style: { color: eDifference() < 0 ? 'green' : 'red' }"><span data-bind="text: eDifference().toFixed(3)"></span></td>
@@ -73,39 +73,42 @@
         <div data-role="content" data-theme="b">
             <div id="hourlychart"></div>
             <div id="hourlytable" data-bind="with: hourlyUsage">
-                <table style="float: left;">
-                    <thead>
-                        <tr class="bottom"> 
-                            <th class="first">Hour</th>
-                            <th>Electricity<br />(kWh)</th>
-                            <th>Gas<br />(m<sup>3</sup>)</th>
-                        </tr>
-                    </thead>
-                    <tbody data-bind="foreach: firstUsages">
-                        <tr data-bind="style: { backgroundColor: $index() % 2 === 0 ? '#fff' : '#e9e9e9' }">
-                            <td class="first"><span data-bind="text: hour"></span></td>
-                            <td class="number"><span data-bind="text: eTotal().toFixed(3)"></span></td>
-                            <td class="number"><span data-bind="text: gas().toFixed(3)"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <table style="float: left;">
-                    <thead>
-                        <tr class="bottom"> 
-                            <th class="first">Hour</th>
-                            <th>Electricity<br />(kWh)</th>
-                            <th>Gas<br />(m<sup>3</sup>)</th>
-                        </tr>
-                    </thead>
-                    <tbody data-bind="foreach: secondUsages">
-                        <tr data-bind="style: { backgroundColor: $index() % 2 === 0 ? '#fff' : '#e9e9e9' }">
-                            <td class="first"><span data-bind="text: hour"></span></td>
-                            <td class="number"><span data-bind="text: eTotal().toFixed(3)"></span></td>
-                            <td class="number"><span data-bind="text: gas().toFixed(3)"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="usagetable">
+                    <table style="float: left;">
+                        <thead>
+                            <tr class="bottom"> 
+                                <th class="first">Hour</th>
+                                <th>Electricity</th>
+                                <th>Gas</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: firstUsages">
+                            <tr data-bind="style: { backgroundColor: $index() % 2 === 0 ? '#fff' : '#e9e9e9' }">
+                                <td class="first"><span data-bind="text: hour"></span></td>
+                                <td width="80px" class="number"><span data-bind="text: eTotal().toFixed(3)"></span> kWh</td>
+                                <td width="70px" class="number"><span data-bind="text: gas().toFixed(3)"></span> m<sup>3</sup></td>
+                                <td width="20px">&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table style="float: left;">
+                        <thead>
+                            <tr class="bottom"> 
+                                <th class="first">Hour</th>
+                                <th>Electricity</th>
+                                <th>Gas</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: secondUsages">
+                            <tr data-bind="style: { backgroundColor: $index() % 2 === 0 ? '#fff' : '#e9e9e9' }">
+                                <td class="first"><span data-bind="text: hour"></span></td>
+                                <td width="80px" class="number"><span data-bind="text: eTotal().toFixed(3)"></span> kWh</td>
+                                <td width="70px" class="number"><span data-bind="text: gas().toFixed(3)"></span> m<sup>3</sup></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div data-role="footer" data-id="foo1" data-position="fixed" data-theme="b">
@@ -196,6 +199,9 @@
         </div>
     </div>
     <div data-role="page" id="current" data-theme="b">
+        <div data-role="header"  data-theme="b" data-id="hea1" data-position="fixed">
+            <h1>Current data</h1>
+        </div>
         <div data-role="content">
             
         </div>

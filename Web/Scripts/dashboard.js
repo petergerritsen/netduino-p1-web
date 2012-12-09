@@ -215,6 +215,12 @@ function createUsagePlusRefChart(container, title) {
         chart: {
             renderTo: container
         },
+        colors: [
+            '#4572A7',
+	        '#AA4643',
+            '#4572A7',
+	        '#AA4643'
+        ],
         title: {
             text: title
         },
@@ -223,13 +229,18 @@ function createUsagePlusRefChart(container, title) {
                 text: 'Electricity (kWh)'
             }
         },
-                    {
-                        linkedTo: 0,
-                        opposite: true,
-                        title: {
-                            text: 'Gas (m3)'
-                        }
-                    }],
+        {
+            linkedTo: 0,
+            opposite: true,
+            title: {
+                text: 'Gas (m3)'
+            }
+        }],
+        plotOptions: {
+            line: {
+                dashStyle: 'Dash'
+            }
+        },
         series: [{
             type: 'column',
             name: 'Electricity',

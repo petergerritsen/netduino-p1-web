@@ -85,7 +85,7 @@ namespace Web.Controllers {
 
     public class DailyUsage {
         public DateTime Day { get; set; }
-        public string DayString { get { return Day.ToString("dd MMM"); } }
+        public string DayString { get { return Day.ToString("ddd dd MMM"); } }
         public decimal E1 { get; set; }
         public decimal E2 { get; set; }
         public decimal ETotal { get; set; }

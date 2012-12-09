@@ -41,3 +41,15 @@ tbody td.first {
 tbody {
     border-bottom: 1px solid #aaa;
 }
+
+#hourlytable .usagetable {
+    width: 440px;
+}
+
+.usagetable {
+    margin: 0 auto;
+}
+
+#hourlychart, #dailychart, #weeklychart, #monthlychart {
+    width: 100%;
+}

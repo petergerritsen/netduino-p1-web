@@ -121,6 +121,7 @@ function DashboardViewModel(apiKey, currentWeek) {
 }
 
 function loadHourlyData() {
+    $.mobile.loading('show');
     $.getJSON(dashboardViewModel.hourlyUrl(), function (data) {
         var hourly = [];
         var hourlyEle = [];
@@ -137,6 +138,8 @@ function loadHourlyData() {
         hourlyChart.series[0].setData(hourlyEle);
         hourlyChart.series[1].setData(hourlyGas);
         hourlyChart.xAxis[0].setCategories(hourlyCats);
+
+        $.mobile.loading('hide');
     });
 }
 
@@ -163,6 +166,7 @@ function setChartData(usagedata, chart) {
 }
 
 function loadDailyData() {
+    $.mobile.loading('show');
     $.getJSON(dashboardViewModel.dailyUrl(), function (data) {
         var daily = [];
 
@@ -172,10 +176,12 @@ function loadDailyData() {
 
         dashboardViewModel.dailyUsage().usages(daily);
         setChartData(daily, dailyChart);
+        $.mobile.loading('hide');
     });
 }
 
 function loadWeeklyData() {
+    $.mobile.loading('show');
     $.getJSON(dashboardViewModel.weeklyUrl(), function (data) {
         var weekly = [];
 
@@ -185,10 +191,13 @@ function loadWeeklyData() {
 
         dashboardViewModel.weeklyUsage().usages(weekly);
         setChartData(weekly, weeklyChart);
+
+        $.mobile.loading('hide');
     });
 }
 
 function loadMonthlyData() {
+    $.mobile.loading('show');
     $.getJSON(dashboardViewModel.monthlyUrl(), function (data) {
         var monthly = [];
         $.each(data, function (index, value) {
@@ -197,6 +206,7 @@ function loadMonthlyData() {
 
         dashboardViewModel.monthlyUsage().usages(monthly);
         setChartData(monthly, monthlyChart);
+        $.mobile.loading('hide');
     });
 }
 
@@ -247,15 +257,34 @@ var dashboardViewModel = {};
 var hourlyChart, dailyChart, weeklyChart, monthlyChart;
 
 $(document).bind('pageinit', function () {
-    $("#hourly").swiperight(function () {
+    $("#hourly").swipeleft(function () {
         dashboardViewModel.hourlyNext();
     });
-    $("#hourly").swipeleft(function () {
+    $("#hourly").swiperight(function () {
         dashboardViewModel.hourlyPrevious();
+    });
+    $("#daily").swipeleft(function () {
+        dashboardViewModel.dailyNext();
+    });
+    $("#daily").swiperight(function () {
+        dashboardViewModel.dailyPrevious();
+    });
+    $("#weekly").swipeleft(function () {
+        dashboardViewModel.weeklyNext();
+    });
+    $("#weekly").swiperight(function () {
+        dashboardViewModel.weeklyPrevious();
+    });
+    $("#monthly").swipeleft(function () {
+        dashboardViewModel.monthlyNext();
+    });
+    $("#monthly").swiperight(function () {
+        dashboardViewModel.monthlyPrevious();
     });
 });
 
 $(document).ready(function () {
+    $.mobile.loading('show');
     hourlyChart = new Highcharts.Chart({
         chart: {
             renderTo: 'hourlychart',
@@ -310,4 +339,5 @@ $(document).ready(function () {
     loadMonthlyData();
 
     ko.applyBindings(dashboardViewModel);
+    $.mobile.loading('hide');
 });

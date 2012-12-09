@@ -115,6 +115,7 @@
                     <li><a data-transition="slidedown" href="#daily">Per day</a></li>
                     <li><a data-transition="slidedown" href="#weekly">Per week</a></li>
                     <li><a data-transition="slidedown" href="#monthly">Per month</a></li>
+                    <li><a data-transition="slidedown" href="#current">Current</a></li>
                 </ul>
 	        </div>
         </div>
@@ -139,6 +140,7 @@
                     <li><a data-transition="slidedown" href="#daily" class="ui-btn-active ui-state-persist">Per day</a></li>
                     <li><a data-transition="slidedown" href="#weekly">Per week</a></li>
                     <li><a data-transition="slidedown" href="#monthly">Per month</a></li>
+                    <li><a data-transition="slidedown" href="#current">Current</a></li>
                 </ul>
 	        </div>
         </div>
@@ -163,6 +165,7 @@
                     <li><a data-transition="slidedown" href="#daily">Per day</a></li>
                     <li><a data-transition="slidedown" href="#weekly" class="ui-btn-active ui-state-persist">Per week</a></li>
                     <li><a data-transition="slidedown" href="#monthly">Per month</a></li>
+                    <li><a data-transition="slidedown" href="#current">Current</a></li>
                 </ul>
 	        </div>
         </div>
@@ -177,8 +180,8 @@
             </div>
         </div>
         <div data-role="content">
-            <div id="monthlychart"s></div>
-            <div id="monthlytable"s data-bind="template: { name: 'usage-template', data: monthlyUsage }"></div>
+            <div id="monthlychart"></div>
+            <div id="monthlytable" data-bind="template: { name: 'usage-template', data: monthlyUsage }"></div>
         </div>
         <div data-role="footer" data-id="foo1" data-theme="b" data-position="fixed">
             <div data-role="navbar">
@@ -187,8 +190,25 @@
                     <li><a data-transition="slidedown" href="#daily">Per day</a></li>
                     <li><a data-transition="slidedown" href="#weekly">Per week</a></li>
                     <li><a data-transition="slidedown" href="#monthly" class="ui-btn-active ui-state-persist">Per month</a></li>
+                    <li><a data-transition="slidedown" href="#current">Current</a></li>
                 </ul>
-	        </div>
+            </div>
+        </div>
+    </div>
+    <div data-role="page" id="current" data-theme="b">
+        <div data-role="content">
+            
+        </div>
+        <div data-role="footer" data-id="foo1" data-theme="b" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a data-transition="slidedown" href="#hourly">Per hour</a></li>
+                    <li><a data-transition="slidedown" href="#daily">Per day</a></li>
+                    <li><a data-transition="slidedown" href="#weekly">Per week</a></li>
+                    <li><a data-transition="slidedown" href="#monthly">Per month</a></li>
+                    <li><a data-transition="slidedown" href="#current" class="ui-btn-active ui-state-persist">Current</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </body>

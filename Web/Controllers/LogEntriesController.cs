@@ -28,7 +28,9 @@ namespace Web.Controllers {
                         throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound) { Content = new StringContent(string.Format("Invalid API Key: {0}", value.ApiKey)) });
 
                     DateTime gasMeasurementMoment = value.Timestamp;
-                    DateTime.TryParseExact("20" + value.GasMeasurementMoment, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out gasMeasurementMoment);
+                    if (!DateTime.TryParseExact("20" + value.GasMeasurementMoment, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out gasMeasurementMoment))
+                        gasMeasurementMoment = value.Timestamp;
+
 
                     var logEntry = new LogEntry() {
                         Timestamp = value.Timestamp,

@@ -229,8 +229,7 @@ function createUsagePlusRefChart(container, title) {
                 text: 'Electricity (kWh)'
             }
         },
-        {
-            linkedTo: 0,
+        {            
             opposite: true,
             title: {
                 text: 'Gas (m3)'
@@ -242,18 +241,22 @@ function createUsagePlusRefChart(container, title) {
             }
         },
         series: [{
+            yAxis: 0,
             type: 'column',
             name: 'Electricity',
             data: [0]
         }, {
+            yAxis: 1,
             type: 'column',
             name: 'Gas',
             data: [0]
         }, {
+            yAxis: 0,
             type: 'line',
             name: 'Electricity reference',
             data: [0]
         }, {
+            yAxis: 1,
             type: 'line',
             name: 'Gas reference',
             data: [0]
@@ -309,17 +312,18 @@ $(document).ready(function () {
                 text: 'Electricity (kWh)'
             }
         },
-                    {
-                        linkedTo: 0,
-                        opposite: true,
-                        title: {
-                            text: 'Gas (m3)'
-                        }
-                    }],
+        {               
+            opposite: true,
+            title: {
+                text: 'Gas (m3)'
+            }
+        }],
         series: [{
+            yAxis: 0,
             name: 'Elektricity',
             data: [0]
         }, {
+            yAxis: 1,
             name: 'Gas',
             data: [0]
         }]

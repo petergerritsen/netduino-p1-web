@@ -225,14 +225,39 @@ function createUsagePlusRefChart(container, title) {
             text: title
         },
         yAxis: [{
+            allowDecimals: false,
+            labels: {
+                formatter: function () {
+                    return this.value + ' kWh';
+                },
+                style: {
+                    color: '#4572A7'
+                }
+            },
             title: {
-                text: 'Electricity (kWh)'
+                text: 'Electricity',
+                style: {
+                    color: '#4572A7'
+                }
             }
         },
-        {            
+        {
+            allowDecimals: false,
             opposite: true,
+            labels: {
+                useHTML: true,
+                formatter: function () {
+                    return this.value + ' m<sup>3</sup>';
+                },
+                style: {
+                    color: '#AA4643'
+                }
+            },
             title: {
-                text: 'Gas (m3)'
+                text: 'Gas',
+                style: {
+                    color: '#AA4643'
+                }
             }
         }],
         plotOptions: {
@@ -308,14 +333,37 @@ $(document).ready(function () {
             text: 'Hourly usage'
         },
         yAxis: [{
+            labels: {
+                formatter: function () {
+                    return this.value + ' kWh';
+                },
+                style: {
+                    color: '#4572A7'
+                }
+            },
             title: {
-                text: 'Electricity (kWh)'
+                text: 'Electricity',
+                style: {
+                    color: '#4572A7'
+                }
             }
         },
-        {               
+        {   
             opposite: true,
+            labels: {
+                useHTML: true,
+                formatter: function () {
+                    return this.value + ' m<sup>3</sup>';
+                },
+                style: {
+                    color: '#AA4643'
+                }
+            },
             title: {
-                text: 'Gas (m3)'
+                text: 'Gas',
+                style: {
+                    color: '#AA4643'
+                }
             }
         }],
         series: [{

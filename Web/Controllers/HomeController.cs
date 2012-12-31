@@ -20,7 +20,7 @@ namespace Web.Controllers
 
             // Calculate current week            
             DateTimeFormatInfo dfi = new CultureInfo("nl-NL").DateTimeFormat;
-            var week = dfi.Calendar.GetWeekOfYear(DateTime.Today, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+            var week = dfi.Calendar.GetWeekOfYear(DateTime.Today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
             ViewData.Add("CurrentWeek", week);
 
             return View();

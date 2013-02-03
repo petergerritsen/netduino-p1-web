@@ -121,6 +121,10 @@
     <Compile Include="Migrations\201212101856430_AddSortingToSps.Designer.cs">
       <DependentUpon>201212101856430_AddSortingToSps.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201302031925231_UpdateWeeklyUsageQuery.cs" />
+    <Compile Include="Migrations\201302031925231_UpdateWeeklyUsageQuery.Designer.cs">
+      <DependentUpon>201302031925231_UpdateWeeklyUsageQuery.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\LogEntry.cs" />
     <Compile Include="Model\Reference.cs" />
@@ -172,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201212101856430_AddSortingToSps.resx">
       <DependentUpon>201212101856430_AddSortingToSps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201302031925231_UpdateWeeklyUsageQuery.resx">
+      <DependentUpon>201302031925231_UpdateWeeklyUsageQuery.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

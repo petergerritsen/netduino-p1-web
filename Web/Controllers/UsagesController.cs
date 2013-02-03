@@ -47,6 +47,7 @@ namespace Web.Controllers {
             diff = (7 + diff) % 7;
             var endDate = DateTime.Today.AddDays(-1 * diff).AddDays(6 + (-7 * offset));
             var startDate = endDate.AddDays((-7 * count) + 1);
+            endDate = endDate.AddDays(1).AddSeconds(-1);
            
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();

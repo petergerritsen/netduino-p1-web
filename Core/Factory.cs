@@ -34,5 +34,10 @@ namespace Core {
             }
             return loggingRepo;
         }
+
+        public static ILoggingRepository ResetILoggingRepository() {
+            loggingRepo = new LoggingRepository();
+            return loggingRepo;
+        }
     }
 }

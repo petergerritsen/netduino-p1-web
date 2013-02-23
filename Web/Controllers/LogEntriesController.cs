@@ -58,6 +58,11 @@ namespace Web.Controllers {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent("Invalid data") });
             }
         }
+
+        public void ResetRepository() {
+            repo = Core.Factory.ResetILoggingRepository();
+            return;
+        }
     }
 
     public class LogEvent : WebRequestErrorEvent {

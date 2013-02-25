@@ -258,50 +258,50 @@
                 Current data</h1>
         </div>
         <div data-role="content">
-            <table data-bind="currentUsage">
+            <table data-bind="with: currentUsage">
                 <tr>
                     <td>Number of days</td>
-                    <td><span data-bind="text: NumberOfDays"></span></td>
+                    <td><span data-bind="text: numberOfDays"></span></td>
                 </tr>
                 <tr>
                     <td>Electricity used</td>
-                    <td><span data-bind="text: ETotal"></span> kWh</td>
+                    <td><span data-bind="text: eTotal"></span> kWh</td>
                 </tr>
                 <tr>
                     <td>Electricity reference</td>
-                    <td><span data-bind="text: EleRef"></span> kWh</td>
+                    <td><span data-bind="text: eReference"></span> kWh</td>
                 </tr>
                 <tr>
                     <td>Electricity percentage</td>
-                    <td><span data-bind="text: EPercentage"></span>%</td>
+                    <td><span data-bind="text: ePercentage"></span>%</td>
                 </tr>
                 <tr>
                     <td>Electricity yearly reference</td>
-                    <td><span data-bind="text: ERefYear"></span> kWh</td>
+                    <td><span data-bind="text: eRefYear"></span> kWh</td>
                 </tr>
                 <tr>
                     <td>Electricity estimated usage</td>
-                    <td><span data-bind="text: EEstimated"></span> kWh</td>
+                    <td><span data-bind="text: eEstimated"></span> kWh</td>
                 </tr>
                 <tr>
                     <td>Gas used</td>
-                    <td><span data-bind="text: Gas"></span> m<sup>3</sup></td>
+                    <td><span data-bind="text: gas"></span> m<sup>3</sup></td>
                 </tr>
                 <tr>
                     <td>Gas reference</td>
-                    <td><span data-bind="text: GasRef"></span> m<sup>3</sup></td>
+                    <td><span data-bind="text: gasRef"></span> m<sup>3</sup></td>
                 </tr>
                 <tr>
                     <td>Gas percentage</td>
-                    <td><span data-bind="text: GasPercentage"></span>%</td>
+                    <td><span data-bind="text: gasPercentage"></span>%</td>
                 </tr>                                               
                 <tr>                                                
                     <td>Gas yearly reference</td>                   
-                    <td><span data-bind="text: GasRefYear"></span> m<sup>3</sup></td>
+                    <td><span data-bind="text: gasRefYear"></span> m<sup>3</sup></td>
                 </tr>                                              
                 <tr>                                               
                     <td>Gas estimated usage</td>                  
-                    <td><span data-bind="text: GasEstimated"></span> m<sup>3</sup></td>
+                    <td><span data-bind="text: gasEstimated"></span> m<sup>3</sup></td>
                 </tr>
             </table>
         </div>

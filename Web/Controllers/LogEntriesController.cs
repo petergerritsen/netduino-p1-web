@@ -50,6 +50,8 @@ namespace Web.Controllers {
 
                     return;
                 } catch (Exception ex) {
+                    repo = Core.Factory.ResetILoggingRepository();
+
                     new LogEvent(ex.Message).Raise();
 
                     throw new HttpResponseException(HttpStatusCode.InternalServerError);

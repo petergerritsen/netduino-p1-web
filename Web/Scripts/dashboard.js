@@ -38,6 +38,22 @@ function UsageLine(identifier, eTotal, eReference, eDifference, ePercentage, gas
     self.gasPercentage = ko.observable(gasPercentage);
 }
 
+function CurrentUsage(numberOfDays, eTotal, eReference, ePercentage, eRefYear, eEstimated, gas, gasRef, gasPercentage, gasRefYear, gasEstimated) {
+    var self = this;
+
+    self.numberOfDays = ko.observable(numberOfDays);
+    self.eTotal = ko.observable(eTotal);
+    self.eReference = ko.observable(eReference);
+    self.ePercentage = ko.observable(ePercentage);
+    self.eRefYear = ko.observable(eRefYear);
+    self.eEstimated = ko.observable(eEstimated);
+    self.gas = ko.observable(gas);
+    self.gasRef = ko.observable(gasRef);
+    self.gasPercentage = ko.observable(gasPercentage);
+    self.gasRefYear = ko.observable(gasRefYear);
+    self.gasEstimated = ko.observable(gasEstimated);
+}
+
 function DashboardViewModel(apiKey, currentWeek) {
     var self = this;
     self.apiKey = ko.observable(apiKey);
@@ -47,7 +63,7 @@ function DashboardViewModel(apiKey, currentWeek) {
     self.weeklyOffset = ko.observable(0);
     self.weeklyStep = ko.observable(5);
     self.monthlyOffset = ko.observable(0);
-
+    
     self.hourlyDate = ko.computed(function () {
         return moment().subtract('days', self.hourlyOffset()).format('ddd D MMM YYYY');
     });
@@ -68,6 +84,7 @@ function DashboardViewModel(apiKey, currentWeek) {
     self.dailyUsage = ko.observable(new Usage('Day', [new UsageLine('', 0, 0, 0, 0, 0, 0, 0, 0)]));
     self.weeklyUsage = ko.observable(new Usage('Week', [new UsageLine('', 0, 0, 0, 0, 0, 0, 0, 0)]));
     self.monthlyUsage = ko.observable(new Usage('Month', [new UsageLine('', 0, 0, 0, 0, 0, 0, 0, 0)]));
+    self.currentUsage = ko.observable(new CurrentUsage(0,0,0,0,0,0,0,0,0,0,0));
 
     self.hourlyUrl = ko.computed(function () {
         return "/api/usages/" + self.apiKey() + "/hourly/" + self.hourlyOffset();
@@ -80,6 +97,9 @@ function DashboardViewModel(apiKey, currentWeek) {
     });
     self.monthlyUrl = ko.computed(function () {
         return "/api/usages/" + self.apiKey() + "/monthly/" + self.monthlyOffset();
+    });
+    self.currentUrl = ko.computed(function () {
+        return "/api/usages/" + self.apiKey() + "/estimated";
     });
 
     self.hourlyNext = function () {
@@ -206,6 +226,14 @@ function loadMonthlyData() {
 
         dashboardViewModel.monthlyUsage().usages(monthly);
         setChartData(monthly, monthlyChart);
+        $.mobile.loading('hide');
+    });
+}
+
+function loadCurrentData() {
+    $.mobile.loading('show');
+    $.getJSON(dashboardViewModel.currentUrl(), function (data) {
+        dashboardViewModel.currentUsage(new CurrentUsage(data.NumberOfDays, data.ETotal, data.EleRef, data.EPercentage, data.ERefYear, data.EEstimated, data.Gas, data.GasRef, data.GasPercentage, data.GasRefYear, data.GasEstimated));
         $.mobile.loading('hide');
     });
 }
@@ -348,7 +376,7 @@ $(document).ready(function () {
                 }
             }
         },
-        {   
+        {
             opposite: true,
             labels: {
                 useHTML: true,
@@ -400,6 +428,7 @@ $(document).ready(function () {
     loadDailyData();
     loadWeeklyData();
     loadMonthlyData();
+    loadCurrentData();
 
     ko.applyBindings(dashboardViewModel);
     $.mobile.loading('hide');

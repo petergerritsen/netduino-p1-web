@@ -70,6 +70,16 @@ namespace Web.Controllers {
                 return conn.Query<RecentData>("SELECT TOP 100 [Timestamp], CurrentUsage As Usage, CurrentRetour As Retour, E1, E2, GasMeasurementMoment, GasMeasurementValue FROM LogEntries INNER JOIN Users ON Users.UserId = LogEntries.UserId WHERE ApiKey = @Key ORDER BY [Timestamp] DESC", new { Key = key }, commandType: CommandType.Text);
             }
         }
+
+        [HttpGet]
+        public EstimatedUsage Estimated(string key) {
+            var startdate = new DateTime(DateTime.Today.Year, 1, 1);
+            var enddate = new DateTime(DateTime.Today.Year, 12, 31);
+            using (var conn = new SqlConnection(connectionString)) {
+                conn.Open();
+                return conn.Query<EstimatedUsage>("GetTotalUsage", new { Key = key, StartDate = startdate, EndDate = enddate, Year = DateTime.Today.Year }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            }
+        }
     }
 
 
@@ -211,5 +221,24 @@ namespace Web.Controllers {
         public decimal E2 { get; set; }
         public DateTime GasMeasurementMoment { get; set; }
         public decimal GasMeasurementValue { get; set; }
+    }
+
+    public class EstimatedUsage {
+        public int NumberOfDays { get; set; }
+        public decimal E1 { get; set; }
+        public decimal E2 { get; set; }
+        public decimal ETotal { get; set; }
+        public decimal E1Retour { get; set; }
+        public decimal E2Retour { get; set; }
+        public decimal ERetourTotal { get; set; }
+        public decimal Gas { get; set; }
+        public decimal EleRef { get; set; }
+        public decimal GasRef { get; set; }
+        public decimal ERefYear { get; set; }
+        public decimal GasRefYear { get; set; }
+        public decimal EPercentage { get; set; }
+        public decimal EEstimated { get; set; }
+        public decimal GasPercentage { get; set; }
+        public decimal GasEstimated { get; set; }
     }
 }

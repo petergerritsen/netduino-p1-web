@@ -1,29 +1,26 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Netduino P1 logging Dashboard</title>
-    <link rel="apple-touch-icon" href="/Images/power_app_icon.png"/>
+    <link rel="apple-touch-icon" href="/Images/power_app_icon.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/Scripts/knockout-2.1.0.js")    
+    @Scripts.Render("~/Scripts/knockout-2.1.0.js")
     @Scripts.Render("~/scripts/highcharts/highcharts.js")
     @Scripts.Render("~/Scripts/moment-1.7.2.js")
     @Styles.Render("~/Content/themes/netduino/netduino.min.css")
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile.structure-1.2.0.min.css" />
     @Styles.Render("~/Content/Dashboard.css?v1.1.0")
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-    @Scripts.Render("~/Scripts/dashboard.js?v1.3.0")
+    @Scripts.Render("~/Scripts/dashboard.js?v1.4.0")
 </head>
 <body>
     @Html.Hidden("apikey", ViewData["ApiKey"])
     @Html.Hidden("currentWeek", ViewData["CurrentWeek"])
-    
     <script type="text/html" id="usage-template">
         <table class="usagetable">
             <thead>
@@ -60,51 +57,83 @@
             </tbody>
         </table>
     </script>
-    
     <div data-role="page" id="hourly" data-theme="b">
-        <div data-role="header"  data-theme="b" data-id="hea1" data-position="fixed">
-            <a href="#" data-icon="arrow-l" data-theme="b" onclick="dashboardViewModel.hourlyPrevious();">Previous day</a>
-            <h1>Per hour (<span data-bind="text: hourlyDate"></span>)</h1>
-            <div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">  
-                <a href="#" data-role="button" data-icon="home" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.hourlyOffset(0);" data-bind="visible: hourlyOffset() > 0">Current day</a>    
-                <a href="#" data-role="button" data-icon="arrow-r" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.hourlyNext();" data-bind="visible: hourlyOffset() > 0">Next day</a>
+        <div data-role="header" data-theme="b" data-id="hea1" data-position="fixed">
+            <a href="#" data-icon="arrow-l" data-theme="b" onclick="dashboardViewModel.hourlyPrevious();">
+                Previous day</a>
+            <h1>
+                Per hour (<span data-bind="text: hourlyDate"></span>)</h1>
+            <div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
+                <a href="#" data-role="button" data-icon="home" data-theme="b" data-iconpos="right"
+                    onclick="dashboardViewModel.hourlyOffset(0);" data-bind="visible: hourlyOffset() > 0">
+                    Current day</a> <a href="#" data-role="button" data-icon="arrow-r" data-theme="b"
+                        data-iconpos="right" onclick="dashboardViewModel.hourlyNext();" data-bind="visible: hourlyOffset() > 0">
+                        Next day</a>
             </div>
         </div>
         <div data-role="content" data-theme="b">
-            <div id="hourlychart"></div>
+            <div id="hourlychart">
+            </div>
             <div id="hourlytable" data-bind="with: hourlyUsage">
                 <div class="usagetable">
                     <table style="float: left;">
                         <thead>
-                            <tr class="bottom"> 
-                                <th class="first">Hour</th>
-                                <th>Electricity</th>
-                                <th>Gas</th>
-                                <th></th>
+                            <tr class="bottom">
+                                <th class="first">
+                                    Hour
+                                </th>
+                                <th>
+                                    Electricity
+                                </th>
+                                <th>
+                                    Gas
+                                </th>
+                                <th>
+                                </th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: firstUsages">
                             <tr data-bind="style: { backgroundColor: $index() % 2 === 0 ? '#fff' : '#e9e9e9' }">
-                                <td class="first"><span data-bind="text: hour"></span></td>
-                                <td width="80px" class="number"><span data-bind="text: eTotal().toFixed(3)"></span> kWh</td>
-                                <td width="70px" class="number"><span data-bind="text: gas().toFixed(3)"></span> m<sup>3</sup></td>
-                                <td width="20px">&nbsp;</td>
+                                <td class="first">
+                                    <span data-bind="text: hour"></span>
+                                </td>
+                                <td width="80px" class="number">
+                                    <span data-bind="text: eTotal().toFixed(3)"></span>kWh
+                                </td>
+                                <td width="70px" class="number">
+                                    <span data-bind="text: gas().toFixed(3)"></span>m<sup>3</sup>
+                                </td>
+                                <td width="20px">
+                                    &nbsp;
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                     <table style="float: left;">
                         <thead>
-                            <tr class="bottom"> 
-                                <th class="first">Hour</th>
-                                <th>Electricity</th>
-                                <th>Gas</th>
+                            <tr class="bottom">
+                                <th class="first">
+                                    Hour
+                                </th>
+                                <th>
+                                    Electricity
+                                </th>
+                                <th>
+                                    Gas
+                                </th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: secondUsages">
                             <tr data-bind="style: { backgroundColor: $index() % 2 === 0 ? '#fff' : '#e9e9e9' }">
-                                <td class="first"><span data-bind="text: hour"></span></td>
-                                <td width="80px" class="number"><span data-bind="text: eTotal().toFixed(3)"></span> kWh</td>
-                                <td width="70px" class="number"><span data-bind="text: gas().toFixed(3)"></span> m<sup>3</sup></td>
+                                <td class="first">
+                                    <span data-bind="text: hour"></span>
+                                </td>
+                                <td width="80px" class="number">
+                                    <span data-bind="text: eTotal().toFixed(3)"></span>kWh
+                                </td>
+                                <td width="70px" class="number">
+                                    <span data-bind="text: gas().toFixed(3)"></span>m<sup>3</sup>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -114,77 +143,101 @@
         <div data-role="footer" data-id="foo1" data-position="fixed" data-theme="b">
             <div data-role="navbar">
                 <ul>
-                    <li><a data-transition="slidedown" href="#hourly" class="ui-btn-active ui-state-persist">Per hour</a></li>
+                    <li><a data-transition="slidedown" href="#hourly" class="ui-btn-active ui-state-persist">
+                        Per hour</a></li>
                     <li><a data-transition="slidedown" href="#daily">Per day</a></li>
                     <li><a data-transition="slidedown" href="#weekly">Per week</a></li>
                     <li><a data-transition="slidedown" href="#monthly">Per month</a></li>
                     <li><a data-transition="slidedown" href="#current">Current</a></li>
                 </ul>
-	        </div>
+            </div>
         </div>
     </div>
     <div data-role="page" id="daily" data-theme="b">
         <div data-role="header" data-theme="b" data-id="hea1" data-position="fixed">
-            <a href="#" data-icon="arrow-l" data-theme="b" onclick="dashboardViewModel.dailyPrevious();">Previous week</a>
-            <h1>Per day (week <span data-bind="text: dailyWeek"></span>)</h1>
+            <a href="#" data-icon="arrow-l" data-theme="b" onclick="dashboardViewModel.dailyPrevious();">
+                Previous week</a>
+            <h1>
+                Per day (week <span data-bind="text: dailyWeek"></span>)</h1>
             <div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
-                <a href="#" data-role="button" data-icon="home" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.dailyOffset(0);" data-bind="visible: dailyOffset() > 0">Current week</a>
-                <a href="#" data-role="button" data-icon="arrow-r" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.dailyNext();" data-bind="visible: dailyOffset() > 0">Next week</a>
+                <a href="#" data-role="button" data-icon="home" data-theme="b" data-iconpos="right"
+                    onclick="dashboardViewModel.dailyOffset(0);" data-bind="visible: dailyOffset() > 0">
+                    Current week</a> <a href="#" data-role="button" data-icon="arrow-r" data-theme="b"
+                        data-iconpos="right" onclick="dashboardViewModel.dailyNext();" data-bind="visible: dailyOffset() > 0">
+                        Next week</a>
             </div>
         </div>
         <div data-role="content">
-            <div id="dailychart"></div>
-            <div id="dailytable" data-bind="template: { name: 'usage-template', data: dailyUsage }"></div>
+            <div id="dailychart">
+            </div>
+            <div id="dailytable" data-bind="template: { name: 'usage-template', data: dailyUsage }">
+            </div>
         </div>
         <div data-role="footer" data-theme="b" data-id="foo1" data-position="fixed">
             <div data-role="navbar">
                 <ul>
                     <li><a data-transition="slidedown" href="#hourly">Per hour</a></li>
-                    <li><a data-transition="slidedown" href="#daily" class="ui-btn-active ui-state-persist">Per day</a></li>
+                    <li><a data-transition="slidedown" href="#daily" class="ui-btn-active ui-state-persist">
+                        Per day</a></li>
                     <li><a data-transition="slidedown" href="#weekly">Per week</a></li>
                     <li><a data-transition="slidedown" href="#monthly">Per month</a></li>
                     <li><a data-transition="slidedown" href="#current">Current</a></li>
                 </ul>
-	        </div>
+            </div>
         </div>
     </div>
     <div data-role="page" id="weekly" data-theme="b">
         <div data-role="header" data-id="hea1" data-theme="b" data-position="fixed">
-            <a href="#" data-icon="arrow-l" data-theme="b" onclick="dashboardViewModel.weeklyPrevious();">Previous period</a>
-            <h1>Per week (<span data-bind="text: weeklyRange"></span>)</h1>
+            <a href="#" data-icon="arrow-l" data-theme="b" onclick="dashboardViewModel.weeklyPrevious();">
+                Previous period</a>
+            <h1>
+                Per week (<span data-bind="text: weeklyRange"></span>)</h1>
             <div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
-                <a href="#" data-role="button" data-icon="home" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.weeklyOffset(0);" data-bind="visible: weeklyOffset() > 0">Current period</a>
-                <a href="#" data-role="button" data-icon="arrow-r" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.weeklyNext();" data-bind="visible: weeklyOffset() > 0">Next period</a>
+                <a href="#" data-role="button" data-icon="home" data-theme="b" data-iconpos="right"
+                    onclick="dashboardViewModel.weeklyOffset(0);" data-bind="visible: weeklyOffset() > 0">
+                    Current period</a> <a href="#" data-role="button" data-icon="arrow-r" data-theme="b"
+                        data-iconpos="right" onclick="dashboardViewModel.weeklyNext();" data-bind="visible: weeklyOffset() > 0">
+                        Next period</a>
             </div>
         </div>
         <div data-role="content">
-            <div id="weeklychart"></div>
-            <div id="weeklytable" data-bind="template: { name: 'usage-template', data: weeklyUsage }"></div>
+            <div id="weeklychart">
+            </div>
+            <div id="weeklytable" data-bind="template: { name: 'usage-template', data: weeklyUsage }">
+            </div>
         </div>
         <div data-role="footer" data-id="foo1" data-theme="b" data-position="fixed">
             <div data-role="navbar">
                 <ul>
                     <li><a data-transition="slidedown" href="#hourly">Per hour</a></li>
                     <li><a data-transition="slidedown" href="#daily">Per day</a></li>
-                    <li><a data-transition="slidedown" href="#weekly" class="ui-btn-active ui-state-persist">Per week</a></li>
+                    <li><a data-transition="slidedown" href="#weekly" class="ui-btn-active ui-state-persist">
+                        Per week</a></li>
                     <li><a data-transition="slidedown" href="#monthly">Per month</a></li>
                     <li><a data-transition="slidedown" href="#current">Current</a></li>
                 </ul>
-	        </div>
+            </div>
         </div>
     </div>
     <div data-role="page" id="monthly" data-theme="b">
         <div data-role="header" data-id="hea1" data-theme="b" data-position="fixed">
-            <a href="#" data-icon="arrow-l" data-theme="b" onclick="dashboardViewModel.monthlyPrevious();">Previous year</a>
-            <h1>Per month (<span data-bind="text: monthlyYear"></span>)</h1>
+            <a href="#" data-icon="arrow-l" data-theme="b" onclick="dashboardViewModel.monthlyPrevious();">
+                Previous year</a>
+            <h1>
+                Per month (<span data-bind="text: monthlyYear"></span>)</h1>
             <div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
-                <a href="#" data-role="button" data-icon="home" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.monthlyOffset(0);" data-bind="visible: monthlyOffset() > 0">Current year</a>
-                <a href="#" data-role="button" data-icon="arrow-r" data-theme="b" data-iconpos="right" onclick="dashboardViewModel.monthlyNext();" data-bind="visible: monthlyOffset() > 0">Next year</a>
+                <a href="#" data-role="button" data-icon="home" data-theme="b" data-iconpos="right"
+                    onclick="dashboardViewModel.monthlyOffset(0);" data-bind="visible: monthlyOffset() > 0">
+                    Current year</a> <a href="#" data-role="button" data-icon="arrow-r" data-theme="b"
+                        data-iconpos="right" onclick="dashboardViewModel.monthlyNext();" data-bind="visible: monthlyOffset() > 0">
+                        Next year</a>
             </div>
         </div>
         <div data-role="content">
-            <div id="monthlychart"></div>
-            <div id="monthlytable" data-bind="template: { name: 'usage-template', data: monthlyUsage }"></div>
+            <div id="monthlychart">
+            </div>
+            <div id="monthlytable" data-bind="template: { name: 'usage-template', data: monthlyUsage }">
+            </div>
         </div>
         <div data-role="footer" data-id="foo1" data-theme="b" data-position="fixed">
             <div data-role="navbar">
@@ -192,18 +245,65 @@
                     <li><a data-transition="slidedown" href="#hourly">Per hour</a></li>
                     <li><a data-transition="slidedown" href="#daily">Per day</a></li>
                     <li><a data-transition="slidedown" href="#weekly">Per week</a></li>
-                    <li><a data-transition="slidedown" href="#monthly" class="ui-btn-active ui-state-persist">Per month</a></li>
+                    <li><a data-transition="slidedown" href="#monthly" class="ui-btn-active ui-state-persist">
+                        Per month</a></li>
                     <li><a data-transition="slidedown" href="#current">Current</a></li>
                 </ul>
             </div>
         </div>
     </div>
     <div data-role="page" id="current" data-theme="b">
-        <div data-role="header"  data-theme="b" data-id="hea1" data-position="fixed">
-            <h1>Current data</h1>
+        <div data-role="header" data-theme="b" data-id="hea1" data-position="fixed">
+            <h1>
+                Current data</h1>
         </div>
         <div data-role="content">
-            <h2> Content to come </h2>
+            <table data-bind="currentUsage">
+                <tr>
+                    <td>Number of days</td>
+                    <td><span data-bind="text: NumberOfDays"></span></td>
+                </tr>
+                <tr>
+                    <td>Electricity used</td>
+                    <td><span data-bind="text: ETotal"></span> kWh</td>
+                </tr>
+                <tr>
+                    <td>Electricity reference</td>
+                    <td><span data-bind="text: EleRef"></span> kWh</td>
+                </tr>
+                <tr>
+                    <td>Electricity percentage</td>
+                    <td><span data-bind="text: EPercentage"></span>%</td>
+                </tr>
+                <tr>
+                    <td>Electricity yearly reference</td>
+                    <td><span data-bind="text: ERefYear"></span> kWh</td>
+                </tr>
+                <tr>
+                    <td>Electricity estimated usage</td>
+                    <td><span data-bind="text: EEstimated"></span> kWh</td>
+                </tr>
+                <tr>
+                    <td>Gas used</td>
+                    <td><span data-bind="text: Gas"></span> m<sup>3</sup></td>
+                </tr>
+                <tr>
+                    <td>Gas reference</td>
+                    <td><span data-bind="text: GasRef"></span> m<sup>3</sup></td>
+                </tr>
+                <tr>
+                    <td>Gas percentage</td>
+                    <td><span data-bind="text: GasPercentage"></span>%</td>
+                </tr>                                               
+                <tr>                                                
+                    <td>Gas yearly reference</td>                   
+                    <td><span data-bind="text: GasRefYear"></span> m<sup>3</sup></td>
+                </tr>                                              
+                <tr>                                               
+                    <td>Gas estimated usage</td>                  
+                    <td><span data-bind="text: GasEstimated"></span> m<sup>3</sup></td>
+                </tr>
+            </table>
         </div>
         <div data-role="footer" data-id="foo1" data-theme="b" data-position="fixed">
             <div data-role="navbar">
@@ -212,7 +312,8 @@
                     <li><a data-transition="slidedown" href="#daily">Per day</a></li>
                     <li><a data-transition="slidedown" href="#weekly">Per week</a></li>
                     <li><a data-transition="slidedown" href="#monthly">Per month</a></li>
-                    <li><a data-transition="slidedown" href="#current" class="ui-btn-active ui-state-persist">Current</a></li>
+                    <li><a data-transition="slidedown" href="#current" class="ui-btn-active ui-state-persist">
+                        Current</a></li>
                 </ul>
             </div>
         </div>

@@ -59,10 +59,10 @@ namespace Web.Controllers {
             }
         }
 
-        public void ResetRepository() {
-            repo = Core.Factory.ResetILoggingRepository();
-            return;
-        }
+        //public void ResetRepository() {
+        //    repo = Core.Factory.ResetILoggingRepository();
+        //    return;
+        //}
     }
 
     public class LogEvent : WebRequestErrorEvent {

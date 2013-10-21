@@ -48,9 +48,6 @@ namespace Core.Persistence {
             var hourlyGasUsage = GetGasUsage(entry);
 
             if (hourlyGasUsage != null) {
-                if (hourlyGasUsage.GasStart == 0) {
-                    hourlyGasUsage.GasStart = context.Usages.Where(x => x.UserId == entry.UserId).Max(x => x.GasCurrent);
-                }
                 hourlyGasUsage.GasCurrent = entry.GasMeasurementValue;
             }
 
@@ -128,10 +125,10 @@ namespace Core.Persistence {
 
             if (usage != null && usage.GasStart == 0) {
                 var prevUsage = context.Usages.Where(x => x.UserId == logEntry.UserId && x.UsageId < usage.UsageId).OrderByDescending(x => x.UsageId).FirstOrDefault();
-                if (prevUsage != null)
+                if (prevUsage != null && prevUsage.GasCurrent > 0)
                     usage.GasStart = prevUsage.GasCurrent;
                 else
-                    usage.GasStart = logEntry.GasMeasurementValue;
+                    usage.GasStart = context.Usages.Where(x=> x.UserId == logEntry.UserId).Max(x=> x.GasCurrent);
             }
 
             return usage;

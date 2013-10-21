@@ -128,7 +128,7 @@ namespace Core.Persistence {
                 if (prevUsage != null && prevUsage.GasCurrent > 0)
                     usage.GasStart = prevUsage.GasCurrent;
                 else
-                    usage.GasStart = context.Usages.Where(x=> x.UserId == logEntry.UserId).Max(x=> x.GasCurrent);
+                    usage.GasStart = context.Usages.Where(x => x.UserId == logEntry.UserId && x.UsageId < usage.UsageId).Max(x => x.GasCurrent);
             }
 
             return usage;

@@ -53,3 +53,8 @@ tbody {
 #hourlychart, #dailychart, #weeklychart, #monthlychart {
     width: 100%;
 }
+
+table.usagetable tr.totalRow {
+    border-top: 1px dashed #aaa;
+    font-weight: bold;
+}

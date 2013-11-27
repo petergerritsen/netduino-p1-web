@@ -219,13 +219,18 @@ function loadWeeklyData() {
 function loadMonthlyData() {
     $.mobile.loading('show');
     $.getJSON(dashboardViewModel.monthlyUrl(), function (data) {
-        var monthly = [];
+        var monthlyLines = [];
+        var monthlyGraph = [];
         $.each(data, function (index, value) {
-            monthly.push(new UsageLine(value.MonthName, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+            var line = new UsageLine(value.MonthName, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc)
+            monthlyLines.push(line);
+            if (value.MonthName != 'Total') {
+                monthlyGraph.push(line);
+            }
         });
 
-        dashboardViewModel.monthlyUsage().usages(monthly);
-        setChartData(monthly, monthlyChart);
+        dashboardViewModel.monthlyUsage().usages(monthlyLines);
+        setChartData(monthlyGraph, monthlyChart);
         $.mobile.loading('hide');
     });
 }

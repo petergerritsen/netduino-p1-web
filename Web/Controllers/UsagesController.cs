@@ -48,19 +48,39 @@ namespace Web.Controllers {
             var endDate = DateTime.Today.AddDays(-1 * diff).AddDays(6 + (-7 * offset));
             var startDate = endDate.AddDays((-7 * count) + 1);
             endDate = endDate.AddDays(1).AddSeconds(-1);
-           
+
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                return conn.Query<WeeklyUsage>("GetWeeklyUsage", new { Key = key, StartDate = startDate , EndDate = endDate }, commandType: CommandType.StoredProcedure);
+                return conn.Query<WeeklyUsage>("GetWeeklyUsage", new { Key = key, StartDate = startDate, EndDate = endDate }, commandType: CommandType.StoredProcedure);
             }
         }
 
         [HttpGet]
         public IEnumerable<MonthlyUsage> Monthly(string key, int offset) {
+             List<MonthlyUsage> returnValues = null;
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                return conn.Query<MonthlyUsage>("GetMonthlyUsage", new { Key = key, Year = DateTime.Today.Year - offset }, commandType: CommandType.StoredProcedure);
+                returnValues = conn.Query<MonthlyUsage>("GetMonthlyUsage", new { Key = key, Year = DateTime.Today.Year - offset }, commandType: CommandType.StoredProcedure).ToList();
             }
+            
+            foreach (var usage in returnValues) {
+                usage.MonthName =  new DateTime(2011, usage.Month, 1).ToString("MMM"); 
+            }
+            returnValues.Add(new MonthlyUsage() {
+                Month = 13,
+                MonthName = "Total",
+                E1 = returnValues.Sum(x => x.E1),
+                E1Retour = returnValues.Sum(x => x.E1Retour),
+                E2 = returnValues.Sum(x => x.E2),
+                E2Retour = returnValues.Sum(x => x.E2Retour),
+                EleRef = returnValues.Sum(x => x.EleRef),
+                ERetourTotal = returnValues.Sum(x => x.ERetourTotal),
+                ETotal = returnValues.Sum(x => x.ETotal),
+                Gas = returnValues.Sum(x => x.Gas),
+                GasRef = returnValues.Sum(x => x.GasRef)
+            });
+
+            return returnValues;
         }
 
         [HttpGet]
@@ -175,7 +195,7 @@ namespace Web.Controllers {
 
     public class MonthlyUsage {
         public int Month { get; set; }
-        public string MonthName { get { return new DateTime(2011, Month, 1).ToString("MMM"); } }
+        public string MonthName { get; set; }
         public decimal E1 { get; set; }
         public decimal E2 { get; set; }
         public decimal ETotal { get; set; }

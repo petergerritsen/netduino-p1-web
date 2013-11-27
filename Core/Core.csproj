@@ -133,6 +133,10 @@
     <Compile Include="Migrations\201308081602416_UpdateSps.Designer.cs">
       <DependentUpon>201308081602416_UpdateSps.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201311271248170_UpdateTotalUsageSP.cs" />
+    <Compile Include="Migrations\201311271248170_UpdateTotalUsageSP.Designer.cs">
+      <DependentUpon>201311271248170_UpdateTotalUsageSP.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\LogEntry.cs" />
     <Compile Include="Model\Reference.cs" />
@@ -193,6 +197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201308081602416_UpdateSps.resx">
       <DependentUpon>201308081602416_UpdateSps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201311271248170_UpdateTotalUsageSP.resx">
+      <DependentUpon>201311271248170_UpdateTotalUsageSP.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

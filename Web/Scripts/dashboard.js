@@ -49,7 +49,7 @@ function CurrentUsage(numberOfDays, e1meter, e2meter, eTotal, eReference, ePerce
     self.ePercentage = ko.observable(ePercentage);
     self.eRefYear = ko.observable(eRefYear);
     self.eEstimated = ko.observable(eEstimated);
-    self.gasmeter = ko.observable(gasmeter);
+    self.gasMeter = ko.observable(gasmeter);
     self.gas = ko.observable(gas);
     self.gasRef = ko.observable(gasRef);
     self.gasPercentage = ko.observable(gasPercentage);

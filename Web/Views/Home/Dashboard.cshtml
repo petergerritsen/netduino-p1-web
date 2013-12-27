@@ -14,9 +14,9 @@
     @Scripts.Render("~/Scripts/moment-1.7.2.js")
     @Styles.Render("~/Content/themes/netduino/netduino.min.css")
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile.structure-1.2.0.min.css" />
-    @Styles.Render("~/Content/Dashboard.css?v1.1.0")
+    @Styles.Render("~/Content/Dashboard.css?v1.2.0")
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-    @Scripts.Render("~/Scripts/dashboard.js?v1.4.0")
+    @Scripts.Render("~/Scripts/dashboard.js?v1.5.0")
 </head>
 <body>
     @Html.Hidden("apikey", ViewData["ApiKey"])
@@ -260,47 +260,67 @@
         <div data-role="content">
             <table data-bind="with: currentUsage">
                 <tr>
-                    <td>Number of days</td>
+                    <td class="label">Number of days</td>
                     <td><span data-bind="text: numberOfDays"></span></td>
                 </tr>
                 <tr>
-                    <td>Electricity used</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="label">E1 meter value</td>
+                    <td><span data-bind="text: e1meter"></span> kWh</td>
+                </tr>
+                <tr>
+                    <td class="label">E2 meter value</td>
+                    <td><span data-bind="text: e2meter"></span> kWh</td>
+                </tr>
+                <tr>
+                    <td class="label">Electricity used</td>
                     <td><span data-bind="text: eTotal"></span> kWh</td>
                 </tr>
                 <tr>
-                    <td>Electricity reference</td>
+                    <td class="label">Electricity reference</td>
                     <td><span data-bind="text: eReference"></span> kWh</td>
                 </tr>
                 <tr>
-                    <td>Electricity percentage</td>
-                    <td><span data-bind="text: ePercentage"></span>%</td>
+                    <td class="label">Electricity percentage</td>
+                    <td class="label"><span data-bind="text: ePercentage"></span>%</td>
                 </tr>
                 <tr>
-                    <td>Electricity yearly reference</td>
+                    <td class="label">Electricity yearly reference</td>
                     <td><span data-bind="text: eRefYear"></span> kWh</td>
                 </tr>
                 <tr>
-                    <td>Electricity estimated usage</td>
+                    <td class="label">Electricity estimated usage</td>
                     <td><span data-bind="text: eEstimated"></span> kWh</td>
                 </tr>
                 <tr>
-                    <td>Gas used</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="label">Gas meter value</td>
+                    <td><span data-bind="text: gasMeter"></span> m<sup>3</sup></td>
+                </tr>
+                <tr>
+                    <td class="label">Gas used</td>
                     <td><span data-bind="text: gas"></span> m<sup>3</sup></td>
                 </tr>
                 <tr>
-                    <td>Gas reference</td>
+                    <td class="label">Gas reference</td>
                     <td><span data-bind="text: gasRef"></span> m<sup>3</sup></td>
                 </tr>
                 <tr>
-                    <td>Gas percentage</td>
+                    <td class="label">Gas percentage</td>
                     <td><span data-bind="text: gasPercentage"></span>%</td>
                 </tr>                                               
                 <tr>                                                
-                    <td>Gas yearly reference</td>                   
+                    <td class="label">Gas yearly reference</td>                   
                     <td><span data-bind="text: gasRefYear"></span> m<sup>3</sup></td>
                 </tr>                                              
                 <tr>                                               
-                    <td>Gas estimated usage</td>                  
+                    <td class="label">Gas estimated usage</td>                  
                     <td><span data-bind="text: gasEstimated"></span> m<sup>3</sup></td>
                 </tr>
             </table>

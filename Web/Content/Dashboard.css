@@ -38,6 +38,10 @@ tbody td.first {
     font-weight: bold;
 }
 
+td.label {
+    font-weight: bold;
+}
+
 tbody {
     border-bottom: 1px solid #aaa;
 }

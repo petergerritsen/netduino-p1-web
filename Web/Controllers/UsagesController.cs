@@ -245,12 +245,15 @@ namespace Web.Controllers {
 
     public class EstimatedUsage {
         public int NumberOfDays { get; set; }
+        public decimal E1Meter { get; set; }
+        public decimal E2Meter { get; set; }
         public decimal E1 { get; set; }
         public decimal E2 { get; set; }
         public decimal ETotal { get; set; }
         public decimal E1Retour { get; set; }
         public decimal E2Retour { get; set; }
         public decimal ERetourTotal { get; set; }
+        public decimal GasMeter { get; set; }
         public decimal Gas { get; set; }
         public decimal EleRef { get; set; }
         public decimal GasRef { get; set; }

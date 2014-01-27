@@ -85,10 +85,12 @@ namespace Web.Controllers {
 
         [HttpGet]
         public IEnumerable<RecentData> Recent(string key) {
+            IEnumerable<RecentData> vals;
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                return conn.Query<RecentData>("SELECT TOP 10 [Timestamp], CurrentUsage FROM LogEntries INNER JOIN Users ON Users.UserId = LogEntries.UserId WHERE ApiKey = @Key ORDER BY [Timestamp] DESC", new { Key = key }, commandType: CommandType.Text);
+                vals = conn.Query<RecentData>("SELECT TOP 20 [Timestamp], CurrentUsage FROM LogEntries INNER JOIN Users ON Users.UserId = LogEntries.UserId WHERE ApiKey = @Key ORDER BY [Timestamp] DESC", new { Key = key }, commandType: CommandType.Text);
             }
+            return vals.Reverse();
         }
 
         [HttpGet]

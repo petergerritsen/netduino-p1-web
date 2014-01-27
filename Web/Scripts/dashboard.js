@@ -251,8 +251,7 @@ function loadCurrentData() {
     $.getJSON(dashboardViewModel.currentUsageUrl(), function (data) {
         var chartdata = [];
         $.each(data, function (index, value) {
-            chartdata.push({ x: value.Timestamp, y: value.CurrentUsage });
-            // todo: datetime conversion
+            chartdata.push({ x: moment(value.Timestamp).toDate().getTime(), y: value.CurrentUsage });
         });
         
         currentChart.series[0].setData(chartdata);
@@ -433,26 +432,14 @@ $(document).ready(function () {
             renderTo: 'currentchart',
             type: 'spline',
             animation: Highcharts.svg, // don't animate in old IE
-            marginRight: 10,
-            events: {
-                load: function () {
-
-                    // set up the updating of the chart each second
-                    var series = this.series[0];
-                    setInterval(function () {
-                        var x = (new Date()).getTime(), // current time
-                            y = Math.random() * 8;
-                        series.addPoint([x, y], true, true);
-                    }, 10000);
-                }
-            }
+            marginRight: 10
         },
         title: {
             text: 'Current usage'
         },
         xAxis: {
             type: 'datetime',
-            tickPixelInterval: 1500
+            tickPixelInterval: 100
         },
         yAxis: {
             min: 0,
@@ -556,6 +543,14 @@ $(document).ready(function () {
     loadCurrentData();
 
     ko.applyBindings(dashboardViewModel);
+    
+    var usageHubProxy = $.connection.usageHub;
+    usageHubProxy.client.newCurrentUsage = function (timestamp, currentUsage) {
+        currentChart.series[0].addPoint([moment(timestamp).toDate().getTime(), currentUsage], true, true);
+    };
+    $.connection.hub.start().done(function() {
+        usageHubProxy.server.joinHub(dashboardViewModel.apiKey());
+    });
     
     $.mobile.loading('hide');
 });

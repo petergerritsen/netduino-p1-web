@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Globalization;
+using Microsoft.AspNet.SignalR;
 
 namespace Web.Controllers
 {
@@ -24,6 +25,15 @@ namespace Web.Controllers
             ViewData.Add("CurrentWeek", week);
 
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult TestSignalR(string key) {
+            Random rand = new Random();
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<UsageHub>();
+            hubContext.Clients.Group(key).newCurrentUsage(DateTime.Now, rand.NextDouble() * 8);
+
+            return new HttpStatusCodeResult(200);
         }
     }
 }

@@ -22,7 +22,9 @@ namespace Web
             //var webconfiguration = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
             //var connectionString = webconfiguration.ConnectionStrings.ConnectionStrings["NetduinoP1Logging"].ConnectionString;
             //throw new ArgumentException("Connstring: " + connectionString);
-            
+
+            RouteTable.Routes.MapHubs();
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);

@@ -9,6 +9,7 @@ using Core.Persistence;
 using System.Diagnostics;
 using System.Globalization;
 using System.Web.Management;
+using Microsoft.AspNet.SignalR;
 
 namespace Web.Controllers {
     public class LogEntriesController : ApiController {
@@ -28,6 +29,10 @@ namespace Web.Controllers {
                         throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound) { Content = new StringContent(string.Format("Invalid API Key: {0}", value.ApiKey)) });
 
                     DateTime gasMeasurementMoment = value.Timestamp;
+
+                    var hubContext = GlobalHost.ConnectionManager.GetHubContext<UsageHub>();
+                    hubContext.Clients.Group(value.ApiKey).newCurrentUsage(value.Timestamp, value.CurrentUsage);
+
                     if (!DateTime.TryParseExact("20" + value.GasMeasurementMoment, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out gasMeasurementMoment))
                         gasMeasurementMoment = value.Timestamp;
 

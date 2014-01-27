@@ -104,6 +104,9 @@ function DashboardViewModel(apiKey, currentWeek) {
     self.currentUrl = ko.computed(function () {
         return "/api/usages/" + self.apiKey() + "/estimated";
     });
+    self.currentUsageUrl = ko.computed(function () {
+        return "/api/usages/" + self.apiKey() + "/recent";
+    });
 
     self.hourlyNext = function () {
         if (this.hourlyOffset() == 0)
@@ -244,6 +247,18 @@ function loadCurrentData() {
         dashboardViewModel.currentUsage(new CurrentUsage(data.NumberOfDays, data.E1Meter, data.E2Meter, data.ETotal, data.EleRef, data.EPercentage, data.ERefYear, data.EEstimated, data.GasMeter, data.Gas, data.GasRef, data.GasPercentage, data.GasRefYear, data.GasEstimated));
         $.mobile.loading('hide');
     });
+    
+    $.getJSON(dashboardViewModel.currentUsageUrl(), function (data) {
+        var chartdata = [];
+        $.each(data, function (index, value) {
+            chartdata.push({ x: value.Timestamp, y: value.CurrentUsage });
+            // todo: datetime conversion
+        });
+        
+        currentChart.series[0].setData(chartdata);
+        
+        $.mobile.loading('hide');
+    });
 }
 
 function createUsagePlusRefChart(container, title) {
@@ -329,7 +344,7 @@ function createUsagePlusRefChart(container, title) {
 
 var dashboardViewModel = {};
 
-var hourlyChart, dailyChart, weeklyChart, monthlyChart;
+var hourlyChart, dailyChart, weeklyChart, monthlyChart, currentChart;
 
 $(document).bind('pageinit', function () {
     $("#hourly").swipeleft(function () {
@@ -412,7 +427,109 @@ $(document).ready(function () {
             data: [0]
         }]
     });
+    
+    currentChart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'currentchart',
+            type: 'spline',
+            animation: Highcharts.svg, // don't animate in old IE
+            marginRight: 10,
+            events: {
+                load: function () {
 
+                    // set up the updating of the chart each second
+                    var series = this.series[0];
+                    setInterval(function () {
+                        var x = (new Date()).getTime(), // current time
+                            y = Math.random() * 8;
+                        series.addPoint([x, y], true, true);
+                    }, 10000);
+                }
+            }
+        },
+        title: {
+            text: 'Current usage'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 1500
+        },
+        yAxis: {
+            min: 0,
+            max: 10,
+            title: {
+                text: 'Value'
+            },
+            gridLineWidth: 0,
+            plotBands: [{
+                // Light usage
+                from: 0,
+                to: 2,
+                color: 'rgba(68, 170, 20, 0.2)',
+                label: {
+                    text: 'Low',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            },
+                {
+                    // Medium usage
+                    from: 2.0,
+                    to: 5.0,
+                    color: 'rgba(255, 170, 50, 0.2)',
+                    label: {
+                        text: 'Medium',
+                        style: {
+                            color: '#606060'
+                        }
+                    }
+                },
+                {
+                    // High usage
+                    from: 5.0,
+                    to: 7.5,
+                    color: 'rgba(255, 0, 0, 0.2)',
+                    label: {
+                        text: 'High',
+                        style: {
+                            color: '#606060'
+                        }
+                    }
+                },
+                {
+                    // Very high usage
+                    from: 7.5,
+                    to: 10,
+                    color: 'rgba(255, 0, 0, 0.3)',
+                    label: {
+                        text: 'Very high',
+                        style: {
+                            color: '#606060'
+                        }
+                    }
+                }
+            ]
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                Highcharts.numberFormat(this.y, 2);
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        series: [{
+            name: 'Current usage',
+            data: [0]
+        }]
+    });
+    
     dailyChart = createUsagePlusRefChart('dailychart', 'Daily usage');
     weeklyChart = createUsagePlusRefChart('weeklychart', 'Weekly usage');
     monthlyChart = createUsagePlusRefChart('monthlychart', 'Monthly usage');
@@ -439,5 +556,6 @@ $(document).ready(function () {
     loadCurrentData();
 
     ko.applyBindings(dashboardViewModel);
+    
     $.mobile.loading('hide');
 });

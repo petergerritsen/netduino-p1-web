@@ -15,9 +15,9 @@
     @Styles.Render("~/Content/themes/netduino/netduino.min.css")
     @Styles.Render("~/Content/themes/netduino/jquery.mobile.icons.min.css")
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile.structure-1.4.0.min.css" /> 
-    @Styles.Render("~/Content/Dashboard.css?v1.2.0")
+    @Styles.Render("~/Content/Dashboard.css?v1.3.0")
     <script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
-    @Scripts.Render("~/Scripts/dashboard.js?v1.5.1")
+    @Scripts.Render("~/Scripts/dashboard.js?v1.6.0")
 </head>
 <body>
     @Html.Hidden("apikey", ViewData["ApiKey"])
@@ -259,7 +259,7 @@
                 Current data</h1>
         </div>
         <div data-role="content">
-            <table data-bind="with: currentUsage">
+            <table id="currenttable" data-bind="with: currentUsage">
                 <tr>
                     <td class="label">Number of days</td>
                     <td><span data-bind="text: numberOfDays"></span></td>
@@ -325,6 +325,8 @@
                     <td><span data-bind="text: gasEstimated"></span> m<sup>3</sup></td>
                 </tr>
             </table>
+            <div id="currentchart">
+            </div>
         </div>
         <div data-role="footer" data-id="foo1" data-theme="b" data-position="fixed">
             <div data-role="navbar">

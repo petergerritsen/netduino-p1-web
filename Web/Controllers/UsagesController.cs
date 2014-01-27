@@ -87,7 +87,7 @@ namespace Web.Controllers {
         public IEnumerable<RecentData> Recent(string key) {
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                return conn.Query<RecentData>("SELECT TOP 100 [Timestamp], CurrentUsage As Usage, CurrentRetour As Retour, E1, E2, GasMeasurementMoment, GasMeasurementValue FROM LogEntries INNER JOIN Users ON Users.UserId = LogEntries.UserId WHERE ApiKey = @Key ORDER BY [Timestamp] DESC", new { Key = key }, commandType: CommandType.Text);
+                return conn.Query<RecentData>("SELECT TOP 10 [Timestamp], CurrentUsage FROM LogEntries INNER JOIN Users ON Users.UserId = LogEntries.UserId WHERE ApiKey = @Key ORDER BY [Timestamp] DESC", new { Key = key }, commandType: CommandType.Text);
             }
         }
 
@@ -235,12 +235,7 @@ namespace Web.Controllers {
 
     public class RecentData {
         public DateTime Timestamp { get; set; }
-        public decimal Usage { get; set; }
-        public decimal Retour { get; set; }
-        public decimal E1 { get; set; }
-        public decimal E2 { get; set; }
-        public DateTime GasMeasurementMoment { get; set; }
-        public decimal GasMeasurementValue { get; set; }
+        public decimal CurrentUsage { get; set; }
     }
 
     public class EstimatedUsage {

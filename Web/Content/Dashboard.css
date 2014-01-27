@@ -62,3 +62,13 @@ table.usagetable tr.totalRow {
     border-top: 1px dashed #aaa;
     font-weight: bold;
 }
+
+#currenttable {
+    float: left;
+    width: 25%;
+}
+
+#currentchart {
+    float: left;
+    width: 72%;
+}

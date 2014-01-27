@@ -29,6 +29,10 @@
     <UseIISExpress>true</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,19 +52,90 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper">
-      <HintPath>..\packages\Dapper.1.12.1\lib\net40\Dapper.dll</HintPath>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=1.12.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Dapper.1.13\lib\net40\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net40\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net40\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -74,63 +149,12 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.WebRequest">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Optimization">
-      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Providers">
       <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.1\lib\net40\System.Web.Providers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="WebGrease">
-      <Private>True</Private>
-      <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
-    </Reference>
-    <Reference Include="Antlr3.Runtime">
-      <Private>True</Private>
-      <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -148,33 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Dashboard.css" />
-    <Content Include="Content\themes\netduino\images\ajax-loader.gif" />
-    <Content Include="Content\themes\netduino\images\icons-18-black.png" />
-    <Content Include="Content\themes\netduino\images\icons-18-white.png" />
-    <Content Include="Content\themes\netduino\images\icons-36-black.png" />
-    <Content Include="Content\themes\netduino\images\icons-36-white.png" />
-    <Content Include="Content\themes\netduino\netduino.css" />
-    <Content Include="Content\themes\netduino\netduino.min.css" />
-    <Content Include="Images\power_app_icon.png" />
-    <Content Include="Scripts\dashboard.js" />
-    <Content Include="Scripts\highcharts\adapters\mootools-adapter.js" />
-    <Content Include="Scripts\highcharts\adapters\mootools-adapter.src.js" />
-    <Content Include="Scripts\highcharts\adapters\prototype-adapter.js" />
-    <Content Include="Scripts\highcharts\adapters\prototype-adapter.src.js" />
-    <Content Include="Scripts\highcharts\highcharts-more.js" />
-    <Content Include="Scripts\highcharts\highcharts.js" />
-    <Content Include="Scripts\highcharts\highcharts.src.js" />
-    <Content Include="Scripts\highcharts\modules\canvas-tools.js" />
-    <Content Include="Scripts\highcharts\modules\canvas-tools.src.js" />
-    <Content Include="Scripts\highcharts\modules\data.js" />
-    <Content Include="Scripts\highcharts\modules\data.src.js" />
-    <Content Include="Scripts\highcharts\modules\exporting.js" />
-    <Content Include="Scripts\highcharts\modules\exporting.src.js" />
-    <Content Include="Scripts\highcharts\themes\dark-blue.js" />
-    <Content Include="Scripts\highcharts\themes\dark-green.js" />
-    <Content Include="Scripts\highcharts\themes\gray.js" />
-    <Content Include="Scripts\highcharts\themes\grid.js" />
-    <Content Include="Scripts\highcharts\themes\skies.js" />
+    <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -197,12 +195,16 @@
     <Content Include="Content\themes\base\jquery.ui.core.css" />
     <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
     <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.menu.css" />
     <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
     <Content Include="Content\themes\base\jquery.ui.resizable.css" />
     <Content Include="Content\themes\base\jquery.ui.selectable.css" />
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.spinner.css" />
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\jquery.ui.tooltip.css" />
+    <Content Include="Content\themes\base\minified\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -223,29 +225,160 @@
     <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.menu.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.spinner.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Content\themes\netduino\images\ajax-loader.gif" />
+    <Content Include="Content\themes\netduino\images\icons-18-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-18-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-36-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-36-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\action-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\action-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\alert-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\alert-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-d-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-d-l-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-d-l-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-d-r-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-d-r-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-d-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-l-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-l-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-r-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-r-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-u-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-u-l-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-u-l-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-u-r-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-u-r-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\arrow-u-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\audio-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\audio-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\back-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\back-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\bars-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\bars-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\bullets-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\bullets-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\calendar-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\calendar-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\camera-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\camera-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\carat-d-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\carat-d-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\carat-l-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\carat-l-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\carat-r-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\carat-r-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\carat-u-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\carat-u-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\check-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\check-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\clock-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\clock-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\cloud-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\cloud-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\comment-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\comment-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\delete-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\delete-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\edit-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\edit-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\eye-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\eye-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\forbidden-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\forbidden-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\forward-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\forward-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\gear-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\gear-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\grid-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\grid-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\heart-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\heart-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\home-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\home-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\info-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\info-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\location-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\location-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\lock-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\lock-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\mail-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\mail-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\minus-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\minus-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\navigation-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\navigation-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\phone-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\phone-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\plus-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\plus-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\power-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\power-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\recycle-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\recycle-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\refresh-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\refresh-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\search-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\search-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\shop-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\shop-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\star-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\star-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\tag-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\tag-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\user-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\user-white.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\video-black.png" />
+    <Content Include="Content\themes\netduino\images\icons-png\video-white.png" />
+    <Content Include="Content\themes\netduino\jquery.mobile.icons.min.css" />
+    <Content Include="Content\themes\netduino\netduino.css" />
+    <Content Include="Content\themes\netduino\netduino.min.css" />
+    <Content Include="Images\power_app_icon.png" />
+    <Content Include="Scripts\dashboard.js" />
+    <Content Include="Scripts\highcharts\adapters\mootools-adapter.js" />
+    <Content Include="Scripts\highcharts\adapters\mootools-adapter.src.js" />
+    <Content Include="Scripts\highcharts\adapters\prototype-adapter.js" />
+    <Content Include="Scripts\highcharts\adapters\prototype-adapter.src.js" />
+    <Content Include="Scripts\highcharts\highcharts-more.js" />
+    <Content Include="Scripts\highcharts\highcharts.js" />
+    <Content Include="Scripts\highcharts\highcharts.src.js" />
+    <Content Include="Scripts\highcharts\modules\canvas-tools.js" />
+    <Content Include="Scripts\highcharts\modules\canvas-tools.src.js" />
+    <Content Include="Scripts\highcharts\modules\data.js" />
+    <Content Include="Scripts\highcharts\modules\data.src.js" />
+    <Content Include="Scripts\highcharts\modules\exporting.js" />
+    <Content Include="Scripts\highcharts\modules\exporting.src.js" />
+    <Content Include="Scripts\highcharts\themes\dark-blue.js" />
+    <Content Include="Scripts\highcharts\themes\dark-green.js" />
+    <Content Include="Scripts\highcharts\themes\gray.js" />
+    <Content Include="Scripts\highcharts\themes\grid.js" />
+    <Content Include="Scripts\highcharts\themes\skies.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.7.1.js" />
-    <Content Include="Scripts\jquery-1.7.1.min.js" />
-    <Content Include="Scripts\jquery-ui-1.8.20.js" />
-    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <None Include="Scripts\jquery-2.1.0.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.0.js" />
+    <Content Include="Scripts\jquery-2.1.0.min.js" />
+    <Content Include="Scripts\jquery-ui-1.10.4.js" />
+    <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-2.1.0.debug.js" />
-    <Content Include="Scripts\knockout-2.1.0.js" />
-    <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\knockout-3.0.0.debug.js" />
+    <Content Include="Scripts\knockout-3.0.0.js" />
+    <Content Include="Scripts\modernizr-2.7.1.js" />
     <Content Include="Scripts\moment-1.7.2.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -278,6 +411,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Scripts\jquery-2.1.0.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -329,6 +463,11 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

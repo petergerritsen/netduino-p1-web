@@ -251,7 +251,7 @@ function loadCurrentData() {
     $.getJSON(dashboardViewModel.currentUsageUrl(), function (data) {
         var chartdata = [];
         $.each(data, function (index, value) {
-            chartdata.push({ x: moment(value.Timestamp).toDate().getTime(), y: value.CurrentUsage });
+            chartdata.push({ x: moment(value.Timestamp).toDate(), y: value.CurrentUsage });
         });
         
         currentChart.series[0].setData(chartdata);
@@ -374,6 +374,13 @@ $(document).bind('pageinit', function () {
 
 $(document).ready(function () {
     $.mobile.loading('show');
+    
+    Highcharts.setOptions({ // This is for all plots, change Date axis to local timezone
+        global: {
+            useUTC: false
+        }
+    });
+
     hourlyChart = new Highcharts.Chart({
         chart: {
             renderTo: 'hourlychart',
@@ -546,7 +553,7 @@ $(document).ready(function () {
     
     var usageHubProxy = $.connection.usageHub;
     usageHubProxy.client.newCurrentUsage = function (timestamp, currentUsage) {
-        currentChart.series[0].addPoint([moment(timestamp).toDate().getTime(), currentUsage], true, true);
+        currentChart.series[0].addPoint([moment(timestamp).toDate(), currentUsage], true, true);
     };
     $.connection.hub.start().done(function() {
         usageHubProxy.server.joinHub(dashboardViewModel.apiKey());

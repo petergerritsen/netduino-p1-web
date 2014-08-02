@@ -345,33 +345,6 @@ var dashboardViewModel = {};
 
 var hourlyChart, dailyChart, weeklyChart, monthlyChart, currentChart;
 
-$(document).bind('pageinit', function () {
-    $("#hourly").swipeleft(function () {
-        dashboardViewModel.hourlyNext();
-    });
-    $("#hourly").swiperight(function () {
-        dashboardViewModel.hourlyPrevious();
-    });
-    $("#daily").swipeleft(function () {
-        dashboardViewModel.dailyNext();
-    });
-    $("#daily").swiperight(function () {
-        dashboardViewModel.dailyPrevious();
-    });
-    $("#weekly").swipeleft(function () {
-        dashboardViewModel.weeklyNext();
-    });
-    $("#weekly").swiperight(function () {
-        dashboardViewModel.weeklyPrevious();
-    });
-    $("#monthly").swipeleft(function () {
-        dashboardViewModel.monthlyNext();
-    });
-    $("#monthly").swiperight(function () {
-        dashboardViewModel.monthlyPrevious();
-    });
-});
-
 $(document).ready(function () {
     $.mobile.loading('show');
     

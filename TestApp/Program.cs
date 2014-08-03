@@ -15,28 +15,30 @@ namespace TestApp {
     class Program {
         static void Main(string[] args) {           
 
-            TestRepository(); 
+            //TestRepository(); 
 
-            //TestAppHarbor();
+            TestAppHarbor();
         }
 
         private static void TestAppHarbor() {
             var appharborurl = "http://netduinop1logging.apphb.com/api/logentries";
 
-
+            var E1 = 100.240;
+            
             for (int i = 0; i < 1000; i++) {
+                E1 = E1 + 0.01;
                 StringBuilder content = new StringBuilder();
                 content.AppendLine("{");
                 content.AppendLine("\"ApiKey\": \"sadsada232132131231\",");
                 content.AppendLine("\"Timestamp\": \"" + DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss") + "\",");
-                content.AppendLine("\"E1\": \"0.123\",");
+                content.AppendLine(string.Format("\"E1\": \"{0}\",", E1.ToString()));
                 content.AppendLine("\"E2\": \"0.456\",");
                 content.AppendLine("\"E1Retour\": \"0\",");
                 content.AppendLine("\"E2Retour\": \"0\",");
                 content.AppendLine("\"CurrentTariff\": \"2\",");
                 content.AppendLine("\"CurrentUsage\": \"0.10\",");
                 content.AppendLine("\"CurrentRetour\": \"0\",");
-                content.AppendLine("\"GasMeasurementMoment\": \"121122120000\",");
+                content.AppendLine(string.Format("\"GasMeasurementMoment\": \"{0}\",", DateTime.Now.AddHours(-1).ToString("yyMMddHH0000")));
                 content.AppendLine("\"GasMeasurementValue\": \"0.123\"");
                 content.AppendLine("}");
 
@@ -59,7 +61,7 @@ namespace TestApp {
                     Console.WriteLine(string.Format("{0}: Request timed out", DateTime.Now.ToString("HH:mm:ss")));
                 }
 
-                Thread.Sleep(10000);
+                Thread.Sleep(60000);
             }
         }
 

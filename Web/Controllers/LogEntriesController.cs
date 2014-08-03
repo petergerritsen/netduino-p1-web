@@ -48,6 +48,7 @@ namespace Web.Controllers {
                         CurrentRetour = value.CurrentRetour,
                         GasMeasurementMoment = gasMeasurementMoment,
                         GasMeasurementValue = value.GasMeasurementValue,
+                        PvCounter = value.PvProductionCounter,
                         User = user
                     };
 
@@ -90,5 +91,6 @@ namespace Web.Controllers {
         public decimal CurrentRetour { get; set; }
         public string GasMeasurementMoment { get; set; }
         public decimal GasMeasurementValue { get; set; }
+        public int PvProductionCounter { get; set; }
     }
 }

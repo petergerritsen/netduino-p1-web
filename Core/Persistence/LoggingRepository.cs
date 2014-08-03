@@ -94,11 +94,13 @@ namespace Core.Persistence {
                     usage.E2Start = prevUsage.E2Current;
                     usage.E1RetourStart = prevUsage.E1RetourCurrent;
                     usage.E2RetourStart = prevUsage.E2RetourCurrent;
+                    usage.PvProductionStart = prevUsage.PvProductionCurrent;
                 } else {
                     usage.E1Start = logEntry.E1;
                     usage.E2Start = logEntry.E2;
                     usage.E1RetourStart = logEntry.E1Retour;
                     usage.E2RetourStart = logEntry.E2Retour;
+                    usage.PvProductionStart = logEntry.PvCounter;
                 }
 
                 context.Usages.Add(usage);                
@@ -143,6 +145,7 @@ namespace Core.Persistence {
             usage.E2Current = entry.E2;
             usage.E1RetourCurrent = entry.E1Retour;
             usage.E2RetourCurrent = entry.E2Retour;
+            usage.PvProductionCurrent = entry.PvCounter;
         }
     }
 }

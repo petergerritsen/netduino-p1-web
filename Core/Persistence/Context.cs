@@ -8,16 +8,15 @@ using Core.Migrations;
 
 namespace Core.Persistence
 {
-    public class Context : DbContext
+    public class Context : DbContext 
     {
         public DbSet<LogEntry> LogEntries { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Usage> Usages { get; set; }
         public DbSet<Reference> References { get; set; }
 
-        //public Context()
-        //    : base("NetduinoP1Logging")
-        //{ }
+        public Context()
+            : base("NetduinoP1Logging") { }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

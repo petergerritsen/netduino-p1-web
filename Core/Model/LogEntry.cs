@@ -19,6 +19,7 @@ namespace Core.Model
         public decimal CurrentRetour { get; set; }
         public DateTime GasMeasurementMoment { get; set; }
         public decimal GasMeasurementValue { get; set; }
+        public int PvCounter { get; set; }
 
         public int UserId { get; set; }
         [ForeignKey("UserId")]

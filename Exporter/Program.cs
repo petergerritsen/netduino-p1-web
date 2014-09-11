@@ -45,12 +45,12 @@ namespace Exporter {
                             lastUsage = hourlyUsage;
                         newDailyUsage.Standings[i] = new HourlyStanding() {
                             Hour = i,
-                            E1 = lastUsage.E1Start,
-                            E2 = lastUsage.E2Start,
-                            E1Retour = lastUsage.E1RetourStart,
-                            E2Retour = lastUsage.E2RetourStart,
+                            E1 = i == 24 ? lastUsage.E1Current : lastUsage.E1Start,
+                            E2 = i == 24 ? lastUsage.E2Current: lastUsage.E2Start,
+                            E1Retour = i == 24 ? lastUsage.E1RetourCurrent : lastUsage.E1RetourStart,
+                            E2Retour = i == 24 ? lastUsage.E2RetourCurrent : lastUsage.E2RetourStart,
                             PvProduction = 0,
-                            Gas = lastUsage.GasStart
+                            Gas = i == 24 ? lastUsage.GasCurrent : lastUsage.GasStart
                         };
                     }
 

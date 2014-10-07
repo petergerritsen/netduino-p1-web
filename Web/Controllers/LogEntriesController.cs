@@ -14,10 +14,10 @@ using Microsoft.AspNet.SignalR;
 namespace Web.Controllers {
     public class LogEntriesController : ApiController {
         ILoggingRepository repo;
-        
+
         public LogEntriesController() {
             repo = Core.Factory.GetILoggingRepository();
-        }        
+        }
 
         //// POST api/logentries
         public void Post([FromBody]PostEntry value) {
@@ -31,7 +31,7 @@ namespace Web.Controllers {
                     DateTime gasMeasurementMoment = value.Timestamp;
 
                     var hubContext = GlobalHost.ConnectionManager.GetHubContext<UsageHub>();
-                    hubContext.Clients.Group(value.ApiKey).newCurrentUsage(value.Timestamp, value.CurrentUsage);
+                    hubContext.Clients.Group(value.ApiKey).newCurrentUsage(value.Timestamp, value.CurrentUsage, value.CurrentRetour);
 
                     if (!DateTime.TryParseExact("20" + value.GasMeasurementMoment, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out gasMeasurementMoment))
                         gasMeasurementMoment = value.Timestamp;
@@ -48,6 +48,7 @@ namespace Web.Controllers {
                         CurrentRetour = value.CurrentRetour,
                         GasMeasurementMoment = gasMeasurementMoment,
                         GasMeasurementValue = value.GasMeasurementValue,
+                        PvCounter = Convert.ToDecimal(value.PvProductionCounter) / 1000,
                         User = user
                     };
 
@@ -90,5 +91,6 @@ namespace Web.Controllers {
         public decimal CurrentRetour { get; set; }
         public string GasMeasurementMoment { get; set; }
         public decimal GasMeasurementValue { get; set; }
+        public int PvProductionCounter { get; set; }
     }
 }

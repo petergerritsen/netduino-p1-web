@@ -23,6 +23,9 @@ namespace Core.Model {
 
         public decimal GasStart { get; set; }
         public decimal GasCurrent { get; set; }
+
+        public decimal PvProductionStart { get; set; }
+        public decimal PvProductionCurrent { get; set; }
         
         public int UserId { get; set; }
         [ForeignKey("UserId")]
@@ -76,6 +79,13 @@ namespace Core.Model {
         public decimal GasUsage {
             get {
                 return GasCurrent - GasStart;
+            }
+        }
+
+        [NotMapped]
+        public decimal PvProduction {
+            get {
+                return PvProductionCurrent - PvProductionStart;
             }
         }
 

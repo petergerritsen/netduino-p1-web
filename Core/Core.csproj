@@ -141,6 +141,10 @@
     <Compile Include="Migrations\201312271934193_TotalUsagePlusCurrent.Designer.cs">
       <DependentUpon>201312271934193_TotalUsagePlusCurrent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409201617145_AddPvProduction.cs" />
+    <Compile Include="Migrations\201409201617145_AddPvProduction.Designer.cs">
+      <DependentUpon>201409201617145_AddPvProduction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\LogEntry.cs" />
     <Compile Include="Model\Reference.cs" />
@@ -207,6 +211,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201312271934193_TotalUsagePlusCurrent.resx">
       <DependentUpon>201312271934193_TotalUsagePlusCurrent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409201617145_AddPvProduction.resx">
+      <DependentUpon>201409201617145_AddPvProduction.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

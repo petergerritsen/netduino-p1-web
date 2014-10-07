@@ -10,11 +10,12 @@
     };
 }
 
-function HourlyUsageLine(hour, eTotal, gas) {
+function HourlyUsageLine(hour, eTotal, pvProductionTotal, gas) {
     var self = this;
 
     self.hour = ko.observable(hour);
     self.eTotal = ko.observable(eTotal);
+    self.pvProductionTotal = ko.observable(pvProductionTotal);
     self.gas = ko.observable(gas);
 }
 
@@ -24,7 +25,7 @@ function Usage(identifierName, usages) {
     self.usages = ko.observableArray(usages);
 }
 
-function UsageLine(identifier, eTotal, eReference, eDifference, ePercentage, gas, gasReference, gasDifference, gasPercentage) {
+function UsageLine(identifier, eTotal, eReference, eDifference, ePercentage, pvProduction, gas, gasReference, gasDifference, gasPercentage) {
     var self = this;
 
     self.identifier = ko.observable(identifier);
@@ -32,13 +33,14 @@ function UsageLine(identifier, eTotal, eReference, eDifference, ePercentage, gas
     self.eReference = ko.observable(eReference);
     self.eDifference = ko.observable(eDifference);
     self.ePercentage = ko.observable(ePercentage);
+    self.pvProduction = ko.observable(pvProduction);
     self.gas = ko.observable(gas);
     self.gasReference = ko.observable(gasReference);
     self.gasDifference = ko.observable(gasDifference);
     self.gasPercentage = ko.observable(gasPercentage);
 }
 
-function CurrentUsage(numberOfDays, e1meter, e2meter, eTotal, eReference, ePercentage, eRefYear, eEstimated, gasmeter, gas, gasRef, gasPercentage, gasRefYear, gasEstimated) {
+function CurrentUsage(numberOfDays, e1meter, e2meter, eTotal, eReference, ePercentage, eRefYear, eEstimated, eRetourTotal, pvProduction, gasmeter, gas, gasRef, gasPercentage, gasRefYear, gasEstimated) {
     var self = this;
 
     self.numberOfDays = ko.observable(numberOfDays);
@@ -49,6 +51,14 @@ function CurrentUsage(numberOfDays, e1meter, e2meter, eTotal, eReference, ePerce
     self.ePercentage = ko.observable(ePercentage);
     self.eRefYear = ko.observable(eRefYear);
     self.eEstimated = ko.observable(eEstimated);
+    self.eRetourTotal = ko.observable(eRetourTotal);
+    self.pvProduction = ko.observable(pvProduction);
+    self.pvProductionSelf = ko.computed(function () {
+        return self.pvProduction() - self.eRetourTotal();
+    });
+    self.pvProductionSelfPerc = ko.computed(function () {
+        return (self.pvProductionSelf() / self.pvProduction()) * 100;
+    });
     self.gasMeter = ko.observable(gasmeter);
     self.gas = ko.observable(gas);
     self.gasRef = ko.observable(gasRef);
@@ -83,11 +93,11 @@ function DashboardViewModel(apiKey, currentWeek) {
         return d.getFullYear() - self.monthlyOffset();
     });
 
-    self.hourlyUsage = ko.observable(new HourlyUsage([new HourlyUsageLine(0, 0, 0), new HourlyUsageLine(0, 0, 0)]));
-    self.dailyUsage = ko.observable(new Usage('Day', [new UsageLine('', 0, 0, 0, 0, 0, 0, 0, 0)]));
-    self.weeklyUsage = ko.observable(new Usage('Week', [new UsageLine('', 0, 0, 0, 0, 0, 0, 0, 0)]));
-    self.monthlyUsage = ko.observable(new Usage('Month', [new UsageLine('', 0, 0, 0, 0, 0, 0, 0, 0)]));
-    self.currentUsage = ko.observable(new CurrentUsage(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    self.hourlyUsage = ko.observable(new HourlyUsage([new HourlyUsageLine(0, 0, 0, 0), new HourlyUsageLine(0, 0, 0, 0)]));
+    self.dailyUsage = ko.observable(new Usage('Day', [new UsageLine('', 0, 0, 0, 0, 0, 0, 0, 0, 0)]));
+    self.weeklyUsage = ko.observable(new Usage('Week', [new UsageLine('', 0, 0, 0, 0, 0, 0, 0, 0, 0)]));
+    self.monthlyUsage = ko.observable(new Usage('Month', [new UsageLine('', 0, 0, 0, 0, 0, 0, 0, 0, 0)]));
+    self.currentUsage = ko.observable(new CurrentUsage(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 
     self.hourlyUrl = ko.computed(function () {
         return "/api/usages/" + self.apiKey() + "/hourly/" + self.hourlyOffset();
@@ -151,18 +161,21 @@ function loadHourlyData() {
     $.getJSON(dashboardViewModel.hourlyUrl(), function (data) {
         var hourly = [];
         var hourlyEle = [];
+        var hourlyPvProd = [];
         var hourlyGas = [];
         var hourlyCats = [];
         $.each(data, function (index, value) {
-            hourly.push(new HourlyUsageLine(value.Hour, value.ETotal, value.Gas));
+            hourly.push(new HourlyUsageLine(value.Hour, value.ETotal, value.PvProduction, value.Gas));
             hourlyEle.push(value.ETotal);
+            hourlyPvProd.push(value.PvProduction);
             hourlyGas.push(value.Gas);
             hourlyCats.push(value.Hour);
         });
 
         dashboardViewModel.hourlyUsage().setUsages(hourly);
         hourlyChart.series[0].setData(hourlyEle);
-        hourlyChart.series[1].setData(hourlyGas);
+        hourlyChart.series[1].setData(hourlyPvProd);
+        hourlyChart.series[2].setData(hourlyGas);
         hourlyChart.xAxis[0].setCategories(hourlyCats);
 
         $.mobile.loading('hide');
@@ -172,6 +185,7 @@ function loadHourlyData() {
 function setChartData(usagedata, chart) {
     var ele = [];
     var eleRef = [];
+    var pvProd = [];
     var gas = [];
     var gasRef = [];
     var cats = [];
@@ -179,6 +193,7 @@ function setChartData(usagedata, chart) {
     $.each(usagedata, function (index, value) {
         ele.push(value.eTotal());
         eleRef.push(value.eReference());
+        pvProd.push(value.pvProduction());
         gas.push(value.gas());
         gasRef.push(value.gasReference());
         cats.push(value.identifier());
@@ -188,6 +203,7 @@ function setChartData(usagedata, chart) {
     chart.series[1].setData(gas);
     chart.series[2].setData(eleRef);
     chart.series[3].setData(gasRef);
+    chart.series[4].setData(pvProd);
     chart.xAxis[0].setCategories(cats);
 }
 
@@ -197,7 +213,7 @@ function loadDailyData() {
         var daily = [];
 
         $.each(data, function (index, value) {
-            daily.push(new UsageLine(value.DayString, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+            daily.push(new UsageLine(value.DayString, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.PvProduction, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
         });
 
         dashboardViewModel.dailyUsage().usages(daily);
@@ -212,7 +228,7 @@ function loadWeeklyData() {
         var weekly = [];
 
         $.each(data, function (index, value) {
-            weekly.push(new UsageLine(value.Week, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
+            weekly.push(new UsageLine(value.Week, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.PvProduction, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc));
         });
 
         dashboardViewModel.weeklyUsage().usages(weekly);
@@ -228,7 +244,7 @@ function loadMonthlyData() {
         var monthlyLines = [];
         var monthlyGraph = [];
         $.each(data, function (index, value) {
-            var line = new UsageLine(value.MonthName, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc)
+            var line = new UsageLine(value.MonthName, value.ETotal, value.EleRef, value.EleRefDiff, value.EleRefPerc, value.PvProduction, value.Gas, value.GasRef, value.GasRefDiff, value.GasRefPerc)
             monthlyLines.push(line);
             if (value.MonthName != 'Total') {
                 monthlyGraph.push(line);
@@ -244,17 +260,20 @@ function loadMonthlyData() {
 function loadCurrentData() {
     $.mobile.loading('show');
     $.getJSON(dashboardViewModel.currentUrl(), function (data) {
-        dashboardViewModel.currentUsage(new CurrentUsage(data.NumberOfDays, data.E1Meter, data.E2Meter, data.ETotal, data.EleRef, data.EPercentage, data.ERefYear, data.EEstimated, data.GasMeter, data.Gas, data.GasRef, data.GasPercentage, data.GasRefYear, data.GasEstimated));
+        dashboardViewModel.currentUsage(new CurrentUsage(data.NumberOfDays, data.E1Meter, data.E2Meter, data.ETotal, data.EleRef, data.EPercentage, data.ERefYear, data.EEstimated, data.ERetourTotal, data.PvProduction, data.GasMeter, data.Gas, data.GasRef, data.GasPercentage, data.GasRefYear, data.GasEstimated));
         $.mobile.loading('hide');
     });
     
     $.getJSON(dashboardViewModel.currentUsageUrl(), function (data) {
         var chartdata = [];
+        var chartdataRetour = [];
         $.each(data, function (index, value) {
             chartdata.push({ x: moment(value.Timestamp).toDate().getTime(), y: value.CurrentUsage });
+            chartdataRetour.push({ x: moment(value.Timestamp).toDate().getTime(), y: value.CurrentRetour });
         });
-        
+
         currentChart.series[0].setData(chartdata);
+        currentChart.series[1].setData(chartdataRetour);
         
         $.mobile.loading('hide');
     });
@@ -269,7 +288,8 @@ function createUsagePlusRefChart(container, title) {
             '#4572A7',
 	        '#AA4643',
             '#4572A7',
-	        '#AA4643'
+	        '#AA4643',
+            '#31B404'
         ],
         title: {
             text: title
@@ -335,6 +355,11 @@ function createUsagePlusRefChart(container, title) {
             type: 'line',
             name: 'Gas reference',
             data: [0]
+        }, {
+            yAxis: 0,
+            type: 'column',
+            name: 'Pv Production',
+            data: [0]
         }]
     });
 
@@ -398,7 +423,11 @@ $(document).ready(function () {
         }],
         series: [{
             yAxis: 0,
-            name: 'Elektricity',
+            name: 'Electricity',
+            data: [0]
+        }, {
+            yAxis: 0,
+            name: 'Production',
             data: [0]
         }, {
             yAxis: 1,
@@ -415,7 +444,7 @@ $(document).ready(function () {
             marginRight: 10
         },
         title: {
-            text: 'Current usage'
+            text: 'Current usage/retour'
         },
         xAxis: {
             type: 'datetime',
@@ -494,6 +523,9 @@ $(document).ready(function () {
         series: [{
             name: 'Current usage',
             data: [0]
+        }, {
+            name: 'Current retour',
+            data: [0]
         }]
     });
     
@@ -525,8 +557,9 @@ $(document).ready(function () {
     ko.applyBindings(dashboardViewModel);
     
     var usageHubProxy = $.connection.usageHub;
-    usageHubProxy.client.newCurrentUsage = function (timestamp, currentUsage) {
+    usageHubProxy.client.newCurrentUsage = function (timestamp, currentUsage, currentRetour) {
         currentChart.series[0].addPoint([moment(timestamp).toDate().getTime(), currentUsage], true, true);
+        currentChart.series[1].addPoint([moment(timestamp).toDate().getTime(), currentRetour], true, true);
     };
     $.connection.hub.start().done(function() {
         usageHubProxy.server.joinHub(dashboardViewModel.apiKey());

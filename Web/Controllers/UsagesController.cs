@@ -77,7 +77,8 @@ namespace Web.Controllers {
                 ERetourTotal = returnValues.Sum(x => x.ERetourTotal),
                 ETotal = returnValues.Sum(x => x.ETotal),
                 Gas = returnValues.Sum(x => x.Gas),
-                GasRef = returnValues.Sum(x => x.GasRef)
+                GasRef = returnValues.Sum(x => x.GasRef),
+                PvProduction = returnValues.Sum(x=> x.PvProduction)
             });
 
             return returnValues;
@@ -88,7 +89,7 @@ namespace Web.Controllers {
             IEnumerable<RecentData> vals;
             using (var conn = new SqlConnection(connectionString)) {
                 conn.Open();
-                vals = conn.Query<RecentData>("SELECT TOP 30 [Timestamp], CurrentUsage FROM LogEntries INNER JOIN Users ON Users.UserId = LogEntries.UserId WHERE ApiKey = @Key ORDER BY [Timestamp] DESC", new { Key = key }, commandType: CommandType.Text);
+                vals = conn.Query<RecentData>("SELECT TOP 30 [Timestamp], CurrentUsage, CurrentRetour FROM LogEntries INNER JOIN Users ON Users.UserId = LogEntries.UserId WHERE ApiKey = @Key ORDER BY [Timestamp] DESC", new { Key = key }, commandType: CommandType.Text);
             }
             return vals.Reverse();
         }
@@ -114,6 +115,7 @@ namespace Web.Controllers {
         public decimal E2Retour { get; set; }
         public decimal ERetourTotal { get; set; }
         public decimal Gas { get; set; }
+        public decimal PvProduction { get; set; }
     }
 
     public class DailyUsage {
@@ -126,6 +128,7 @@ namespace Web.Controllers {
         public decimal E2Retour { get; set; }
         public decimal ERetourTotal { get; set; }
         public decimal Gas { get; set; }
+        public decimal PvProduction { get; set; }
         public decimal EleRef { get; set; }
         public decimal GasRef { get; set; }
         public decimal EleRefDiff {
@@ -165,6 +168,7 @@ namespace Web.Controllers {
         public decimal E2Retour { get; set; }
         public decimal ERetourTotal { get; set; }
         public decimal Gas { get; set; }
+        public decimal PvProduction { get; set; }
         public decimal EleRef { get; set; }
         public decimal GasRef { get; set; }
         public decimal EleRefDiff {
@@ -205,6 +209,7 @@ namespace Web.Controllers {
         public decimal E2Retour { get; set; }
         public decimal ERetourTotal { get; set; }
         public decimal Gas { get; set; }
+        public decimal PvProduction { get; set; }
         public decimal EleRef { get; set; }
         public decimal GasRef { get; set; }
         public decimal EleRefDiff {
@@ -238,6 +243,7 @@ namespace Web.Controllers {
     public class RecentData {
         public DateTime Timestamp { get; set; }
         public decimal CurrentUsage { get; set; }
+        public decimal CurrentRetour { get; set; }
     }
 
     public class EstimatedUsage {
@@ -250,6 +256,7 @@ namespace Web.Controllers {
         public decimal E1Retour { get; set; }
         public decimal E2Retour { get; set; }
         public decimal ERetourTotal { get; set; }
+        public decimal PvProduction { get; set; }
         public decimal GasMeter { get; set; }
         public decimal Gas { get; set; }
         public decimal EleRef { get; set; }

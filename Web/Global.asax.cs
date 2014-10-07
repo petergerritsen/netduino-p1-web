@@ -35,10 +35,10 @@ namespace Web
             // WebApi Configuration to hook up formatters and message handlers
             RegisterApis(GlobalConfiguration.Configuration);
 
-            // Run migrations
-            var configuration = new Configuration();
-            var migrator = new DbMigrator(configuration);
-            migrator.Update();
+            //// Run migrations
+            //var configuration = new Configuration();
+            //var migrator = new DbMigrator(configuration);
+            //migrator.Update();
             
         }
 

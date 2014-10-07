@@ -384,6 +384,11 @@ $(document).ready(function () {
             renderTo: 'hourlychart',
             type: 'column'
         },
+        colors: [
+            '#4572A7',
+	        '#31B404',
+            '#AA4643'
+        ],
         title: {
             text: 'Hourly usage'
         },
@@ -443,6 +448,10 @@ $(document).ready(function () {
             animation: Highcharts.svg, // don't animate in old IE
             marginRight: 10
         },
+        colors: [
+            '#4572A7',
+	        '#31B404'
+        ],
         title: {
             text: 'Current usage/retour'
         },

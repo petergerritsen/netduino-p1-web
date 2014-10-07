@@ -147,7 +147,8 @@ namespace Core.Persistence {
             usage.E2RetourCurrent = entry.E2Retour;
             
             if (entry.PvCounter > 0) {
-                var minDailyProduction = context.Usages.Where(x=> x.Timestamp.Date == entry.Timestamp.Date).Min(x=> x.PvProductionStart);
+                var refDate = entry.Timestamp.Date;
+                var minDailyProduction = context.Usages.Where(x=> x.Timestamp >= refDate).Min(x=> x.PvProductionStart);
                 usage.PvProductionCurrent = minDailyProduction + entry.PvCounter;
             }
         }

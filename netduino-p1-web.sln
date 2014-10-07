@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{1075735B-2765-4734-AAB3-4ACF082D419F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{E61919E1-89BC-44C4-8DD3-870FC8990BFB}"
@@ -16,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{09A0DA
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exporter", "Exporter\Exporter.csproj", "{6F6F0639-A890-41CE-984B-208D75E7C9AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,21 +73,6 @@ Global
 		{D0198E3B-968E-4811-B250-5323C5DBA608}.Uhuru|Mixed Platforms.Build.0 = Uhuru|x86
 		{D0198E3B-968E-4811-B250-5323C5DBA608}.Uhuru|x86.ActiveCfg = Uhuru|x86
 		{D0198E3B-968E-4811-B250-5323C5DBA608}.Uhuru|x86.Build.0 = Uhuru|x86
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Release|x86.ActiveCfg = Release|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Uhuru|Any CPU.ActiveCfg = Release|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Uhuru|Any CPU.Build.0 = Release|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Uhuru|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Uhuru|Mixed Platforms.Build.0 = Release|Any CPU
-		{6F6F0639-A890-41CE-984B-208D75E7C9AC}.Uhuru|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

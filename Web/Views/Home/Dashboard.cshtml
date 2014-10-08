@@ -295,7 +295,19 @@
                     <td><span data-bind="text: e2meter().toFixed(3)"></span> kWh</td>
                 </tr>
                 <tr>
-                    <td class="label">Electricity used</td>
+                    <td class="label">PV production meter value</td>
+                    <td><span data-bind="text: pvProductionMeter().toFixed(3)"></span> kWh</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="label">Electricity actual usage</td>
+                    <td><span data-bind="text: eActualUsage().toFixed(3)"></span> kWh</td>
+                </tr>
+                <tr>
+                    <td class="label">Electricity imported</td>
                     <td><span data-bind="text: eTotal().toFixed(3)"></span> kWh</td>
                 </tr>
                 <tr>

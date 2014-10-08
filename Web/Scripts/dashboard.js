@@ -46,7 +46,7 @@ function CurrentUsage(numberOfDays, e1meter, e2meter, pvProductionmeter, eTotal,
     self.numberOfDays = ko.observable(numberOfDays);
     self.e1meter = ko.observable(e1meter);
     self.e2meter = ko.observable(e2meter);
-    self.pvProductionmeter = ko.observable(pvProductionmeter);
+    self.pvProductionMeter = ko.observable(pvProductionmeter);
     self.eTotal = ko.observable(eTotal);
     self.eReference = ko.observable(eReference);
     self.ePercentage = ko.observable(ePercentage);

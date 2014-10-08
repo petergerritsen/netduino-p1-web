@@ -146,7 +146,7 @@ namespace Core.Persistence {
             usage.E1RetourCurrent = entry.E1Retour;
             usage.E2RetourCurrent = entry.E2Retour;
             
-            if (entry.PvCounter > 0) {
+            if (entry.PvCounter > 0 && entry.Timestamp.Hour >= 3) {
                 var refDate = entry.Timestamp.Date;
                 var minDailyProduction = context.Usages.Where(x=> x.Timestamp >= refDate).Min(x=> x.PvProductionStart);
                 usage.PvProductionCurrent = minDailyProduction + entry.PvCounter;

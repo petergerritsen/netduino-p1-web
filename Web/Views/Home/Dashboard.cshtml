@@ -15,7 +15,7 @@
     @Styles.Render("~/Content/themes/netduino/netduino.min.css")
     @Styles.Render("~/Content/themes/netduino/jquery.mobile.icons.min.css")
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile.structure-1.4.0.min.css" /> 
-    @Styles.Render("~/Content/Dashboard.css?v1.5.0")
+    @Styles.Render("~/Content/Dashboard.css?v1.5.1")
     <script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
     <!--Reference the SignalR library. -->
     <script src="@Url.Content("~/Scripts/jquery.signalR-1.0.0.min.js")" ></script>
@@ -33,7 +33,7 @@
                     <th class="first"></th>
                     <th colspan="4" class="border">Electricity (kWh)</th>
                     <th></th>
-                    <th class="border">PV prod. (kWh)<th>
+                    <th class="border">PV (kWh)<th>
                     <th></th>
                     <th colspan="4" class="border">Gas (m<sup>3</sup>)</th>
                 </tr>
@@ -43,7 +43,7 @@
                     <th>Reference</th>
                     <th colspan="2">Difference</th>                    
                     <th></th>
-                    <th></th>
+                    <th>prod.</th>
                     <th></th>
                     <th>Usage</th>
                     <th>Reference</th>
@@ -292,23 +292,23 @@
                 </tr>
                 <tr>
                     <td class="label">E1 meter value</td>
-                    <td><span data-bind="text: e1meter"></span> kWh</td>
+                    <td><span data-bind="text: e1meter().toFixed(3)"></span> kWh</td>
                 </tr>
                 <tr>
                     <td class="label">E2 meter value</td>
-                    <td><span data-bind="text: e2meter"></span> kWh</td>
+                    <td><span data-bind="text: e2meter().toFixed(3)"></span> kWh</td>
                 </tr>
                 <tr>
                     <td class="label">Electricity used</td>
-                    <td><span data-bind="text: eTotal"></span> kWh</td>
+                    <td><span data-bind="text: eTotal().toFixed(3)"></span> kWh</td>
                 </tr>
                 <tr>
                     <td class="label">Electricity produced</td>
-                    <td><span data-bind="text: pvProduction"></span> kWh</td>
+                    <td><span data-bind="text: pvProduction().toFixed(3)"></span> kWh</td>
                 </tr>
                 <tr>
                     <td class="label">Electricity retour</td>
-                    <td><span data-bind="text: eRetourTotal"></span> kWh</td>
+                    <td><span data-bind="text: eRetourTotal().toFixed(3)"></span> kWh</td>
                 </tr>
                 <tr>
                     <td class="label">Produced self-usage</td>
@@ -316,7 +316,7 @@
                 </tr>
                 <tr>
                     <td class="label">Electricity reference</td>
-                    <td><span data-bind="text: eReference"></span> kWh</td>
+                    <td><span data-bind="text: eReference().toFixed(0)"></span> kWh</td>
                 </tr>
                 <tr>
                     <td class="label">Electricity percentage</td>
@@ -324,11 +324,11 @@
                 </tr>
                 <tr>
                     <td class="label">Electricity yearly reference</td>
-                    <td><span data-bind="text: eRefYear"></span> kWh</td>
+                    <td><span data-bind="text: eRefYear().toFixed(0)"></span> kWh</td>
                 </tr>
                 <tr>
                     <td class="label">Electricity estimated usage</td>
-                    <td><span data-bind="text: eEstimated"></span> kWh</td>
+                    <td><span data-bind="text: eEstimated().toFixed(0)"></span> kWh</td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>

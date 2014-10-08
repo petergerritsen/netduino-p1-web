@@ -526,7 +526,7 @@ $(document).ready(function () {
             }
         },
         legend: {
-            enabled: false
+            enabled: true
         },
         exporting: {
             enabled: false

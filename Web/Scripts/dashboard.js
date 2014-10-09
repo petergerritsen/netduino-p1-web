@@ -290,8 +290,8 @@ function createUsagePlusRefChart(container, title) {
         },
         colors: [
             '#4572A7',
-	        '#AA4643',
             '#31B404',
+            '#AA4643',
             '#4572A7',
 	        '#AA4643'
         ],

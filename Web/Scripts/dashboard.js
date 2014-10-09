@@ -204,10 +204,10 @@ function setChartData(usagedata, chart) {
     });
 
     chart.series[0].setData(ele);
-    chart.series[1].setData(gas);
-    chart.series[2].setData(eleRef);
-    chart.series[3].setData(gasRef);
-    chart.series[4].setData(pvProd);
+    chart.series[1].setData(pvProd);
+    chart.series[2].setData(gas);
+    chart.series[3].setData(eleRef);
+    chart.series[4].setData(gasRef);
     chart.xAxis[0].setCategories(cats);
 }
 
@@ -291,9 +291,9 @@ function createUsagePlusRefChart(container, title) {
         colors: [
             '#4572A7',
 	        '#AA4643',
+            '#31B404',
             '#4572A7',
-	        '#AA4643',
-            '#31B404'
+	        '#AA4643'
         ],
         title: {
             text: title
@@ -345,6 +345,11 @@ function createUsagePlusRefChart(container, title) {
             name: 'Electricity',
             data: [0]
         }, {
+            yAxis: 0,
+            type: 'column',
+            name: 'Pv Production',
+            data: [0]
+        }, {
             yAxis: 1,
             type: 'column',
             name: 'Gas',
@@ -358,11 +363,6 @@ function createUsagePlusRefChart(container, title) {
             yAxis: 1,
             type: 'line',
             name: 'Gas reference',
-            data: [0]
-        }, {
-            yAxis: 0,
-            type: 'column',
-            name: 'Pv Production',
             data: [0]
         }]
     });

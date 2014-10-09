@@ -170,7 +170,7 @@ function loadHourlyData() {
         var hourlyCats = [];
         $.each(data, function (index, value) {
             hourly.push(new HourlyUsageLine(value.Hour, value.ETotal, value.PvProduction, value.Gas));
-            hourlyEle.push(value.E1 + value.E2);
+            hourlyEle.push(value.ETotal);
             hourlyPvProd.push(value.PvProduction);
             hourlyGas.push(value.Gas);
             hourlyCats.push(value.Hour);

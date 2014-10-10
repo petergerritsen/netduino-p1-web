@@ -448,11 +448,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.Uhuru.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Home\Dashboard.cshtml" />
   </ItemGroup>
   <PropertyGroup>

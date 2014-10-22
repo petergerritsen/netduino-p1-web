@@ -16,14 +16,14 @@ namespace Core.Migrations
 
         protected override void Seed(Core.Persistence.Context context)
         {
-            if (!context.Users.Any())
-            {
-                var user = new User() { Email = "demo@pjotr.info", Password = "test", ApiKey = "bWFpbEBwZXRlcmdlcnJpdHNlbi5ubA" };
+            //if (!context.Users.Any())
+            //{
+            //    var user = new User() { Email = "demo@pjotr.info", Password = "test", ApiKey = "bWFpbEBwZXRlcmdlcnJpdHNlbi5ubA" };
 
-                context.Users.Add(user);
+            //    context.Users.Add(user);
 
-                context.SaveChanges();
-            }                        
+            //    context.SaveChanges();
+            //}                        
         }
     }
 }

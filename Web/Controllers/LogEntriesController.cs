@@ -49,7 +49,7 @@ namespace Web.Controllers {
                         GasMeasurementMoment = gasMeasurementMoment,
                         GasMeasurementValue = value.GasMeasurementValue,
                         PvCounter = Convert.ToDecimal(value.PvProductionCounter) / 1000,
-                        User = user
+                        UserId = user.UserId
                     };
 
                     repo.AddEntry(logEntry);

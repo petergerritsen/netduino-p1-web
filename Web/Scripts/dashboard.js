@@ -57,6 +57,9 @@ function CurrentUsage(numberOfDays, e1meter, e2meter, e1meterRetour, e2meterReto
     self.eRetourTotal = ko.observable(eRetourTotal);
     self.pvProduction = ko.observable(pvProduction);
     self.eActualUsage = ko.observable(eActualUsage);
+    self.eImportSaldo = ko.computed(function()) {
+    	return self.eTotal() - self.eRetourTotal();
+    });
     self.pvProductionSelf = ko.computed(function () {
         return self.pvProduction() - self.eRetourTotal();
     });

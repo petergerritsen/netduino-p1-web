@@ -267,7 +267,7 @@ function loadMonthlyData() {
 function loadCurrentData() {
     $.mobile.loading('show');
     $.getJSON(dashboardViewModel.currentUrl(), function (data) {
-        dashboardViewModel.currentUsage(new CurrentUsage(data.NumberOfDays, data.E1Meter, data.E2Meter, data.E1Retour, data.E2Retour, data.PvProductionMeter, data.ETotal, data.EActualUsage, data.EleRef, data.EPercentage, data.ERefYear, data.EEstimated, data.ERetourTotal, data.PvProduction, data.GasMeter, data.Gas, data.GasRef, data.GasPercentage, data.GasRefYear, data.GasEstimated));
+        dashboardViewModel.currentUsage(new CurrentUsage(data.NumberOfDays, data.E1Meter, data.E2Meter, data.E1MeterRetour, data.E2MeterRetour, data.PvProductionMeter, data.ETotal, data.EActualUsage, data.EleRef, data.EPercentage, data.ERefYear, data.EEstimated, data.ERetourTotal, data.PvProduction, data.GasMeter, data.Gas, data.GasRef, data.GasPercentage, data.GasRefYear, data.GasEstimated));
         $.mobile.loading('hide');
     });
     

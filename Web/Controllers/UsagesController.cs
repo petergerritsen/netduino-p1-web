@@ -267,6 +267,8 @@ namespace Web.Controllers {
         public decimal GasEstimated { get; set; }
         public decimal E1Meter { get; set; }
         public decimal E2Meter { get; set; }
+        public decimal E1MeterRetour { get; set; }
+        public decimal E2MeterRetour { get; set; }
         public decimal GasMeter { get; set; }
         public decimal PvProductionMeter { get; set; }
     }
